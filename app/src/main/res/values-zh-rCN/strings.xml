@@ -1,0 +1,94 @@
+<resources>
+    <string name="igrf">国际地磁参考场</string>
+    <string name="wmm">世界地磁场模型</string>
+
+    <!-- Page -->
+    <string name="page_home">首页</string>
+    <string name="page_record">记录</string>
+    <string name="page_settings">设置</string>
+    <string name="page_view">查看记录</string>
+
+    <!-- Home -->
+    <!-- Model -->
+    <string name="model_title">场模型</string>
+    <string name="model_model">模型：%1$s</string>
+    <string name="model_validity_period">有效期：%1$s 至 %2$s</string>
+    <string name="model_web">你可以参考 %1$s。</string>
+    <!-- Location -->
+    <string name="location_title">位置</string>
+    <string name="location_desc">我们提供基于定位服务的经纬度和海拔获取，如果你不愿意提供定位权限或者你希望计算其他指定值，可自己定义数值。</string>
+    <string name="location_altitude">海拔：%1$s km</string>
+    <string name="location_latitude">纬度：%1$sº N</string>
+    <string name="location_longitude">经度：%1$sº W</string>
+    <string name="location_dialog_altitude">海拔</string>
+    <string name="location_dialog_latitude">纬度</string>
+    <string name="location_dialog_longitude">经度</string>
+    <!-- Time -->
+    <string name="time_title">时间</string>
+    <string name="time_desc">当你定义时间时，请确保该值在 %1$s 的有效期内。</string>
+    <string name="time_time">时间：%1$s</string>
+    <string name="time_decimal">十进制：%1$s</string>
+    <!-- Button -->
+    <string name="button_edit">编辑</string>
+
+    <!-- Records -->
+    <string name="records_empty">没有记录</string>
+    <!-- View record -->
+    <string name="info_model">模型</string>
+    <string name="info_altitude">海拔</string>
+    <string name="info_latitude">纬度</string>
+    <string name="info_longitude">经度</string>
+    <string name="info_time">时间</string>
+    <string name="info_decimal">十进制</string>
+    <string name="value_f">总强度</string>
+    <string name="value_h">水平强度</string>
+    <string name="value_x">X 分量</string>
+    <string name="value_y">Y 分量</string>
+    <string name="value_z">Z 分量</string>
+    <string name="value_d">磁偏角</string>
+    <string name="value_i">磁倾角</string>
+
+    <!-- Settings-->
+    <!-- Normal -->
+    <string name="settings_title_normal">常规</string>
+    <string name="settings_app_theme">应用主题</string>
+    <string name="settings_app_theme_desc">更改深色模式和主题调色板</string>
+    <string name="settings_log_viewer">日志查看器</string>
+    <string name="settings_log_viewer_desc">查看应用运行时日志</string>
+    <!-- App -->
+    <string name="settings_title_app">应用</string>
+    <string name="settings_clear_cache">清除缓存</string>
+    <string name="settings_clear_cache_desc">清空记录数据库及生成的JSON文件</string>
+    <!-- Other -->
+    <string name="settings_title_other">其他</string>
+    <string name="settings_analytics">数据收集</string>
+    <string name="settings_analytics_desc">允许 Firebase 自动收集崩溃报告和使用情况</string>
+    <!-- App Theme -->
+    <string name="settings_example">示例</string>
+    <string name="settings_theme_palette">主题调色板</string>
+    <string name="settings_dark_theme">深色主题</string>
+    <string name="settings_dark_theme_auto">自动</string>
+    <string name="settings_dark_theme_light">浅色</string>
+    <string name="settings_dark_theme_dark">深色</string>
+
+    <!-- About -->
+    <string name="about_source_code">在 %1$s 查看源码</string>
+
+    <!-- Dialog -->
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_ok">确定</string>
+    <!-- Text Field Dialog -->
+    <string name="dialog_empty_default">留空恢复默认值</string>
+    <string name="dialog_empty_zero">留空则该值为零</string>
+
+    <!-- Message -->
+    <string name="message_restart_app">重启APP后更改生效</string>
+    <string name="message_location_click">点按查看详情</string>
+
+    <!-- Action -->
+    <string name="action_stop">停止</string>
+
+    <!-- Notification -->
+    <string name="notification_name_location">定位服务</string>
+
+</resources>
