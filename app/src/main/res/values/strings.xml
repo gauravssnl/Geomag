@@ -60,10 +60,6 @@
     <string name="settings_title_app">App</string>
     <string name="settings_clear_cache">Clear cache</string>
     <string name="settings_clear_cache_desc">Clear the record database and the generated JSON file</string>
-    <!-- Other -->
-    <string name="settings_title_other">Other</string>
-    <string name="settings_analytics">Data collection</string>
-    <string name="settings_analytics_desc"> Allow Firebase to automatically collect crash reports and usage reports</string>
     <!-- App Theme -->
     <string name="settings_example">Example</string>
     <string name="settings_theme_palette">Theme palette</string>
@@ -83,7 +79,6 @@
     <string name="dialog_empty_zero">Leave empty to have a value of zero</string>
 
     <!-- Message -->
-    <string name="message_restart_app">Restart APP to make change take effect</string>
     <string name="message_location_click">Click to view details</string>
 
     <!-- Action -->

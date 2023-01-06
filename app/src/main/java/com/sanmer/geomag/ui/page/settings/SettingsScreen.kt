@@ -31,9 +31,6 @@ fun SettingsScreen(
 ) {
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val snackBarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
-    val messageRestart = stringResource(id = R.string.message_restart_app)
 
     var clearCache by remember { mutableStateOf(false) }
     if (clearCache) {
@@ -55,23 +52,6 @@ fun SettingsScreen(
             SettingsTopBar(
                 scrollBehavior = scrollBehavior
             )
-        },
-        snackbarHost = {
-            SnackbarHost(snackBarHostState) {
-                Snackbar(
-                    modifier = Modifier
-                        .padding(12.dp),
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    shape = RoundedCornerShape(8.dp),
-                    action = {}
-                ) {
-                    Text(
-                        text = it.visuals.message,
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-            }
         }
     ) { innerPadding ->
         Column(
@@ -105,22 +85,6 @@ fun SettingsScreen(
                 clearCache = true
             }
 
-            NormalTitle(text = stringResource(id = R.string.settings_title_other))
-            SwitchItem(
-                iconRes = R.drawable.ic_firebase,
-                colorful = true,
-                text = stringResource(id = R.string.settings_analytics),
-                subText = stringResource(id = R.string.settings_analytics_desc),
-                checked = Configure.analyticsCollection,
-            ) {
-                Configure.analyticsCollection = it
-
-                scope.launch {
-                    snackBarHostState.showSnackbar(
-                        message = messageRestart
-                    )
-                }
-            }
         }
     }
 }

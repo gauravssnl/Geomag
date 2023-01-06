@@ -1,11 +1,8 @@
 @file:Suppress("UnstableApiUsage")
-import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 
 plugins {
     id("com.android.application")
     id("com.google.devtools.ksp")
-    id("com.google.firebase.crashlytics")
-    id("com.google.gms.google-services")
     kotlin("android")
 }
 
@@ -56,11 +53,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
-            configure<CrashlyticsExtension> {
-                mappingFileUploadEnabled = true
-                nativeSymbolUploadEnabled = true
-            }
         }
 
     }
@@ -144,11 +136,6 @@ dependencies {
     implementation("com.google.android.material:material:1.8.0-beta01")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
-    implementation(platform("com.google.firebase:firebase-bom:31.1.1"))
-    implementation("com.google.firebase:firebase-crashlytics-ndk")
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
-    implementation("com.google.firebase:firebase-analytics-ktx")
-
     implementation("androidx.activity:activity-compose:1.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
     implementation("androidx.navigation:navigation-compose:2.5.3")
@@ -175,5 +162,4 @@ dependencies {
     ksp("com.squareup.moshi:moshi-kotlin-codegen:${vMoshi}")
 
     implementation("com.jakewharton.timber:timber:5.0.1")
-    implementation("com.tencent:mmkv:1.2.14")
 }

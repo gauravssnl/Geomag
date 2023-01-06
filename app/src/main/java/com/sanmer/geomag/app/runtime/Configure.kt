@@ -11,8 +11,6 @@ object Configure {
     private var THEME_COLOR by mutableStateOf(Config.THEME_COLOR)
     private var DARK_MODE by mutableStateOf(Config.DARK_MODE)
 
-    private var ANALYTICS_COLLECTION by mutableStateOf(Config.ANALYTICS_COLLECTION)
-
     var themeColor: Int
         get() = THEME_COLOR
         set(value) {
@@ -25,13 +23,6 @@ object Configure {
         set(value) {
             DARK_MODE = value
             Config.DARK_MODE = value
-        }
-
-    var analyticsCollection: Boolean
-        get() = ANALYTICS_COLLECTION
-        set(value) {
-            ANALYTICS_COLLECTION = value
-            Config.ANALYTICS_COLLECTION = value
         }
 
     @Composable
