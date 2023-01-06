@@ -33,7 +33,6 @@
     <string name="button_edit">Edit</string>
 
     <!-- Records -->
-    <string name="records_empty">No records</string>
     <!-- View record -->
     <string name="info_model">Model</string>
     <string name="info_altitude">Altitude</string>

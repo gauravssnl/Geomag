@@ -2,9 +2,11 @@ package com.sanmer.geomag.ui.page.records
 
 import android.content.Context
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -15,10 +17,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
@@ -192,9 +196,13 @@ private fun EmptyView(
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = stringResource(id = R.string.records_empty),
-            style = MaterialTheme.typography.titleMedium
+        Image(
+            modifier = Modifier
+                .size(90.dp),
+            alpha = 0.3f,
+            painter = painterResource(id = R.drawable.box_time_outline),
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.outline)
         )
     }
 }

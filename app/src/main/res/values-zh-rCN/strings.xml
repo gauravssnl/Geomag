@@ -32,7 +32,6 @@
     <string name="button_edit">编辑</string>
 
     <!-- Records -->
-    <string name="records_empty">没有记录</string>
     <!-- View record -->
     <string name="info_model">模型</string>
     <string name="info_altitude">海拔</string>
