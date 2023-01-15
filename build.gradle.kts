@@ -1,12 +1,13 @@
 buildscript {
-
     repositories {
         google()
         mavenCentral()
         gradlePluginPortal()
     }
+
+    @Suppress("GradleDependency", "GradleDynamicVersion")
     dependencies {
-        classpath("com.android.tools.build:gradle:7.4.0-rc03")
+        classpath("com.android.tools.build:gradle:7.4.0")
 
         val kotlinVersion = "1.7.21"
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
