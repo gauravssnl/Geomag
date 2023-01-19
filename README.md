@@ -12,14 +12,13 @@ Geomag is written with [Jetpack Compose](https://developer.android.com/jetpack/c
 ## Supported Versions
 Android 8.0 ~ 13
 
-## Features
- - Jetpack Compose & Material Design 3
- - IGRF(International Geomagnetic Reference Field)
- - WMM(World Magnetic Model)
+## Supported Models
+ - IGRF (International Geomagnetic Reference Field)
+ - WMM (World Magnetic Model)
  
  ## Credits
- - [proway2/go-igrf](https://github.com/proway2/go-igrf.git): for IGRF (libigrf.so in app)
- - [westphae/geomag](https://github.com/westphae/geomag.git): for WMM (libwmm.so in app)
+ - [proway2/go-igrf](https://github.com/proway2/go-igrf.git)
+ - [westphae/geomag](https://github.com/westphae/geomag.git)
 
  ## License
  [MIT license](LICENSE)
