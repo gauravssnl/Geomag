@@ -16,24 +16,13 @@ MagneticField wmm(double lat, double lon, double alt, double decimal_years) {
     for (int i = 0; i < 14; i++) {
         double value = values[i];
         if (isnan(value)) {
-            (*item++) = 1.7976931348623157E308;
+            (*item++) = 0.0;
         } else {
             (*item++) = value;
         }
     }
 
     return results;
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_sanmer_geomag_core_models_WMM_setDateTime(JNIEnv *env, jobject thiz, jint year, jint month, jint day,
-                                                   jint hour, jint min, jint sec) {
-    double decimal_years = GEOMAG::getDecimalYears(year, month, day, hour, min, sec);
-
-    jclass cls = (*env).GetObjectClass(thiz);
-    jmethodID set_dy = (*env).GetMethodID(cls, "setDecimalYears", "(D)V");
-    (*env).CallVoidMethod(thiz, set_dy, decimal_years);
 }
 
 extern "C"

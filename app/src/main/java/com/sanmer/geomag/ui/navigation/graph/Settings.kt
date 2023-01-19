@@ -1,11 +1,14 @@
-package com.sanmer.geomag.ui.navigation
+package com.sanmer.geomag.ui.navigation.graph
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.sanmer.geomag.ui.animate.SlideIn
 import com.sanmer.geomag.ui.animate.SlideOut
+import com.sanmer.geomag.ui.navigation.MainGraph
 import com.sanmer.geomag.ui.page.apptheme.AppThemeScreen
 import com.sanmer.geomag.ui.page.settings.SettingsScreen
 
@@ -43,8 +46,8 @@ fun NavGraphBuilder.settingsGraph(
 
         composable(
             route = SettingsGraph.AppTheme.route,
-            enterTransition = { SlideIn.rightToLeft },
-            exitTransition = { SlideOut.leftToRight }
+            enterTransition = { SlideIn.rightToLeft + fadeIn() },
+            exitTransition = { SlideOut.leftToRight + fadeOut() }
         ) {
             AppThemeScreen(
                 navController = navController

@@ -29,7 +29,7 @@ object Constant {
     fun getAll() {
         coroutineScope.launch(Dispatchers.IO) {
             val list = withContext(Dispatchers.IO) {
-                recordDao.getAll()
+                recordDao.getAll().asReversed()
             }
             records.clear()
             records.addAll(list.map { it.toRecord() })
@@ -37,7 +37,7 @@ object Constant {
     }
 
     suspend fun insert(value: Record) = withContext(Dispatchers.IO) {
-        records.add(value)
+        records.add(0, value)
         recordDao.insert(value.toEntity())
     }
 
@@ -52,8 +52,9 @@ object Constant {
         recordDao.delete(list.map { it.toEntity() })
     }
 
-    fun delete(value: Record) {
+    fun delete(value: Record, timeMillis: Long = 0) {
         coroutineScope.launch(Dispatchers.IO) {
+            delay(timeMillis)
             records.remove(value)
             recordDao.delete(value.toEntity())
         }

@@ -17,20 +17,19 @@
     <string name="model_web">You can refer to %1$s.</string>
     <!-- Location -->
     <string name="location_title">Location</string>
-    <string name="location_desc">We provide longitude, latitude and altitude acquisition based on location services. If you do not willing to provide location permissions or you want to calculate other specified values, you can define the values.</string>
-    <string name="location_altitude">Altitude: %1$s km</string>
-    <string name="location_latitude">Latitude: %1$sº N</string>
-    <string name="location_longitude">Longitude: %1$sº W</string>
-    <string name="location_dialog_altitude">Altitude</string>
-    <string name="location_dialog_latitude">Latitude</string>
-    <string name="location_dialog_longitude">Longitude</string>
+    <string name="location_desc">We provide longitude, latitude and altitude based on location service. If you do not willing to provide location permissions or you want to calculate other specified values, you can define the values.</string>
+    <string name="location_altitude">Altitude: %1$s</string>
+    <string name="location_latitude">Latitude: %1$s</string>
+    <string name="location_longitude">Longitude: %1$s</string>
+    <string name="location_dialog_desc">Location services need to be turned on to provide location information.</string>
     <!-- Time -->
     <string name="time_title">Time</string>
     <string name="time_desc">When you define the time, make sure that the value is within the validity period of the %1$s.</string>
     <string name="time_time">Time: %1$s</string>
     <string name="time_decimal">Decimal: %1$s</string>
-    <!-- Button -->
-    <string name="button_edit">Edit</string>
+    <!-- Simple -->
+    <string name="simple_input">Input</string>
+    <string name="simple_output">Output</string>
 
     <!-- Records -->
     <!-- View record -->
@@ -57,8 +56,8 @@
     <string name="settings_log_viewer_desc">View application runtime logs</string>
     <!-- App -->
     <string name="settings_title_app">App</string>
-    <string name="settings_clear_cache">Clear cache</string>
-    <string name="settings_clear_cache_desc">Clear the record database and the generated JSON file</string>
+    <string name="settings_simple_mode">Simple mode</string>
+    <string name="settings_simple_mode_desc">Simple and clear UI design, keep only the core feature (experimental)</string>
     <!-- App Theme -->
     <string name="settings_example">Example</string>
     <string name="settings_theme_palette">Theme palette</string>
@@ -71,11 +70,11 @@
     <string name="about_source_code">View source code at %1$s</string>
 
     <!-- Dialog -->
+    <string name="dialog_title_attention">Attention</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_ok">OK</string>
     <!-- Text Field Dialog -->
     <string name="dialog_empty_default">Leave empty to restore default</string>
-    <string name="dialog_empty_zero">Leave empty to have a value of zero</string>
 
     <!-- Message -->
     <string name="message_location_click">Click to view details</string>

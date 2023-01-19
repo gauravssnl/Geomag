@@ -21,17 +21,6 @@ MagneticField igrf(double lat, double lon, double alt, double decimal_years) {
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_sanmer_geomag_core_models_IGRF_setDateTime(JNIEnv *env, jobject thiz, jint year, jint month, jint day,
-                                                    jint hour, jint min, jint sec) {
-    double decimal_years = GEOMAG::getDecimalYears(year, month, day, hour, min, sec);
-
-    jclass cls = (*env).GetObjectClass(thiz);
-    jmethodID set_dy = (*env).GetMethodID(cls, "setDecimalYears", "(D)V");
-    (*env).CallVoidMethod(thiz, set_dy, decimal_years);
-}
-
-extern "C"
-JNIEXPORT void JNICALL
 Java_com_sanmer_geomag_core_models_IGRF_igrf(JNIEnv *env, jobject thiz, jdouble latitude,
                                               jdouble longitude, jdouble alt_km) {
     jclass cls = (*env).GetObjectClass(thiz);

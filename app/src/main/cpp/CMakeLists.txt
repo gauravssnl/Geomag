@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 3.22.1)
 
 project(Geomag)
 
-set(NATIVE_LIB ${CMAKE_SOURCE_DIR}/../../../libs)
+set(LIBS_DIR ${CMAKE_SOURCE_DIR}/../../../libs)
 
-link_directories(${NATIVE_LIB}/${CMAKE_ANDROID_ARCH_ABI})
-include_directories(${NATIVE_LIB}/${CMAKE_ANDROID_ARCH_ABI})
+link_directories(${LIBS_DIR}/${CMAKE_ANDROID_ARCH_ABI})
+include_directories(${LIBS_DIR}/${CMAKE_ANDROID_ARCH_ABI})
 
 file(GLOB_RECURSE SRCS *.cpp)
 file(GLOB_RECURSE HDRS *.h)

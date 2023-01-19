@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.navigation
+package com.sanmer.geomag.ui.navigation.graph
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -9,9 +9,9 @@ import com.google.accompanist.navigation.animation.navigation
 import com.sanmer.geomag.data.Constant
 import com.sanmer.geomag.ui.animate.SlideIn
 import com.sanmer.geomag.ui.animate.SlideOut
+import com.sanmer.geomag.ui.navigation.MainGraph
 import com.sanmer.geomag.ui.page.records.RecordsScreen
 import com.sanmer.geomag.ui.page.view.ViewScreen
-import timber.log.Timber
 
 sealed class RecordGraph(val route: String) {
     object Record : RecordGraph("record")
@@ -40,7 +40,7 @@ fun NavGraphBuilder.recordGraph(
             exitTransition = { SlideOut.leftToRight }
         ) { backStackEntry ->
             val index = backStackEntry.arguments?.getInt("index") ?: 0
-            val record = Constant.records.let { it[(it.size - index) - 1] }
+            val record = Constant.records[index]
 
             ViewScreen(
                 navController = navController,

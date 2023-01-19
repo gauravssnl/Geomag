@@ -7,12 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sanmer.geomag.core.models.MagneticField
-import com.sanmer.geomag.core.time.DateTime
 import com.sanmer.geomag.data.Constant
-import com.sanmer.geomag.data.record.Record
 import com.sanmer.geomag.data.json.JsonUtils
-import com.sanmer.geomag.data.record.Position
+import com.sanmer.geomag.data.record.Record
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -21,10 +18,6 @@ class RecordViewModel : ViewModel() {
     var chooser by mutableStateOf(false)
     val size: Int get() = out.size
     private val out = mutableStateListOf<Record>()
-
-    init {
-        Timber.d("RecordViewModel init")
-    }
 
     fun change(value: Record) {
         if (isOwned(value)) {
@@ -52,5 +45,9 @@ class RecordViewModel : ViewModel() {
             Constant.delete(out)
             out.clear()
         }
+    }
+
+    init {
+        Timber.d("RecordViewModel init")
     }
 }

@@ -10,9 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.app.ServiceCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleService
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.repeatOnLifecycle
 import com.sanmer.geomag.R
 import com.sanmer.geomag.app.Const
 import com.sanmer.geomag.core.localtion.AppLocationManager
@@ -67,9 +66,10 @@ class LocationService : LifecycleService() {
     }
 
     class AppLocationListener: LocationListener {
-        override fun onLocationChanged(location: Location) {
+        override fun onLocationChanged(value: Location) {
             Timber.d("onLocationChanged")
-            broadcast(location)
+
+            location = value
         }
 
         override fun onProviderEnabled(provider: String) {
@@ -94,18 +94,8 @@ class LocationService : LifecycleService() {
         var isRunning by mutableStateOf(false)
             private set
 
-        private val locationBroadcast = MutableLiveData<Location?>()
-        private fun broadcast(location: Location?) {
-            locationBroadcast.postValue(location)
-        }
-
-        fun observeLocation(owner: LifecycleOwner, callback: (Location) -> Unit) {
-            locationBroadcast.value = null
-            locationBroadcast.observe(owner) {
-                val location = it ?: return@observe
-                callback(location)
-            }
-        }
+        var location by mutableStateOf<Location?>(null)
+            private set
 
         fun start(context: Context) {
             val intent = Intent(context, LocationService::class.java)

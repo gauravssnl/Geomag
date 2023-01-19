@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.page.home
+package com.sanmer.geomag.ui.page.regular
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -12,36 +12,38 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sanmer.geomag.BuildConfig
 import com.sanmer.geomag.R
-import com.sanmer.geomag.ui.navigation.BottomNavigation
+import com.sanmer.geomag.ui.expansion.navigatePopUpTo
+import com.sanmer.geomag.ui.navigation.graph.RecordGraph
 import com.sanmer.geomag.ui.utils.HtmlText
 import com.sanmer.geomag.ui.utils.Logo
 import com.sanmer.geomag.viewmodel.HomeViewModel
 
 @Composable
-fun HomeScreen() {
+fun RegularScreen(
+    navController: NavController,
+) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    var show by remember { mutableStateOf(false) }
 
-    if (show) {
-        AboutDialog { show = false }
-    }
+    var show by remember { mutableStateOf(false) }
+    if (show) { AboutDialog { show = false } }
 
     Scaffold(
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            HomeTopBar(
+            RegularTopBar(
                 scrollBehavior = scrollBehavior,
                 onAbout = { show = true }
             )
         },
         floatingActionButton = {
-            HomeFloatingButton()
+            RegularFloatingButton(
+                navController = navController,
+            )
         }
     ) { innerPadding ->
         Column(
@@ -61,7 +63,7 @@ fun HomeScreen() {
 }
 
 @Composable
-private fun HomeTopBar(
+private fun RegularTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
     onAbout: () -> Unit
 ) = TopAppBar(
@@ -93,20 +95,26 @@ private fun HomeTopBar(
 )
 
 @Composable
-private fun HomeFloatingButton(
+private fun RegularFloatingButton(
+    navController: NavController,
     viewModel: HomeViewModel = viewModel()
-) = FloatingActionButton(
-    onClick = {
-        val record = viewModel.runModel()
-        viewModel.toDatabase(record)
-    },
-    contentColor = MaterialTheme.colorScheme.onPrimary,
-    containerColor = MaterialTheme.colorScheme.primary
 ) {
-    Icon(
-        painter = painterResource(id = R.drawable.play_outline),
-        contentDescription = null
-    )
+    if (viewModel.decimalYears in viewModel.model.start .. viewModel.model.end) {
+        FloatingActionButton(
+            onClick = {
+                val record = viewModel.runModel()
+                viewModel.toDatabase(record)
+                navController.navigatePopUpTo("${RecordGraph.View.route}/0")
+            },
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.primary
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.play_outline),
+                contentDescription = null
+            )
+        }
+    }
 }
 
 @Composable
@@ -119,7 +127,7 @@ private fun AboutDialog(
         Row {
             Logo(
                 modifier = Modifier
-                    .size(40.dp),
+                    .size(50.dp),
                 iconRes = R.drawable.ic_logo
             )
 

@@ -46,13 +46,7 @@ fun EditItem(
                     onChange(value)
                 }
             },
-            supportingText = {
-                if (supportingText != null) {
-                    supportingText()
-                } else {
-                    Text(text = stringResource(id = R.string.dialog_empty_default))
-                }
-            }
+            supportingText = supportingText
         )
     }
 
@@ -155,7 +149,6 @@ fun PickerItem(
 ) {
     var expanded by remember { mutableStateOf(false) }
     Box {
-
         NormalItem(
             enabled = enabled,
             iconRes = iconRes,
@@ -212,13 +205,5 @@ private fun MenuItem(
             ),
         text = { Text(text = value) },
         onClick = onClick
-    )
-}
-
-@Composable
-private fun CustomShape(content: @Composable () -> Unit) {
-    MaterialTheme(
-        shapes = MaterialTheme.shapes.copy(extraSmall = RoundedCornerShape(12.dp)),
-        content = content
     )
 }

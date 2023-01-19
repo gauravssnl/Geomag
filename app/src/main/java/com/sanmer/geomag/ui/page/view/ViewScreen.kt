@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
@@ -82,7 +81,11 @@ private fun ViewTopBar(
 
         IconButton(
             onClick = {
-                Constant.delete(value = record)
+                /*
+                It takes 200 milliseconds for exit animation,
+                delay deleting the data to ensure safe exit.
+                 */
+                Constant.delete(value = record, timeMillis = 400)
                 navController.navigateBack()
             }
         ) {

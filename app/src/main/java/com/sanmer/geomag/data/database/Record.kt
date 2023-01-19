@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.sanmer.geomag.core.models.Geomag
 import com.sanmer.geomag.core.models.MagneticField
+import com.sanmer.geomag.core.models.getModelID
 import com.sanmer.geomag.core.time.DateTime
 import com.sanmer.geomag.data.record.Position
 import com.sanmer.geomag.data.record.Record
@@ -24,12 +25,7 @@ data class RecordEntity(
 val Record.primaryKey: Double get() {
     val decimal = Geomag.toDecimalYears(time)
     val position = location.altitude - location.latitude - location.longitude
-    val model = when(model) {
-        "IGRF" -> 0
-        "WMM" -> 1
-        else -> -1
-    }
-    return decimal + position + model
+    return decimal + position + getModelID(model)
 }
 
 fun Record.toEntity(): RecordEntity {

@@ -15,16 +15,16 @@ import com.sanmer.geomag.ui.utils.Logo
 @Composable
 fun CardItem(
     modifier: Modifier = Modifier,
-    @DrawableRes iconRes: Int? = null,
-    onClick: (() -> Unit)? = null,
-    clickable: Boolean = false,
     label: String,
+    leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit = {}
 ) {
-    ElevatedCard(
+    Surface(
         modifier = modifier,
-        shape = RoundedCornerShape(20.dp)
+        shape = RoundedCornerShape(20.dp),
+        color = MaterialTheme.colorScheme.surface,
+        tonalElevation = 1.dp
     ) {
         Column(
             modifier = Modifier
@@ -35,44 +35,50 @@ fun CardItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(fraction = if (trailingIcon == null) {
-                            1f
-                        } else{
-                            0.6f
-                        }),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    if (iconRes != null) {
-                        Logo(
-                            modifier = Modifier
-                                .padding(end = 16.dp)
-                                .size(40.dp),
-                            iconRes = iconRes,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                            backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
-                            clickable = clickable,
-                            onClick = onClick ?: {}
-                        )
-                    }
-
-                    Text(
-                        text = label,
-                        style = MaterialTheme.typography.titleMedium
-                    )
+                leadingIcon?.let {
+                    leadingIcon()
+                    Spacer(modifier = Modifier.width(16.dp))
                 }
-
-                Row(
+                Text(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    trailingIcon?.let { it() }
+                        .weight(1f),
+                    text = label,
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                trailingIcon?.let {
+                    Spacer(modifier = Modifier.width(16.dp))
+                    trailingIcon()
                 }
             }
             content()
         }
     }
 }
+
+@Composable
+fun CardItem(
+    modifier: Modifier = Modifier,
+    @DrawableRes iconRes: Int,
+    onClick: (() -> Unit)? = null,
+    clickable: Boolean = false,
+    label: String,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    content: @Composable ColumnScope.() -> Unit = {}
+) = CardItem(
+    modifier = modifier,
+    label = label,
+    leadingIcon = {
+        Logo(
+            modifier = Modifier
+                .size(40.dp),
+            iconRes = iconRes,
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
+            clickable = clickable,
+            onClick = onClick ?: {}
+        )
+    },
+    trailingIcon = trailingIcon,
+    content = content
+)

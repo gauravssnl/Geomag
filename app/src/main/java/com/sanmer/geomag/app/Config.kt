@@ -10,8 +10,8 @@ object Config {
 
     // MODEL
     private const val MODEL_KEY = "MODEL"
-    var MODEL: String
-        get() = sp.getValue(MODEL_KEY, Models.MIGRF.key)
+    var MODEL: Int
+        get() = sp.getValue(MODEL_KEY, Models.MIGRF.id)
         set(value) { sp.putValue(MODEL_KEY, value) }
 
     // PREFERENCE
@@ -33,4 +33,10 @@ object Config {
     var DARK_MODE: Int
         get() = sp.getValue(DARK_MODE_KEY, FOLLOW_SYSTEM)
         set(value) { sp.putValue(DARK_MODE_KEY, value) }
+
+    //SIMPLE_MODE
+    private const val SIMPLE_MODE_KEY = "SIMPLE_MODE"
+    var SIMPLE_MODE: Boolean
+        get() = sp.getValue(SIMPLE_MODE_KEY, false)
+        set(value) { sp.putValue(SIMPLE_MODE_KEY, value) }
 }

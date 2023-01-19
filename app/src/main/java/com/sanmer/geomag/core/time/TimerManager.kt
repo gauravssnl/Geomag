@@ -8,8 +8,10 @@ import java.util.*
 import kotlin.concurrent.timerTask
 
 object TimerManager {
-    var dateTime: DateTime by mutableStateOf(DateTime())
+    var dateTime: DateTime by mutableStateOf(DateTime.now())
+        private set
     var isRunning by mutableStateOf(false)
+        private set
 
     private lateinit var timer: Timer
     private lateinit var timerTask: TimerTask

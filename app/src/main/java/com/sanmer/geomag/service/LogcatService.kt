@@ -22,7 +22,7 @@ class LogcatService : LifecycleService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val logcat = SystemLogcat(applicationInfo.uid)
-        lifecycleScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.Default) {
             console.addAll(
                 logcat.dumpCrash()
                     .map { it.toLogItem() }
@@ -48,16 +48,12 @@ class LogcatService : LifecycleService() {
     companion object {
         val console = mutableStateListOf<LogItem>()
 
-        fun start(
-            context: Context,
-        ) {
+        fun start(context: Context) {
             val intent = Intent(context, LogcatService::class.java)
             context.startService(intent)
         }
 
-        fun stop(
-            context: Context,
-        ) {
+        fun stop(context: Context) {
             val intent = Intent(context, LogcatService::class.java)
             context.stopService(intent)
         }

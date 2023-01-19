@@ -24,24 +24,19 @@ object JsonUtils {
 
     fun share(context: Context, value: Record) {
         val jsonString = toJson(value)
-        val name = "${value.time}.json".replace(" ", "T")
+        val name = "json/${value.time}.json".replace(" ", "T")
         val file = context.toCache(jsonString, name)
         file.share(context, "text/json")
     }
 
     fun share(context: Context, values: List<Record>) {
         val jsonString = toJson(values)
-        val name = "${DateTime.now()}.json".replace(" ", "T")
+        val name = "json/${DateTime.now()}.json".replace(" ", "T")
         val file = context.toCache(jsonString, name)
         file.share(context, "text/json")
     }
 
     fun deleteJson(context: Context) {
-        context.cacheDir.list { _, name ->
-            if (name.endsWith("json")) {
-                context.cacheDir.resolve(name).delete()
-            }
-            false
-        }
+        context.cacheDir.resolve("json").delete()
     }
 }

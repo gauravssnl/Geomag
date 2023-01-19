@@ -1,29 +1,28 @@
 package com.sanmer.geomag.ui.page.settings
 
-import android.content.Context
 import android.content.Intent
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
 import com.sanmer.geomag.app.runtime.Configure
-import com.sanmer.geomag.data.Constant
-import com.sanmer.geomag.data.json.JsonUtils
 import com.sanmer.geomag.ui.activity.log.LogActivity
-import com.sanmer.geomag.ui.component.*
+import com.sanmer.geomag.ui.component.NormalItem
+import com.sanmer.geomag.ui.component.NormalTitle
+import com.sanmer.geomag.ui.component.SwitchItem
 import com.sanmer.geomag.ui.expansion.navigatePopUpTo
-import com.sanmer.geomag.ui.navigation.SettingsGraph
-import kotlinx.coroutines.launch
+import com.sanmer.geomag.ui.navigation.MainGraph
+import com.sanmer.geomag.ui.navigation.graph.SettingsGraph
 
 @Composable
 fun SettingsScreen(
@@ -32,17 +31,8 @@ fun SettingsScreen(
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
-    var clearCache by remember { mutableStateOf(false) }
-    if (clearCache) {
-        ConfirmDialog(
-            onClose = { clearCache = false },
-            onConfirm = {
-                Constant.deleteAll()
-                JsonUtils.deleteJson(context)
-            },
-            title = stringResource(id = R.string.settings_clear_cache),
-            text = stringResource(id = R.string.settings_clear_cache_desc)
-        )
+    BackHandler(Configure.simpleMode) {
+        navController.navigatePopUpTo(MainGraph.Home.route)
     }
 
     Scaffold(
@@ -50,6 +40,7 @@ fun SettingsScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             SettingsTopBar(
+                navController = navController,
                 scrollBehavior = scrollBehavior
             )
         }
@@ -75,22 +66,22 @@ fun SettingsScreen(
                 val intent = Intent(context, LogActivity::class.java)
                 context.startActivity(intent)
             }
-
             NormalTitle(text = stringResource(id = R.string.settings_title_app))
-            NormalItem(
-                iconRes = R.drawable.trash_outline,
-                text = stringResource(id = R.string.settings_clear_cache),
-                subText = stringResource(id = R.string.settings_clear_cache_desc)
+            SwitchItem(
+                iconRes = R.drawable.main_component_outline,
+                text = stringResource(id = R.string.settings_simple_mode),
+                subText = stringResource(id = R.string.settings_simple_mode_desc),
+                checked = Configure.simpleMode
             ) {
-                clearCache = true
+                Configure.simpleMode = it
             }
-
         }
     }
 }
 
 @Composable
 private fun SettingsTopBar(
+    navController: NavController,
     scrollBehavior: TopAppBarScrollBehavior
 ) = TopAppBar(
     title = {
@@ -99,39 +90,19 @@ private fun SettingsTopBar(
             style = MaterialTheme.typography.titleLarge
         )
     },
-    scrollBehavior = scrollBehavior
-)
-
-@Composable
-private fun ConfirmDialog(
-    onClose: () -> Unit,
-    onConfirm: () -> Unit,
-    title: String,
-    text: String,
-) = AlertDialog(
-    shape = RoundedCornerShape(20.dp),
-    onDismissRequest = onClose,
-    title = { Text(text = title) },
-    text = { Text(text = text) },
-    confirmButton = {
-        TextButton(
-            onClick = {
-                onConfirm()
-                onClose()
+    navigationIcon = {
+        if (Configure.simpleMode) {
+            IconButton(
+                onClick = {
+                    navController.navigatePopUpTo(MainGraph.Home.route)
+                }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.arrow_square_left_outline),
+                    contentDescription = null
+                )
             }
-        ) {
-            Text(
-                text = stringResource(id = R.string.dialog_ok)
-            )
         }
     },
-    dismissButton = {
-        TextButton(
-            onClick = onClose
-        ) {
-            Text(
-                text = stringResource(id = R.string.dialog_cancel)
-            )
-        }
-    }
+    scrollBehavior = scrollBehavior
 )

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -26,10 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
+import com.sanmer.geomag.app.runtime.Configure
 import com.sanmer.geomag.data.Constant
 import com.sanmer.geomag.data.record.Record
 import com.sanmer.geomag.ui.expansion.navigatePopUpTo
-import com.sanmer.geomag.ui.navigation.RecordGraph
+import com.sanmer.geomag.ui.navigation.MainGraph
+import com.sanmer.geomag.ui.navigation.graph.RecordGraph
 import com.sanmer.geomag.viewmodel.RecordViewModel
 
 @Composable
@@ -40,17 +41,19 @@ fun RecordsScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     val list by remember {
-        derivedStateOf {
-            Constant.records.asReversed()
-        }
+        derivedStateOf { Constant.records }
     }
 
     if (viewModel.isEmpty()) {
         viewModel.close()
     }
 
-    BackHandler(viewModel.chooser) {
-        viewModel.close()
+    BackHandler {
+        if (viewModel.chooser) {
+            viewModel.close()
+        } else {
+            navController.navigatePopUpTo(MainGraph.Home.route)
+        }
     }
 
     Scaffold(
@@ -59,6 +62,7 @@ fun RecordsScreen(
         topBar = {
             RecordsTopBar(
                 viewModel = viewModel,
+                navController = navController,
                 scrollBehavior = scrollBehavior
             )
         }
@@ -83,6 +87,7 @@ fun RecordsScreen(
 @Composable
 private fun RecordsTopBar(
     viewModel: RecordViewModel = viewModel(),
+    navController: NavController,
     scrollBehavior: TopAppBarScrollBehavior
 ) = if (viewModel.chooser) {
     RecordsSharedTopBar(
@@ -91,12 +96,14 @@ private fun RecordsTopBar(
     )
 } else {
     RecordsNormalTopBar(
+        navController = navController,
         scrollBehavior = scrollBehavior
     )
 }
 
 @Composable
 private fun RecordsNormalTopBar(
+    navController: NavController,
     scrollBehavior: TopAppBarScrollBehavior
 ) = TopAppBar(
     title = {
@@ -104,6 +111,20 @@ private fun RecordsNormalTopBar(
             text = stringResource(id = R.string.page_record),
             style = MaterialTheme.typography.titleLarge
         )
+    },
+    navigationIcon = {
+        if (Configure.simpleMode) {
+            IconButton(
+                onClick = {
+                    navController.navigatePopUpTo(MainGraph.Home.route)
+                }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.arrow_square_left_outline),
+                    contentDescription = null
+                )
+            }
+        }
     },
     actions = {
         IconButton(

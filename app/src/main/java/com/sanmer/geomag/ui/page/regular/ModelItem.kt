@@ -1,8 +1,7 @@
-package com.sanmer.geomag.ui.page.home
+package com.sanmer.geomag.ui.page.regular
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,9 +13,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sanmer.geomag.R
 import com.sanmer.geomag.core.models.Models
-import com.sanmer.geomag.core.models.getModels
+import com.sanmer.geomag.core.models.getModel
 import com.sanmer.geomag.core.models.models
 import com.sanmer.geomag.ui.component.CardItem
+import com.sanmer.geomag.ui.component.CustomShape
 import com.sanmer.geomag.ui.utils.HtmlText
 import com.sanmer.geomag.viewmodel.HomeViewModel
 
@@ -24,13 +24,12 @@ import com.sanmer.geomag.viewmodel.HomeViewModel
 fun ModelItem(
     viewModel: HomeViewModel = viewModel(),
 ) {
-
     CardItem(
         iconRes = R.drawable.chart_outline,
         label = stringResource(id = R.string.model_title),
         trailingIcon = {
             ModelSelect(
-                selected = viewModel.model.key
+                selected = viewModel.model.id
             ) {
                 viewModel.updateModel(it)
             }
@@ -64,8 +63,8 @@ fun ModelItem(
 }
 
 @Composable
-private fun ModelSelect(
-    selected: String,
+fun ModelSelect(
+    selected: Int,
     onClick: (Models) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -76,7 +75,7 @@ private fun ModelSelect(
                 expanded = true
             },
             label = {
-                Text(text = getModels(selected).label)
+                Text(text = getModel(selected).label)
             },
             trailingIcon = {
                 Icon(
@@ -124,12 +123,12 @@ private fun ModelSelect(
 @Composable
 private fun MenuItem(
     value: Models,
-    selected: String,
+    selected: Int,
     onClick: () -> Unit
 ) = DropdownMenuItem(
     modifier = Modifier
         .background(
-            if (value.key == selected) {
+            if (value.id == selected) {
                 MaterialTheme.colorScheme.secondaryContainer
             } else {
                 Color.Unspecified
@@ -138,12 +137,4 @@ private fun MenuItem(
     enabled = value.enable,
     text = { Text(text = value.label) },
     onClick = onClick
-)
-
-@Composable
-private fun CustomShape(
-    content: @Composable () -> Unit
-) = MaterialTheme(
-    shapes = MaterialTheme.shapes.copy(extraSmall = RoundedCornerShape(12.dp)),
-    content = content
 )

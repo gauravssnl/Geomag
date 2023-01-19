@@ -8,6 +8,7 @@ import java.io.File
 object MediaStoreUtils {
     fun Context.toCache(input: String?, name: String): File {
         val out = cacheDir.resolve(name)
+        out.parentFile?.mkdirs()
         out.deleteOnExit()
 
         val output = out.outputStream()

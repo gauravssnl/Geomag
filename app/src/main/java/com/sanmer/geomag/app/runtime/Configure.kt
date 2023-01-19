@@ -10,6 +10,7 @@ import com.sanmer.geomag.app.Config
 object Configure {
     private var THEME_COLOR by mutableStateOf(Config.THEME_COLOR)
     private var DARK_MODE by mutableStateOf(Config.DARK_MODE)
+    private var SIMPLE_MODE by mutableStateOf(Config.SIMPLE_MODE)
 
     var themeColor: Int
         get() = THEME_COLOR
@@ -23,6 +24,13 @@ object Configure {
         set(value) {
             DARK_MODE = value
             Config.DARK_MODE = value
+        }
+
+    var simpleMode: Boolean
+        get() = SIMPLE_MODE
+        set(value) {
+            SIMPLE_MODE = value
+            Config.SIMPLE_MODE = value
         }
 
     @Composable

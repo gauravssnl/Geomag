@@ -47,8 +47,10 @@ fun ExampleItem() {
                     Text(text = stringResource(id = R.string.app_name))
                 }
 
-                ElevatedCard(
-                    shape = RoundedCornerShape(15.dp)
+                Surface(
+                    shape = RoundedCornerShape(15.dp),
+                    color = MaterialTheme.colorScheme.surface,
+                    tonalElevation = 1.dp
                 ) {
                     Spacer(
                         modifier = Modifier
@@ -57,8 +59,10 @@ fun ExampleItem() {
                     )
                 }
 
-                ElevatedCard(
-                    shape = RoundedCornerShape(15.dp)
+                Surface(
+                    shape = RoundedCornerShape(15.dp),
+                    color = MaterialTheme.colorScheme.surface,
+                    tonalElevation = 1.dp
                 ) {
                     Spacer(
                         modifier = Modifier
@@ -83,14 +87,17 @@ fun ExampleItem() {
                             .size(35.dp)
                     )
                 }
-                Spacer(
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.surfaceVariant.copy(0.45f)
-                        )
-                        .height(45.dp)
-                        .fillMaxWidth()
-                )
+
+                Surface(
+                    color = MaterialTheme.colorScheme.surface,
+                    tonalElevation = 2.dp
+                ) {
+                    Spacer(
+                        modifier = Modifier
+                            .height(45.dp)
+                            .fillMaxWidth()
+                    )
+                }
             }
         }
     }

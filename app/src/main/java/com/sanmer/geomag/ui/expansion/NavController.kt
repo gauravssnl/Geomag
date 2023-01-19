@@ -1,11 +1,8 @@
 package com.sanmer.geomag.ui.expansion
 
-import android.os.Parcelable
-import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavOptionsBuilder
-import timber.log.Timber
 
 fun NavController.navigateSingleTopTo(
     route: String,

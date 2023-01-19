@@ -1,6 +1,7 @@
 package com.sanmer.geomag
 
 import android.app.Application
+import com.sanmer.geomag.app.Config
 import com.sanmer.geomag.core.localtion.AppLocationManager
 import com.sanmer.geomag.core.models.Geomag
 import com.sanmer.geomag.core.time.TimerManager

@@ -16,20 +16,19 @@
     <string name="model_web">你可以参考 %1$s。</string>
     <!-- Location -->
     <string name="location_title">位置</string>
-    <string name="location_desc">我们提供基于定位服务的经纬度和海拔获取，如果你不愿意提供定位权限或者你希望计算其他指定值，可自己定义数值。</string>
-    <string name="location_altitude">海拔：%1$s km</string>
-    <string name="location_latitude">纬度：%1$sº N</string>
-    <string name="location_longitude">经度：%1$sº W</string>
-    <string name="location_dialog_altitude">海拔</string>
-    <string name="location_dialog_latitude">纬度</string>
-    <string name="location_dialog_longitude">经度</string>
+    <string name="location_desc">我们提供基于定位服务的经纬度和海拔，如果你不愿意提供定位权限或者你希望计算其他指定值，可自己定义数值。</string>
+    <string name="location_altitude">海拔：%1$s</string>
+    <string name="location_latitude">纬度：%1$s</string>
+    <string name="location_longitude">经度：%1$s</string>
+    <string name="location_dialog_desc">需要开启位置服务用于提供位置信息。</string>
     <!-- Time -->
     <string name="time_title">时间</string>
     <string name="time_desc">当你定义时间时，请确保该值在 %1$s 的有效期内。</string>
     <string name="time_time">时间：%1$s</string>
     <string name="time_decimal">十进制：%1$s</string>
-    <!-- Button -->
-    <string name="button_edit">编辑</string>
+    <!-- Simple -->
+    <string name="simple_input">输入</string>
+    <string name="simple_output">输出</string>
 
     <!-- Records -->
     <!-- View record -->
@@ -56,8 +55,8 @@
     <string name="settings_log_viewer_desc">查看应用运行时日志</string>
     <!-- App -->
     <string name="settings_title_app">应用</string>
-    <string name="settings_clear_cache">清除缓存</string>
-    <string name="settings_clear_cache_desc">清空记录数据库及生成的JSON文件</string>
+    <string name="settings_simple_mode">简洁模式</string>
+    <string name="settings_simple_mode_desc">简洁明了的UI设计，只保留核心功能 (实验性)</string>
     <!-- App Theme -->
     <string name="settings_example">示例</string>
     <string name="settings_theme_palette">主题调色板</string>
@@ -70,11 +69,11 @@
     <string name="about_source_code">在 %1$s 查看源码</string>
 
     <!-- Dialog -->
+    <string name="dialog_title_attention">注意</string>
     <string name="dialog_cancel">取消</string>
     <string name="dialog_ok">确定</string>
     <!-- Text Field Dialog -->
     <string name="dialog_empty_default">留空恢复默认值</string>
-    <string name="dialog_empty_zero">留空则该值为零</string>
 
     <!-- Message -->
     <string name="message_location_click">点按查看详情</string>

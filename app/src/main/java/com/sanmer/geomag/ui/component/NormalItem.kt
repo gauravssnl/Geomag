@@ -39,7 +39,7 @@ fun NormalItem(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (iconRes != null) {
+            iconRes?.let {
                 Icon(
                     modifier = Modifier
                         .size(24.dp),

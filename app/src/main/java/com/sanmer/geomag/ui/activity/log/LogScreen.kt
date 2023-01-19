@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.sanmer.geomag.R
 import com.sanmer.geomag.service.LogcatService
+import com.sanmer.geomag.ui.component.CustomShape
 import com.sanmer.geomag.ui.utils.NavigateUpTopBar
 import com.sanmer.geomag.utils.log.LogItem
 
@@ -221,10 +222,3 @@ private fun MenuItem(
     onClick = onClick
 )
 
-@Composable
-private fun CustomShape(
-    content: @Composable () -> Unit
-) = MaterialTheme(
-    shapes = MaterialTheme.shapes.copy(extraSmall = RoundedCornerShape(12.dp)),
-    content = content
-)

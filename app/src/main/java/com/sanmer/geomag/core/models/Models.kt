@@ -4,31 +4,29 @@ import androidx.annotation.StringRes
 import com.sanmer.geomag.R
 
 sealed class Models(
-    val key: String,
+    val id: Int,
     val label: String,
     @StringRes val name: Int,
     val web: String,
     val start: Double,
     val end: Double,
-    val enable: Boolean = false
+    val enable: Boolean = true
 ) {
     object MIGRF : Models(
-        key = "igrf",
+        id = 0,
         label = "IGRF",
         name = R.string.igrf,
-        web = "https://doi.org/10.1186/s40623-020-01288-x",
+        web = "https://www.ncei.noaa.gov/products/international-geomagnetic-reference-field",
         start = 1900.0,
-        end = 2025.0,
-        enable = true,
+        end = 2025.0
     )
     object MWMM : Models(
-        key = "wmm",
+        id = 1,
         label = "WMM",
         name = R.string.wmm,
-        web = "https://doi.org/10.25923/ytk1-yx35",
+        web = "https://www.ncei.noaa.gov/products/world-magnetic-model",
         start = 2020.0,
-        end = 2025.0,
-        enable = true
+        end = 2025.0
     )
 }
 
@@ -37,8 +35,14 @@ val models = listOf(
     Models.MWMM
 )
 
-fun getModels(key: String): Models {
+fun getModel(id: Int): Models {
     return models.find {
-        it.key == key
+        it.id == id
     } ?: Models.MIGRF
+}
+
+fun getModelID(label: String): Int {
+    return models.find {
+        it.label == label
+    }?.id ?: Models.MIGRF.id
 }
