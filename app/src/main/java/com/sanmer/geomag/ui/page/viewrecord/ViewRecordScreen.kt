@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.page.view
+package com.sanmer.geomag.ui.page.viewrecord
 
 import android.content.Context
 import androidx.activity.compose.BackHandler
@@ -7,14 +7,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
@@ -25,7 +27,7 @@ import com.sanmer.geomag.ui.expansion.navigateBack
 import com.sanmer.geomag.ui.utils.NavigateUpTopBar
 
 @Composable
-fun ViewScreen(
+fun ViewRecordScreen(
     navController: NavController,
     record: Record
 ) {
@@ -37,7 +39,7 @@ fun ViewScreen(
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            ViewTopBar(
+            ViewRecordTopBar(
                 scrollBehavior = scrollBehavior,
                 navController = navController,
                 record = record
@@ -60,7 +62,7 @@ fun ViewScreen(
 }
 
 @Composable
-private fun ViewTopBar(
+private fun ViewRecordTopBar(
     context: Context = LocalContext.current,
     scrollBehavior: TopAppBarScrollBehavior,
     navController: NavController,
@@ -79,15 +81,10 @@ private fun ViewTopBar(
             )
         }
 
+        var delete by remember { mutableStateOf(false) }
+        if (delete) DeleteDialog(navController, record) { delete = false }
         IconButton(
-            onClick = {
-                /*
-                It takes 200 milliseconds for exit animation,
-                delay deleting the data to ensure safe exit.
-                 */
-                Constant.delete(value = record, timeMillis = 400)
-                navController.navigateBack()
-            }
+            onClick = { delete = true }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.trash_outline),
@@ -97,4 +94,43 @@ private fun ViewTopBar(
     },
     scrollBehavior = scrollBehavior,
     navController = navController
+)
+
+@Composable
+private fun DeleteDialog(
+    navController: NavController,
+    record: Record,
+    onClose: () -> Unit
+) = AlertDialog(
+    onDismissRequest = onClose,
+    shape = RoundedCornerShape(20.dp),
+    title = { Text(text = stringResource(id = R.string.record_dialog_delete_title)) },
+    text = { Text(text = stringResource(id = R.string.record_dialog_delete_desc)) },
+    confirmButton = {
+        TextButton(
+            onClick = {
+                /*
+                It takes 200 milliseconds for exit animation,
+                delay deleting the data to ensure safe exit.
+                */
+
+                Constant.delete(value = record, timeMillis = 400)
+                navController.navigateBack()
+                onClose()
+            }
+        ) {
+            Text(
+                text = stringResource(id = R.string.dialog_delete)
+            )
+        }
+    },
+    dismissButton = {
+        TextButton(
+            onClick = onClose
+        ) {
+            Text(
+                text = stringResource(id = R.string.dialog_cancel)
+            )
+        }
+    },
 )

@@ -9,11 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -25,12 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
-import com.sanmer.geomag.app.runtime.Configure
+import com.sanmer.geomag.app.Config.State
 import com.sanmer.geomag.data.Constant
 import com.sanmer.geomag.data.record.Record
 import com.sanmer.geomag.ui.expansion.navigatePopUpTo
-import com.sanmer.geomag.ui.navigation.MainGraph
 import com.sanmer.geomag.ui.navigation.graph.RecordGraph
+import com.sanmer.geomag.ui.navigation.navigateToHome
 import com.sanmer.geomag.viewmodel.RecordViewModel
 
 @Composable
@@ -52,7 +50,7 @@ fun RecordsScreen(
         if (viewModel.chooser) {
             viewModel.close()
         } else {
-            navController.navigatePopUpTo(MainGraph.Home.route)
+            navController.navigateToHome()
         }
     }
 
@@ -113,10 +111,10 @@ private fun RecordsNormalTopBar(
         )
     },
     navigationIcon = {
-        if (Configure.simpleMode) {
+        if (State.simpleMode) {
             IconButton(
                 onClick = {
-                    navController.navigatePopUpTo(MainGraph.Home.route)
+                    navController.navigateToHome()
                 }
             ) {
                 Icon(
@@ -172,10 +170,10 @@ private fun RecordsSharedTopBar(
             )
         }
 
+        var delete by remember { mutableStateOf(false) }
+        if (delete) DeleteDialog { delete = false }
         IconButton(
-            onClick = {
-                viewModel.delete()
-            }
+            onClick = { delete = true }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.trash_outline),
@@ -227,3 +225,35 @@ private fun EmptyView(
         )
     }
 }
+
+@Composable
+private fun DeleteDialog(
+    viewModel: RecordViewModel = viewModel(),
+    onClose: () -> Unit
+) = AlertDialog(
+    onDismissRequest = onClose,
+    shape = RoundedCornerShape(20.dp),
+    title = { Text(text = stringResource(id = R.string.records_dialog_delete_title)) },
+    text = { Text(text = stringResource(id = R.string.records_dialog_delete_desc)) },
+    confirmButton = {
+        TextButton(
+            onClick = {
+                viewModel.delete()
+                onClose()
+            }
+        ) {
+            Text(
+                text = stringResource(id = R.string.dialog_delete)
+            )
+        }
+    },
+    dismissButton = {
+        TextButton(
+            onClick = onClose
+        ) {
+            Text(
+                text = stringResource(id = R.string.dialog_cancel)
+            )
+        }
+    },
+)
