@@ -17,8 +17,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sanmer.geomag.R
+import com.sanmer.geomag.app.Config.State
 import com.sanmer.geomag.app.Const
-import com.sanmer.geomag.app.runtime.Configure
 import com.sanmer.geomag.ui.theme.Colors
 import com.sanmer.geomag.ui.theme.getColor
 import com.sanmer.geomag.ui.theme.getColors
@@ -40,7 +40,7 @@ fun ThemePaletteItem() {
             ThemeColorItem(
                 id = it
             ) { id ->
-                Configure.themeColor = id
+                State.themeColor = id
             }
         }
     }
@@ -53,8 +53,8 @@ private fun ThemeColorItem(
 ) {
     val context = LocalContext.current
     val color = getColor(context = context, id = id)
-    val colorScheme = if (Configure.isDarkTheme()) color.darkColorScheme else color.lightColorScheme
-    val selected = id == Configure.themeColor
+    val colorScheme = if (State.isDarkTheme()) color.darkColorScheme else color.lightColorScheme
+    val selected = id == State.themeColor
 
     Box(
         modifier = Modifier
@@ -118,6 +118,6 @@ private fun LazyListScope.dynamicColorItem() = item(Colors.Dynamic.id) {
     ThemeColorItem(
         id = Colors.Dynamic.id,
     ) {
-        Configure.themeColor = it
+        State.themeColor = it
     }
 }

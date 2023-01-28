@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.sanmer.geomag.app.runtime.Configure
+import com.sanmer.geomag.app.Config.State
 import com.sanmer.geomag.ui.animate.SlideIn
 import com.sanmer.geomag.ui.animate.SlideOut
 import com.sanmer.geomag.ui.navigation.BottomNav
@@ -23,7 +23,7 @@ import com.sanmer.geomag.ui.navigation.graph.settingsGraph
 @Composable
 fun MainScreen() {
     AnimatedVisibility(
-        visible = !Configure.simpleMode,
+        visible = !State.simpleMode,
         enter = SlideIn.topToBottom,
         exit = SlideOut.bottomToTop
     ) {
@@ -31,7 +31,7 @@ fun MainScreen() {
     }
 
     AnimatedVisibility(
-        visible = Configure.simpleMode,
+        visible = State.simpleMode,
         enter = SlideIn.bottomToTop,
         exit = SlideOut.topToBottom
     ) {

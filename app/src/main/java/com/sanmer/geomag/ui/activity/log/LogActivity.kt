@@ -8,8 +8,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import com.sanmer.geomag.app.Config.State
 import com.sanmer.geomag.service.LogcatService
-import com.sanmer.geomag.app.runtime.Configure
 import com.sanmer.geomag.ui.theme.AppTheme
 
 class LogActivity : ComponentActivity() {
@@ -21,8 +21,8 @@ class LogActivity : ComponentActivity() {
 
         setContent {
             AppTheme(
-                darkTheme = Configure.isDarkTheme(),
-                themeColor = Configure.themeColor
+                darkTheme = State.isDarkTheme(),
+                themeColor = State.themeColor
             ) {
 
                 Surface(

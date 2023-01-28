@@ -15,14 +15,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
-import com.sanmer.geomag.app.runtime.Configure
+import com.sanmer.geomag.app.Config.State
 import com.sanmer.geomag.ui.activity.log.LogActivity
 import com.sanmer.geomag.ui.component.NormalItem
 import com.sanmer.geomag.ui.component.NormalTitle
 import com.sanmer.geomag.ui.component.SwitchItem
 import com.sanmer.geomag.ui.expansion.navigatePopUpTo
-import com.sanmer.geomag.ui.navigation.MainGraph
 import com.sanmer.geomag.ui.navigation.graph.SettingsGraph
+import com.sanmer.geomag.ui.navigation.navigateToHome
 
 @Composable
 fun SettingsScreen(
@@ -31,9 +31,7 @@ fun SettingsScreen(
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
-    BackHandler(Configure.simpleMode) {
-        navController.navigatePopUpTo(MainGraph.Home.route)
-    }
+    BackHandler { navController.navigateToHome() }
 
     Scaffold(
         modifier = Modifier
@@ -71,9 +69,9 @@ fun SettingsScreen(
                 iconRes = R.drawable.main_component_outline,
                 text = stringResource(id = R.string.settings_simple_mode),
                 subText = stringResource(id = R.string.settings_simple_mode_desc),
-                checked = Configure.simpleMode
+                checked = State.simpleMode
             ) {
-                Configure.simpleMode = it
+                State.simpleMode = it
             }
         }
     }
@@ -91,10 +89,10 @@ private fun SettingsTopBar(
         )
     },
     navigationIcon = {
-        if (Configure.simpleMode) {
+        if (State.simpleMode) {
             IconButton(
                 onClick = {
-                    navController.navigatePopUpTo(MainGraph.Home.route)
+                    navController.navigateToHome()
                 }
             ) {
                 Icon(

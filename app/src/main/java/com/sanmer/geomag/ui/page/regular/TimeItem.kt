@@ -90,14 +90,13 @@ fun TimeItem(
                     shape = RoundedCornerShape(12.dp),
                     color = MaterialTheme.colorScheme.outline
                 )
-                .padding(16.dp)
                 .then(if (!edit) {
                     Modifier.clickable {
                         dateTime = TextFieldValue(viewModel.dateTime.toString(), TextRange(19))
                         edit = true
-                    }
+                    }.padding(16.dp)
                 } else {
-                    Modifier
+                    Modifier.padding(16.dp)
                 }),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
@@ -133,7 +132,7 @@ fun EditTime(
     dateTime: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     textColor: Color = LocalContentColor.current,
-    onDone: KeyboardActionScope.(FocusManager) -> Unit = {}
+    onDone: KeyboardActionScope.(FocusManager) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current

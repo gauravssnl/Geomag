@@ -6,10 +6,13 @@ import androidx.core.content.FileProvider
 import java.io.File
 
 object MediaStoreUtils {
-    fun Context.toCache(input: String?, name: String): File {
+    fun Context.toCacheDir(input: String?, name: String): File {
         val out = cacheDir.resolve(name)
-        out.parentFile?.mkdirs()
-        out.deleteOnExit()
+        out.parentFile?.let {
+            if (!it.exists()) {
+                it.mkdirs()
+            }
+        }
 
         val output = out.outputStream()
         output.write(input?.toByteArray())

@@ -17,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
@@ -45,8 +46,8 @@ fun LocationItem(
     viewModel: HomeViewModel = viewModel(),
 ) {
     val context = LocalContext.current
-    val location = viewModel.locationOrZero
 
+    var location by remember { mutableStateOf(viewModel.locationOrZero) }
     var edit by remember { mutableStateOf(false) }
 
     val isEnable = AppLocationManager.isEnable
@@ -65,7 +66,7 @@ fun LocationItem(
     )
 
     var isNeeded by remember { mutableStateOf(false) }
-    if (isNeeded) { LocationNeededDialog { isNeeded = false } }
+    if (isNeeded) LocationNeededDialog { isNeeded = false }
 
     CardItem(
         iconRes = if (isEnable) iconRes else R.drawable.location_slash_outline,
@@ -111,38 +112,47 @@ fun LocationItem(
                     shape = RoundedCornerShape(12.dp),
                     color = MaterialTheme.colorScheme.outline
                 )
-                .padding(16.dp)
                 .then(if (!edit) {
-                    Modifier.clickable { edit = true }
+                    Modifier.clickable {
+                        location = viewModel.locationOrZero
+                        edit = true
+                    }.padding(16.dp)
                 } else {
-                    Modifier
-                }),
+                    Modifier.padding(16.dp)
+                }
+                ),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             if (edit) {
-                EditLocation {
+                EditLocation(
+                    location = location,
+                    onValueChange = { location = it }
+                ) {
+                    viewModel.editLocation(location)
                     edit = false
-                    viewModel.editLocation(it)
+
+                    defaultKeyboardAction(ImeAction.Done)
+                    it.clearFocus()
                 }
             } else {
                 Text(
                     text = stringResource(
                         id = R.string.location_altitude,
-                        "${location.altitude} km"
+                        "${viewModel.locationOrZero.altitude} km"
                     ),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
                     text = stringResource(
                         id = R.string.location_latitude,
-                        "${location.latitude}º N"
+                        "${viewModel.locationOrZero.latitude}º N"
                     ),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
                     text = stringResource(
                         id = R.string.location_longitude,
-                        "${location.longitude}º W"
+                        "${viewModel.locationOrZero.longitude}º W"
                     ),
                     style = MaterialTheme.typography.bodyLarge
                 )
@@ -154,10 +164,11 @@ fun LocationItem(
 @Composable
 fun EditLocation(
     viewModel: HomeViewModel = viewModel(),
-    onValueChange: (Location) -> Unit
+    location: Location,
+    onValueChange: (Location) -> Unit,
+    onDone: KeyboardActionScope.(FocusManager) -> Unit
 ) {
     val context = LocalContext.current
-    val location = viewModel.locationOrZero
 
     var altitude by remember {
         mutableStateOf(TextFieldValue(
@@ -177,20 +188,15 @@ fun EditLocation(
             selection = TextRange("${location.longitude}".length)
         ))
     }
+    val getLocation = location.apply {
+        location.altitude = altitude.text.toDoubleOrZero() * 1000
+        location.latitude = latitude.text.toDoubleOrZero()
+        location.longitude = longitude.text.toDoubleOrZero()
+    }
 
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
-
-    val onDone: KeyboardActionScope.() -> Unit = {
-        location.altitude = altitude.text.toDoubleOrZero() * 1000
-        location.latitude = latitude.text.toDoubleOrZero()
-        location.longitude = longitude.text.toDoubleOrZero()
-
-        onValueChange(location)
-        defaultKeyboardAction(ImeAction.Done)
-        focusManager.clearFocus()
-    }
 
     LaunchedEffect(focusRequester) {
         focusRequester.requestFocus()
@@ -206,8 +212,11 @@ fun EditLocation(
         value = altitude,
         onValueChange = { altitude = it },
         prefix = stringResource(id = R.string.location_altitude, ""),
-        suffix = "km",
-        onDone = onDone
+        suffix = " km",
+        onDone = {
+            onValueChange(getLocation)
+            onDone(this, focusManager)
+        }
     )
 
     EditItem(
@@ -216,7 +225,10 @@ fun EditLocation(
         onValueChange = { latitude = it },
         prefix = stringResource(id = R.string.location_latitude, ""),
         suffix = "º N",
-        onDone = onDone
+        onDone = {
+            onValueChange(getLocation)
+            onDone(this, focusManager)
+        }
     )
 
     EditItem(
@@ -225,7 +237,10 @@ fun EditLocation(
         onValueChange = { longitude = it },
         prefix = stringResource(id = R.string.location_longitude, ""),
         suffix = "º W",
-        onDone = onDone
+        onDone = {
+            onValueChange(getLocation)
+            onDone(this, focusManager)
+        }
     )
 }
 

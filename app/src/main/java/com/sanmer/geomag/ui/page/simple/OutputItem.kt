@@ -10,7 +10,7 @@ import com.sanmer.geomag.R
 import com.sanmer.geomag.data.Constant
 import com.sanmer.geomag.data.json.JsonUtils
 import com.sanmer.geomag.ui.component.CardItem
-import com.sanmer.geomag.ui.page.view.ValuesItem
+import com.sanmer.geomag.ui.page.viewrecord.ValuesItem
 
 @Composable
 fun OutputItem() {

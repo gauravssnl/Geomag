@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.sanmer.geomag.R
-import com.sanmer.geomag.app.runtime.Configure
+import com.sanmer.geomag.app.Config.State
 
 private sealed class DarkMode(
     val id: Int,
@@ -57,7 +57,7 @@ fun DarkModeItem() {
             DarkModeItem(
                 item = it
             ) { id ->
-                Configure.darkTheme = id
+                State.darkTheme = id
             }
         }
     }
@@ -68,7 +68,7 @@ private fun DarkModeItem(
     item: DarkMode,
     onClick: (Int) -> Unit
 ) {
-    val selected = item.id == Configure.darkTheme
+    val selected = item.id == State.darkTheme
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(15.dp))

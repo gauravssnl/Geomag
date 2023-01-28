@@ -20,7 +20,7 @@ class RecordViewModel : ViewModel() {
     private val out = mutableStateListOf<Record>()
 
     fun change(value: Record) {
-        if (isOwned(value)) {
+        if (isSelected(value)) {
             out.remove(value)
         } else {
             out.add(value)
@@ -32,7 +32,7 @@ class RecordViewModel : ViewModel() {
         out.clear()
     }
 
-    fun isOwned(value: Record) = value in out
+    fun isSelected(value: Record) = value in out
     fun isEmpty() = out.isEmpty()
 
     fun share(context: Context) {
@@ -40,11 +40,9 @@ class RecordViewModel : ViewModel() {
         out.clear()
     }
 
-    fun delete() {
-        viewModelScope.launch(Dispatchers.IO) {
-            Constant.delete(out)
-            out.clear()
-        }
+    fun delete() = viewModelScope.launch(Dispatchers.IO) {
+        Constant.delete(out)
+        out.clear()
     }
 
     init {

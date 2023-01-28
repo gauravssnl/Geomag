@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -124,7 +123,7 @@ private fun LogItem(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = when(value.priority) {
+                text = when (value.priority) {
                     Log.VERBOSE -> "V"
                     Log.DEBUG -> "D"
                     Log.INFO -> "I"
@@ -136,7 +135,7 @@ private fun LogItem(
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
-                color = when(value.priority) {
+                color = when (value.priority) {
                     Log.VERBOSE -> Color(0xFF000000)
                     Log.DEBUG -> Color(0xFFE9F5E6)
                     Log.INFO -> Color(0xFFBBBBBB)
@@ -162,7 +161,7 @@ private fun LogItem(
             Text(
                 text = value.message,
                 style = MaterialTheme.typography.bodyMedium,
-                color = when(value.priority) {
+                color = when (value.priority) {
                     Log.WARN -> Color(0xFFBBB529)
                     Log.ERROR -> Color(0xFFCF5B56)
                     else -> Color.Unspecified
@@ -184,21 +183,19 @@ private fun PrioritySelect(
     selected: String,
     onClose: () -> Unit,
     onClick: (String) -> Unit,
-) {
-    CustomShape {
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = onClose,
-            offset = DpOffset(15.dp, 0.dp)
-        ) {
-            priorities.forEach {
-                MenuItem(
-                    value = it,
-                    selected = selected
-                ) {
-                    if (it != selected) onClick(it)
-                    onClose()
-                }
+) = CustomShape {
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = onClose,
+        offset = DpOffset(15.dp, 0.dp)
+    ) {
+        priorities.forEach {
+            MenuItem(
+                value = it,
+                selected = selected
+            ) {
+                if (it != selected) onClick(it)
+                onClose()
             }
         }
     }

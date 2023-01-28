@@ -4,7 +4,7 @@ import android.content.Context
 import com.sanmer.geomag.core.time.DateTime
 import com.sanmer.geomag.data.record.Record
 import com.sanmer.geomag.utils.MediaStoreUtils.share
-import com.sanmer.geomag.utils.MediaStoreUtils.toCache
+import com.sanmer.geomag.utils.MediaStoreUtils.toCacheDir
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapter
 
@@ -25,14 +25,14 @@ object JsonUtils {
     fun share(context: Context, value: Record) {
         val jsonString = toJson(value)
         val name = "json/${value.time}.json".replace(" ", "T")
-        val file = context.toCache(jsonString, name)
+        val file = context.toCacheDir(jsonString, name)
         file.share(context, "text/json")
     }
 
     fun share(context: Context, values: List<Record>) {
         val jsonString = toJson(values)
         val name = "json/${DateTime.now()}.json".replace(" ", "T")
-        val file = context.toCache(jsonString, name)
+        val file = context.toCacheDir(jsonString, name)
         file.share(context, "text/json")
     }
 

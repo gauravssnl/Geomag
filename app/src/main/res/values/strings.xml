@@ -7,7 +7,7 @@
     <string name="page_home">Home</string>
     <string name="page_record">Records</string>
     <string name="page_settings">Settings</string>
-    <string name="page_view">View record</string>
+    <string name="page_view">View Record</string>
 
     <!-- Home -->
     <!-- Model -->
@@ -32,36 +32,40 @@
     <string name="simple_output">Output</string>
 
     <!-- Records -->
+    <string name="records_dialog_delete_title">Delete selected records</string>
+    <string name="records_dialog_delete_desc">Are you sure to delete selected records? The operation cannot be undone.</string>
     <!-- View record -->
+    <string name="record_dialog_delete_title">Delete record</string>
+    <string name="record_dialog_delete_desc">Are you sure to delete this records? The operation cannot be undone.</string>
     <string name="info_model">Model</string>
     <string name="info_altitude">Altitude</string>
     <string name="info_latitude">Latitude</string>
     <string name="info_longitude">Longitude</string>
     <string name="info_time">Time</string>
     <string name="info_decimal">Decimal</string>
-    <string name="value_f">Total intensity</string>
-    <string name="value_h">Horizontal intensity</string>
-    <string name="value_x">X component</string>
-    <string name="value_y">Y component</string>
-    <string name="value_z">Z component</string>
+    <string name="value_f">Total Intensity</string>
+    <string name="value_h">Horizontal Intensity</string>
+    <string name="value_x">X Component</string>
+    <string name="value_y">Y Component</string>
+    <string name="value_z">Z Component</string>
     <string name="value_d">Declination</string>
     <string name="value_i">Inclination</string>
 
     <!-- Settings -->
     <!-- Normal -->
     <string name="settings_title_normal">Normal</string>
-    <string name="settings_app_theme">App theme</string>
+    <string name="settings_app_theme">App Theme</string>
     <string name="settings_app_theme_desc">Change night mode and theme platte</string>
-    <string name="settings_log_viewer">Log viewer</string>
+    <string name="settings_log_viewer">Log Viewer</string>
     <string name="settings_log_viewer_desc">View application runtime logs</string>
     <!-- App -->
     <string name="settings_title_app">App</string>
-    <string name="settings_simple_mode">Simple mode</string>
+    <string name="settings_simple_mode">Simple Mode</string>
     <string name="settings_simple_mode_desc">Simple and clear UI design, keep only the core feature (experimental)</string>
     <!-- App Theme -->
     <string name="settings_example">Example</string>
-    <string name="settings_theme_palette">Theme palette</string>
-    <string name="settings_dark_theme">Dark theme</string>
+    <string name="settings_theme_palette">Theme Palette</string>
+    <string name="settings_dark_theme">Dark Theme</string>
     <string name="settings_dark_theme_auto">Auto</string>
     <string name="settings_dark_theme_light">Light</string>
     <string name="settings_dark_theme_dark">Dark</string>
@@ -73,6 +77,7 @@
     <string name="dialog_title_attention">Attention</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_ok">OK</string>
+    <string name="dialog_delete">Delete</string>
     <!-- Text Field Dialog -->
     <string name="dialog_empty_default">Leave empty to restore default</string>
 

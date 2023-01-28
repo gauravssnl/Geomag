@@ -2,17 +2,14 @@ package com.sanmer.geomag.ui.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
@@ -33,13 +30,13 @@ fun EditItem(
     enabled: Boolean = true,
     onChange: (String) -> Unit,
 ) {
-    var show by remember { mutableStateOf(false) }
+    var edit by remember { mutableStateOf(false) }
     var value by remember { mutableStateOf(subtitle) }
-    if (show) {
+    if (edit) {
         TextFieldDialog(
             title = title,
             text = subtitle,
-            onClose = { show = false },
+            onClose = { edit = false },
             onConfirm = {
                 value = it
                 if (it != subtitle) {
@@ -56,7 +53,7 @@ fun EditItem(
         text = title,
         subText = subtitle
     ) {
-        show = true
+        edit = true
     }
 }
 
@@ -184,7 +181,6 @@ fun PickerItem(
                 }
             }
         }
-
     }
 }
 
@@ -193,17 +189,15 @@ private fun MenuItem(
     value: String,
     selected: String,
     onClick: () -> Unit
-) {
-    DropdownMenuItem(
-        modifier = Modifier
-            .background(
-                if (value == selected) {
-                    MaterialTheme.colorScheme.secondaryContainer
-                } else {
-                    Color.Unspecified
-                }
-            ),
-        text = { Text(text = value) },
-        onClick = onClick
-    )
-}
+) = DropdownMenuItem(
+    modifier = Modifier
+        .background(
+            if (value == selected) {
+                MaterialTheme.colorScheme.secondaryContainer
+            } else {
+                Color.Unspecified
+            }
+        ),
+    text = { Text(text = value) },
+    onClick = onClick
+)

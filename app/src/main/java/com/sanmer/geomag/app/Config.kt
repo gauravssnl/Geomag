@@ -1,6 +1,10 @@
 package com.sanmer.geomag.app
 
-import com.sanmer.geomag.BuildConfig
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.sanmer.geomag.core.models.Models
 import com.sanmer.geomag.ui.theme.Colors
 import com.sanmer.geomag.utils.SPUtils
@@ -39,4 +43,40 @@ object Config {
     var SIMPLE_MODE: Boolean
         get() = sp.getValue(SIMPLE_MODE_KEY, false)
         set(value) { sp.putValue(SIMPLE_MODE_KEY, value) }
+
+    object State {
+        private var THEME_COLOR by mutableStateOf(Config.THEME_COLOR)
+        private var DARK_MODE by mutableStateOf(Config.DARK_MODE)
+        private var SIMPLE_MODE by mutableStateOf(Config.SIMPLE_MODE)
+
+        var themeColor: Int
+            get() = THEME_COLOR
+            set(value) {
+                THEME_COLOR = value
+                Config.THEME_COLOR = value
+            }
+
+        var darkTheme: Int
+            get() = DARK_MODE
+            set(value) {
+                DARK_MODE = value
+                Config.DARK_MODE = value
+            }
+
+        var simpleMode: Boolean
+            get() = SIMPLE_MODE
+            set(value) {
+                SIMPLE_MODE = value
+                Config.SIMPLE_MODE = value
+            }
+
+        @Composable
+        fun isDarkTheme(): Boolean {
+            return when (darkTheme) {
+                ALWAYS_ON -> true
+                ALWAYS_OFF -> false
+                else -> isSystemInDarkTheme()
+            }
+        }
+    }
 }

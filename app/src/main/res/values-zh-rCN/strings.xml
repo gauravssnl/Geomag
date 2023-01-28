@@ -31,7 +31,11 @@
     <string name="simple_output">输出</string>
 
     <!-- Records -->
+    <string name="records_dialog_delete_title">删除选中的记录</string>
+    <string name="records_dialog_delete_desc">你确定要删除选中的记录？该操作无法撤销。</string>
     <!-- View record -->
+    <string name="record_dialog_delete_title">删除记录</string>
+    <string name="record_dialog_delete_desc">你确定要删除该记录？该操作无法撤销。</string>
     <string name="info_model">模型</string>
     <string name="info_altitude">海拔</string>
     <string name="info_latitude">纬度</string>
@@ -72,6 +76,7 @@
     <string name="dialog_title_attention">注意</string>
     <string name="dialog_cancel">取消</string>
     <string name="dialog_ok">确定</string>
+    <string name="dialog_delete">删除</string>
     <!-- Text Field Dialog -->
     <string name="dialog_empty_default">留空恢复默认值</string>
 

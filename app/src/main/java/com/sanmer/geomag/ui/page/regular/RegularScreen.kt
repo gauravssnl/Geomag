@@ -28,17 +28,11 @@ fun RegularScreen(
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
-    var show by remember { mutableStateOf(false) }
-    if (show) { AboutDialog { show = false } }
-
     Scaffold(
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            RegularTopBar(
-                scrollBehavior = scrollBehavior,
-                onAbout = { show = true }
-            )
+            RegularTopBar(scrollBehavior = scrollBehavior)
         },
         floatingActionButton = {
             RegularFloatingButton(
@@ -64,8 +58,7 @@ fun RegularScreen(
 
 @Composable
 private fun RegularTopBar(
-    scrollBehavior: TopAppBarScrollBehavior,
-    onAbout: () -> Unit
+    scrollBehavior: TopAppBarScrollBehavior
 ) = TopAppBar(
     title = {
         Text(
@@ -82,8 +75,10 @@ private fun RegularTopBar(
         )
     },
     actions = {
+        var about by remember { mutableStateOf(false) }
+        if (about) AboutDialog { about = false }
         IconButton(
-            onClick = onAbout
+            onClick = { about = true }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.link_square_outline),
@@ -121,26 +116,35 @@ private fun RegularFloatingButton(
 private fun AboutDialog(
     onClose: () -> Unit
 ) = AlertDialog(
-    shape = RoundedCornerShape(20.dp),
     onDismissRequest = onClose,
-    text = {
-        Row {
+) {
+    Surface(
+        shape = RoundedCornerShape(20.dp),
+        color = AlertDialogDefaults.containerColor,
+        tonalElevation = AlertDialogDefaults.TonalElevation
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(all = 24.dp)
+        ) {
             Logo(
                 modifier = Modifier
                     .size(50.dp),
                 iconRes = R.drawable.ic_logo
             )
 
-            Spacer(modifier = Modifier.width(18.dp))
-
-            Column {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 18.dp)
+            ) {
                 Text(
                     text = stringResource(id = R.string.app_name),
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
                     text = "${BuildConfig.VERSION_NAME}(${BuildConfig.VERSION_CODE})",
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -150,10 +154,10 @@ private fun AboutDialog(
                         id = R.string.about_source_code,
                         "<b><a href=\"https://github.com/ya0211/Geomag\">GitHub</a></b>"
                     ),
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
-    },
-    confirmButton = {}
-)
+    }
+}

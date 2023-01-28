@@ -111,10 +111,8 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun toDatabase(record: Record) {
-        viewModelScope.launch(Dispatchers.IO) {
-            Constant.insert(record)
-        }
+    fun toDatabase(record: Record)  = viewModelScope.launch(Dispatchers.IO) {
+        Constant.insert(record)
     }
 
     init {

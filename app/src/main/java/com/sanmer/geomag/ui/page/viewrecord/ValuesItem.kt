@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.page.view
+package com.sanmer.geomag.ui.page.viewrecord
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

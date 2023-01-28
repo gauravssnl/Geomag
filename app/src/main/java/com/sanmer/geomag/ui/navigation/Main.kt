@@ -2,7 +2,9 @@ package com.sanmer.geomag.ui.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.navigation.NavController
 import com.sanmer.geomag.R
+import com.sanmer.geomag.ui.expansion.navigatePopUpTo
 
 sealed class MainGraph(
     val route: String,
@@ -29,3 +31,5 @@ sealed class MainGraph(
         iconSelected = R.drawable.setting_bold
     )
 }
+
+fun NavController.navigateToHome() = navigatePopUpTo(MainGraph.Home.route)

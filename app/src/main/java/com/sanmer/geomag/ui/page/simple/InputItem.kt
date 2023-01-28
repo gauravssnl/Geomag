@@ -40,13 +40,14 @@ fun InputItem(
         }
     }
 
-    val location = viewModel.locationOrZero
+    var location by remember { mutableStateOf(viewModel.locationOrZero) }
     var dateTime by remember { mutableStateOf(TextFieldValue("", TextRange(0))) }
     var fail by remember { mutableStateOf(false) }
     var edit by remember { mutableStateOf(false) }
 
     val onDone: KeyboardActionScope.(FocusManager) -> Unit = {
         try {
+            viewModel.editLocation(location)
             viewModel.editDateTime(DateTime.parse(dateTime.text))
             edit = false
             fail = false
@@ -78,22 +79,23 @@ fun InputItem(
                     shape = RoundedCornerShape(12.dp),
                     color = MaterialTheme.colorScheme.outline
                 )
-                .padding(16.dp)
                 .then(if (!edit) {
                     Modifier.clickable {
+                        location = viewModel.locationOrZero
                         dateTime = TextFieldValue(viewModel.dateTime.toString(), TextRange(19))
                         edit = true
-                    }
+                    }.padding(16.dp)
                 } else {
-                    Modifier
+                    Modifier.padding(16.dp)
                 }),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             if (edit) {
-                EditLocation {
-                    edit = false
-                    viewModel.editLocation(it)
-                }
+                EditLocation(
+                    location = location,
+                    onValueChange = { location = it },
+                    onDone = onDone
+                )
                 EditTime(
                     dateTime = dateTime,
                     onValueChange = { dateTime = it },
@@ -108,21 +110,21 @@ fun InputItem(
                 Text(
                     text = stringResource(
                         id = R.string.location_altitude,
-                        "${location.altitude} km"
+                        "${viewModel.locationOrZero.altitude} km"
                     ),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
                     text = stringResource(
                         id = R.string.location_latitude,
-                        "${location.latitude}º N"
+                        "${viewModel.locationOrZero.latitude}º N"
                     ),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
                     text = stringResource(
                         id = R.string.location_longitude,
-                        "${location.longitude}º W"
+                        "${viewModel.locationOrZero.longitude}º W"
                     ),
                     style = MaterialTheme.typography.bodyLarge
                 )

@@ -48,7 +48,7 @@ fun BottomNav(
     ) {
         mainGraph.forEach { screen ->
             val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
-            val enable = when(screen) {
+            val enable = when (screen) {
                 is MainGraph.Home -> currentDestination?.route !in homeGraph
                 is MainGraph.Records -> currentDestination?.route !in recordGraph
                 is MainGraph.Settings -> currentDestination?.route !in settingsGraph

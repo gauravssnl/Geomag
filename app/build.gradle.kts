@@ -132,7 +132,7 @@ ksp {
 dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-service:2.5.1")
-    implementation("com.google.android.material:material:1.8.0-rc01")
+    implementation("com.google.android.material:material:1.9.0-alpha01")
 
     implementation("androidx.activity:activity-compose:1.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
