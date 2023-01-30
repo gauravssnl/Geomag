@@ -2,7 +2,6 @@ package main
 
 import "C"
 import (
-	"fmt"
 	"github.com/westphae/geomag/pkg/egm96"
 	"github.com/westphae/geomag/pkg/wmm"
 	"time"
@@ -53,15 +52,4 @@ func toDecimalYears(year, month, day, hour, min, sec C.int) C.double {
 	return C.double(decimalYears)
 }
 
-func main() {
-	tt := wmm.DecimalYear(2022.0)
-	loc := egm96.NewLocationGeodetic(24.82, 102.85, 1.945)
-	//loc := egm96.NewLocationGeodetic(0.0, 0.0, 0.0)
-	mag, _ := wmm.CalculateWMMMagneticField(loc, tt.ToTime())
-
-	//fmt.Print(mag)
-	fmt.Println(mag.DH())
-	fmt.Println(mag.DI())
-	fmt.Println(mag.DH())
-	fmt.Println(mag.DF())
-}
+func main() {}
