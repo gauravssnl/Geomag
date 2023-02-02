@@ -25,8 +25,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sanmer.geomag.R
-import com.sanmer.geomag.core.time.DateTime
 import com.sanmer.geomag.core.time.TimerManager
+import com.sanmer.geomag.core.time.toDateTime
 import com.sanmer.geomag.ui.component.CardItem
 import com.sanmer.geomag.viewmodel.HomeViewModel
 
@@ -40,7 +40,7 @@ fun TimeItem(
 
     val onDone: KeyboardActionScope.(FocusManager) -> Unit = {
         try {
-            viewModel.editDateTime(DateTime.parse(dateTime.text))
+            viewModel.editDateTime(dateTime.text.toDateTime())
             edit = false
             fail = false
 
@@ -84,10 +84,10 @@ fun TimeItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp))
+                .clip(RoundedCornerShape(20.dp))
                 .border(
                     width = 1.dp,
-                    shape = RoundedCornerShape(12.dp),
+                    shape = RoundedCornerShape(20.dp),
                     color = MaterialTheme.colorScheme.outline
                 )
                 .then(if (!edit) {

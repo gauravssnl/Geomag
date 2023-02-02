@@ -10,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.sanmer.geomag.ui.expansion.navigatePopUpTo
+import com.sanmer.geomag.utils.expansion.navigatePopUpTo
 import com.sanmer.geomag.ui.navigation.graph.HomeGraph
 import com.sanmer.geomag.ui.navigation.graph.RecordGraph
 import com.sanmer.geomag.ui.navigation.graph.SettingsGraph
@@ -27,7 +27,7 @@ private val homeGraph = listOf(
 
 private val recordGraph = listOf(
     RecordGraph.Record.route,
-    //RecordGraph.View.route
+    RecordGraph.View.way
 )
 
 private val settingsGraph = listOf(

@@ -15,11 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
 import com.sanmer.geomag.ui.component.NormalTitle
-import com.sanmer.geomag.ui.expansion.navigateBack
-import com.sanmer.geomag.ui.page.apptheme.DarkModeItem
-import com.sanmer.geomag.ui.page.apptheme.ExampleItem
-import com.sanmer.geomag.ui.page.apptheme.ThemePaletteItem
 import com.sanmer.geomag.ui.utils.NavigateUpTopBar
+import com.sanmer.geomag.utils.expansion.navigateBack
 
 @Composable
 fun AppThemeScreen(
@@ -61,7 +58,7 @@ private fun AppThemeTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
     navController: NavController
 ) = NavigateUpTopBar(
-    title = R.string.settings_app_theme,
+    title = R.string.page_app_theme,
     scrollBehavior = scrollBehavior,
     navController = navController
 )

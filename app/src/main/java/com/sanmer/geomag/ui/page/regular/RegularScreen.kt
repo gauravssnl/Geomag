@@ -16,8 +16,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sanmer.geomag.BuildConfig
 import com.sanmer.geomag.R
-import com.sanmer.geomag.ui.expansion.navigatePopUpTo
-import com.sanmer.geomag.ui.navigation.graph.RecordGraph
+import com.sanmer.geomag.utils.expansion.navigatePopUpTo
+import com.sanmer.geomag.ui.navigation.graph.RecordGraph.View.toRoute
 import com.sanmer.geomag.ui.utils.HtmlText
 import com.sanmer.geomag.ui.utils.Logo
 import com.sanmer.geomag.viewmodel.HomeViewModel
@@ -99,7 +99,7 @@ private fun RegularFloatingButton(
             onClick = {
                 val record = viewModel.runModel()
                 viewModel.toDatabase(record)
-                navController.navigatePopUpTo("${RecordGraph.View.route}/0")
+                navController.navigatePopUpTo(0.toRoute())
             },
             contentColor = MaterialTheme.colorScheme.onPrimary,
             containerColor = MaterialTheme.colorScheme.primary

@@ -46,6 +46,24 @@ class DateTime(
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        return when (other) {
+            is String -> other == toString()
+            is DateTime -> this === other
+            else -> false
+        }
+    }
+
+    override fun hashCode(): Int {
+        var result = year
+        result = 31 * result + month
+        result = 31 * result + day
+        result = 31 * result + hour
+        result = 31 * result + minute
+        result = 31 * result + second
+        return result
+    }
+
     override fun toString(): String {
         return "${year}-${month.format}-${day.format} " +
                 "${hour.format}:${minute.format}:${second.format}"
@@ -53,3 +71,5 @@ class DateTime(
 
     private val Int.format: String get() = "%02d".format(this)
 }
+
+fun String.toDateTime() = DateTime.parse(this)

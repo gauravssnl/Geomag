@@ -1,7 +1,5 @@
 package com.sanmer.geomag.ui.navigation.graph
 
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
@@ -19,39 +17,37 @@ sealed class SettingsGraph(val route: String) {
 
 fun NavGraphBuilder.settingsGraph(
     navController: NavController
+) = navigation(
+    startDestination = SettingsGraph.Settings.route,
+    route = MainGraph.Settings.route
 ) {
-    navigation(
-        startDestination = SettingsGraph.Settings.route,
-        route = MainGraph.Settings.route
-    ) {
-        composable(
-            route = SettingsGraph.Settings.route,
-            enterTransition = {
-                when (initialState.destination.route) {
-                    SettingsGraph.AppTheme.route -> SlideIn.rightToLeft
-                    else -> null
-                }
-            },
-            exitTransition = {
-                when (initialState.destination.route) {
-                    SettingsGraph.AppTheme.route -> SlideOut.leftToRight
-                    else -> null
-                }
+    composable(
+        route = SettingsGraph.Settings.route,
+        enterTransition = {
+            when (initialState.destination.route) {
+                SettingsGraph.AppTheme.route -> SlideIn.leftToRight
+                else -> null
             }
-        ) {
-            SettingsScreen(
-                navController = navController
-            )
+        },
+        exitTransition = {
+            when (initialState.destination.route) {
+                SettingsGraph.AppTheme.route -> SlideOut.rightToLeft
+                else -> null
+            }
         }
+    ) {
+        SettingsScreen(
+            navController = navController
+        )
+    }
 
-        composable(
-            route = SettingsGraph.AppTheme.route,
-            enterTransition = { SlideIn.rightToLeft + fadeIn() },
-            exitTransition = { SlideOut.leftToRight + fadeOut() }
-        ) {
-            AppThemeScreen(
-                navController = navController
-            )
-        }
+    composable(
+        route = SettingsGraph.AppTheme.route,
+        enterTransition = { SlideIn.rightToLeft },
+        exitTransition = { SlideOut.leftToRight }
+    ) {
+        AppThemeScreen(
+            navController = navController
+        )
     }
 }

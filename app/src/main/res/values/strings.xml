@@ -7,7 +7,8 @@
     <string name="page_home">Home</string>
     <string name="page_record">Records</string>
     <string name="page_settings">Settings</string>
-    <string name="page_view">View Record</string>
+    <string name="page_view_record">View Record</string>
+    <string name="page_app_theme">@string/settings_app_theme</string>
 
     <!-- Home -->
     <!-- Model -->
@@ -34,7 +35,8 @@
     <!-- Records -->
     <string name="records_dialog_delete_title">Delete selected records</string>
     <string name="records_dialog_delete_desc">Are you sure to delete selected records? The operation cannot be undone.</string>
-    <!-- View record -->
+    <string name="records_empty">No records</string>
+    <!-- View Record -->
     <string name="record_dialog_delete_title">Delete record</string>
     <string name="record_dialog_delete_desc">Are you sure to delete this records? The operation cannot be undone.</string>
     <string name="info_model">Model</string>

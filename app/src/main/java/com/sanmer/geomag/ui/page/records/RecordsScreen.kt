@@ -2,11 +2,7 @@ package com.sanmer.geomag.ui.page.records
 
 import android.content.Context
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,20 +10,22 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
 import com.sanmer.geomag.app.Config.State
 import com.sanmer.geomag.data.Constant
 import com.sanmer.geomag.data.record.Record
-import com.sanmer.geomag.ui.expansion.navigatePopUpTo
-import com.sanmer.geomag.ui.navigation.graph.RecordGraph
+import com.sanmer.geomag.utils.expansion.navigatePopUpTo
+import com.sanmer.geomag.ui.navigation.graph.RecordGraph.View.toRoute
 import com.sanmer.geomag.ui.navigation.navigateToHome
 import com.sanmer.geomag.viewmodel.RecordViewModel
 
@@ -59,7 +57,6 @@ fun RecordsScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             RecordsTopBar(
-                viewModel = viewModel,
                 navController = navController,
                 scrollBehavior = scrollBehavior
             )
@@ -74,7 +71,6 @@ fun RecordsScreen(
             RecordsList(
                 modifier = Modifier
                     .padding(innerPadding),
-                viewModel = viewModel,
                 list = list,
                 navController = navController
             )
@@ -89,7 +85,6 @@ private fun RecordsTopBar(
     scrollBehavior: TopAppBarScrollBehavior
 ) = if (viewModel.chooser) {
     RecordsSharedTopBar(
-        viewModel = viewModel,
         scrollBehavior = scrollBehavior
     )
 } else {
@@ -187,7 +182,6 @@ private fun RecordsSharedTopBar(
 @Composable
 private fun RecordsList(
     modifier: Modifier = Modifier,
-    viewModel: RecordViewModel = viewModel(),
     list: MutableList<Record>,
     navController: NavController,
 ) {
@@ -197,10 +191,9 @@ private fun RecordsList(
     ) {
         itemsIndexed(list) { index, value ->
             RecordItem(
-                viewModel = viewModel,
                 record = value
             ) {
-                navController.navigatePopUpTo("${RecordGraph.View.route}/$index")
+                navController.navigatePopUpTo(index.toRoute())
             }
         }
     }
@@ -210,18 +203,28 @@ private fun RecordsList(
 private fun EmptyView(
     modifier: Modifier = Modifier,
 ) {
-    Box(
+    Column(
         modifier = modifier
             .fillMaxSize(),
-        contentAlignment = Alignment.Center
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Image(
-            modifier = Modifier
-                .size(90.dp),
-            alpha = 0.3f,
+        Icon(
             painter = painterResource(id = R.drawable.box_time_outline),
             contentDescription = null,
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.outline)
+            tint = MaterialTheme.colorScheme.outline.copy(0.2f),
+            modifier = Modifier
+                .size(80.dp)
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(
+            text = stringResource(id = R.string.records_empty),
+            color = MaterialTheme.colorScheme.outline.copy(0.5f),
+            fontSize = 20.sp,
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Medium
         )
     }
 }

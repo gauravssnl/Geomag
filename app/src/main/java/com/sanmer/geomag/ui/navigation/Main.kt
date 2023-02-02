@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
-import com.sanmer.geomag.ui.expansion.navigatePopUpTo
+import com.sanmer.geomag.utils.expansion.navigatePopUpTo
 
 sealed class MainGraph(
     val route: String,
@@ -33,3 +33,5 @@ sealed class MainGraph(
 }
 
 fun NavController.navigateToHome() = navigatePopUpTo(MainGraph.Home.route)
+fun NavController.navigateToRecords() = navigatePopUpTo(MainGraph.Records.route)
+fun NavController.navigateToSettings() = navigatePopUpTo(MainGraph.Settings.route)

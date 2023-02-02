@@ -19,8 +19,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
 import com.sanmer.geomag.data.Constant
-import com.sanmer.geomag.ui.expansion.navigatePopUpTo
-import com.sanmer.geomag.ui.navigation.MainGraph
+import com.sanmer.geomag.ui.navigation.navigateToRecords
+import com.sanmer.geomag.ui.navigation.navigateToSettings
 import com.sanmer.geomag.ui.utils.Logo
 import com.sanmer.geomag.viewmodel.HomeViewModel
 
@@ -84,7 +84,7 @@ private fun SimpleTopBar(
     actions = {
         IconButton(
             onClick = {
-                navController.navigatePopUpTo(MainGraph.Records.route)
+                navController.navigateToRecords()
             }
         ) {
             Icon(
@@ -95,7 +95,7 @@ private fun SimpleTopBar(
 
         IconButton(
             onClick = {
-                navController.navigatePopUpTo(MainGraph.Settings.route)
+                navController.navigateToSettings()
             }
         ) {
             Icon(

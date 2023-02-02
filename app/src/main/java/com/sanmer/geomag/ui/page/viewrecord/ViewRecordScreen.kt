@@ -23,7 +23,7 @@ import com.sanmer.geomag.R
 import com.sanmer.geomag.data.Constant
 import com.sanmer.geomag.data.json.JsonUtils
 import com.sanmer.geomag.data.record.Record
-import com.sanmer.geomag.ui.expansion.navigateBack
+import com.sanmer.geomag.utils.expansion.navigateBack
 import com.sanmer.geomag.ui.utils.NavigateUpTopBar
 
 @Composable
@@ -68,7 +68,7 @@ private fun ViewRecordTopBar(
     navController: NavController,
     record: Record
 ) = NavigateUpTopBar(
-    title = R.string.page_view,
+    title = R.string.page_view_record,
     actions = {
         IconButton(
             onClick = {

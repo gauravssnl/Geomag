@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import com.sanmer.geomag.core.models.Geomag
 import com.sanmer.geomag.core.models.MagneticField
 import com.sanmer.geomag.core.models.getModelID
-import com.sanmer.geomag.core.time.DateTime
+import com.sanmer.geomag.core.time.toDateTime
 import com.sanmer.geomag.data.record.Position
 import com.sanmer.geomag.data.record.Record
 
@@ -22,7 +22,7 @@ data class RecordEntity(
     @PrimaryKey val id: Double,
 )
 
-val Record.primaryKey: Double get() {
+private val Record.primaryKey: Double get() {
     val decimal = Geomag.toDecimalYears(time)
     val position = location.altitude - location.latitude - location.longitude
     return decimal + position + getModelID(model)
@@ -43,7 +43,7 @@ fun Record.toEntity(): RecordEntity {
 fun RecordEntity.toRecord(): Record {
     return Record(
         model = model,
-        time = DateTime.parse(time),
+        time = time.toDateTime(),
         location = Position(altitude, latitude, longitude),
         values = values.toMF()
     )

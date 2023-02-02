@@ -2,13 +2,11 @@ package com.sanmer.geomag.data
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
-import com.sanmer.geomag.core.models.MagneticField
-import com.sanmer.geomag.core.time.DateTime
 import com.sanmer.geomag.data.database.AppDatabase
 import com.sanmer.geomag.data.database.toEntity
 import com.sanmer.geomag.data.database.toRecord
-import com.sanmer.geomag.data.record.Position
 import com.sanmer.geomag.data.record.Record
+import com.sanmer.geomag.utils.expansion.update
 import kotlinx.coroutines.*
 
 object Constant {
@@ -26,13 +24,16 @@ object Constant {
         return db
     }
 
-    fun getAll() {
-        coroutineScope.launch(Dispatchers.IO) {
-            val list = withContext(Dispatchers.IO) {
-                recordDao.getAll().asReversed()
-            }
-            records.clear()
+    fun getAll() = coroutineScope.launch(Dispatchers.IO) {
+        val list = withContext(Dispatchers.IO) {
+            recordDao.getAll().asReversed()
+        }
+        if (records.isEmpty()) {
             records.addAll(list.map { it.toRecord() })
+        } else {
+            list.forEach {
+                records.update(it.toRecord())
+            }
         }
     }
 
@@ -42,8 +43,13 @@ object Constant {
     }
 
     suspend fun insert(list: List<Record>) = withContext(Dispatchers.IO) {
-        records.clear()
-        records.addAll(list)
+        if (records.isEmpty()) {
+            records.addAll(list)
+        } else {
+            list.forEach {
+                records.update(it)
+            }
+        }
         recordDao.insert(list.map { it.toEntity() })
     }
 
@@ -52,18 +58,14 @@ object Constant {
         recordDao.delete(list.map { it.toEntity() })
     }
 
-    fun delete(value: Record, timeMillis: Long = 0) {
-        coroutineScope.launch(Dispatchers.IO) {
-            delay(timeMillis)
-            records.remove(value)
-            recordDao.delete(value.toEntity())
-        }
+    fun delete(value: Record, timeMillis: Long = 0) = coroutineScope.launch(Dispatchers.IO) {
+        delay(timeMillis)
+        records.remove(value)
+        recordDao.delete(value.toEntity())
     }
 
-    fun deleteAll() {
-        coroutineScope.launch(Dispatchers.IO) {
-            records.clear()
-            recordDao.deleteAll()
-        }
+    fun deleteAll() = coroutineScope.launch(Dispatchers.IO) {
+        records.clear()
+        recordDao.deleteAll()
     }
 }

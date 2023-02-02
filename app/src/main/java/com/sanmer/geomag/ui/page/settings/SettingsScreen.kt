@@ -20,7 +20,7 @@ import com.sanmer.geomag.ui.activity.log.LogActivity
 import com.sanmer.geomag.ui.component.NormalItem
 import com.sanmer.geomag.ui.component.NormalTitle
 import com.sanmer.geomag.ui.component.SwitchItem
-import com.sanmer.geomag.ui.expansion.navigatePopUpTo
+import com.sanmer.geomag.utils.expansion.navigatePopUpTo
 import com.sanmer.geomag.ui.navigation.graph.SettingsGraph
 import com.sanmer.geomag.ui.navigation.navigateToHome
 

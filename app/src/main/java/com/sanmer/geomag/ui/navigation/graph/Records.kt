@@ -15,37 +15,50 @@ import com.sanmer.geomag.ui.page.viewrecord.ViewRecordScreen
 
 sealed class RecordGraph(val route: String) {
     object Record : RecordGraph("record")
-    object View : RecordGraph("view")
+    object View : RecordGraph("view") {
+        val way: String = "${route}/{index}"
+        fun Int.toRoute() = "${route}/${this}"
+    }
 }
 
 fun NavGraphBuilder.recordGraph(
     navController: NavController
+) = navigation(
+    startDestination = RecordGraph.Record.route,
+    route = MainGraph.Records.route
 ) {
-    navigation(
-        startDestination = RecordGraph.Record.route,
-        route = MainGraph.Records.route
+    composable(
+        route = RecordGraph.Record.route,
+        enterTransition = {
+            when (initialState.destination.route) {
+                RecordGraph.View.way -> SlideIn.leftToRight
+                else -> null
+            }
+        },
+        exitTransition = {
+            when (initialState.destination.route) {
+                RecordGraph.View.way -> SlideOut.rightToLeft
+                else -> null
+            }
+        }
     ) {
-        composable(
-            route = RecordGraph.Record.route,
-        ) {
-            RecordsScreen(
-                navController = navController
-            )
-        }
+        RecordsScreen(
+            navController = navController
+        )
+    }
 
-        composable(
-            route = "${RecordGraph.View.route}/{index}",
-            arguments = listOf(navArgument("index") { type = NavType.IntType }),
-            enterTransition = { SlideIn.rightToLeft },
-            exitTransition = { SlideOut.leftToRight }
-        ) { backStackEntry ->
-            val index = backStackEntry.arguments?.getInt("index") ?: 0
-            val record = Constant.records[index]
+    composable(
+        route = RecordGraph.View.way,
+        arguments = listOf(navArgument("index") { type = NavType.IntType }),
+        enterTransition = { SlideIn.rightToLeft },
+        exitTransition = { SlideOut.leftToRight }
+    ) { backStackEntry ->
+        val index = backStackEntry.arguments?.getInt("index") ?: 0
+        val record = Constant.records[index]
 
-            ViewRecordScreen(
-                navController = navController,
-                record = record
-            )
-        }
+        ViewRecordScreen(
+            navController = navController,
+            record = record
+        )
     }
 }

@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import com.sanmer.geomag.ui.expansion.navigateBack
+import com.sanmer.geomag.utils.expansion.navigateBack
 import com.sanmer.geomag.R
 
 @Composable

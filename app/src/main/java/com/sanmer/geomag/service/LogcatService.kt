@@ -15,11 +15,6 @@ import kotlinx.coroutines.launch
 
 class LogcatService : LifecycleService() {
 
-    override fun onCreate() {
-        super.onCreate()
-        console.clear()
-    }
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val logcat = SystemLogcat(applicationInfo.uid)
         lifecycleScope.launch(Dispatchers.Default) {

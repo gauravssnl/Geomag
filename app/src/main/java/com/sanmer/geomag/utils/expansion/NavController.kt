@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.expansion
+package com.sanmer.geomag.utils.expansion
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination

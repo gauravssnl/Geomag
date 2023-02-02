@@ -16,25 +16,23 @@ sealed class HomeGraph(val route: String) {
 fun NavGraphBuilder.homeGraph(
     navController: NavController,
     startDestination: String,
+) = navigation(
+    startDestination = startDestination,
+    route = MainGraph.Home.route,
 ) {
-    navigation(
-        startDestination = startDestination,
-        route = MainGraph.Home.route,
+    composable(
+        route = HomeGraph.Regular.route,
     ) {
-        composable(
-            route = HomeGraph.Regular.route,
-        ) {
-            RegularScreen(
-                navController = navController
-            )
-        }
+        RegularScreen(
+            navController = navController
+        )
+    }
 
-        composable(
-            route = HomeGraph.Simple.route,
-        ) {
-            SimpleScreen(
-                navController = navController
-            )
-        }
+    composable(
+        route = HomeGraph.Simple.route,
+    ) {
+        SimpleScreen(
+            navController = navController
+        )
     }
 }
