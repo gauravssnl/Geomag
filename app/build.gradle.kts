@@ -71,7 +71,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
+        kotlinCompilerExtensionVersion = "1.4.0"
     }
 
     externalNativeBuild {
@@ -137,20 +137,20 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
     implementation("androidx.navigation:navigation-compose:2.5.3")
-    implementation("androidx.compose.material3:material3:1.1.0-alpha04")
+    implementation("androidx.compose.material3:material3:1.1.0-alpha05")
 
-    val vCompose = "1.4.0-alpha03"
+    val vCompose = "1.4.0-alpha04"
     implementation("androidx.compose.ui:ui:${vCompose}")
     implementation("androidx.compose.ui:ui-tooling-preview:${vCompose}")
     debugImplementation("androidx.compose.ui:ui-tooling:${vCompose}")
     debugImplementation("androidx.compose.ui:ui-test-manifest:${vCompose}")
 
-    val vAccompanist = "0.29.0-alpha"
+    val vAccompanist = "0.29.1-alpha"
     implementation("com.google.accompanist:accompanist-systemuicontroller:${vAccompanist}")
     implementation("com.google.accompanist:accompanist-permissions:${vAccompanist}")
     implementation("com.google.accompanist:accompanist-navigation-animation:${vAccompanist}")
 
-    val vRoom = "2.4.3"
+    val vRoom = "2.5.0"
     implementation("androidx.room:room-runtime:${vRoom}")
     implementation("androidx.room:room-ktx:${vRoom}")
     ksp("androidx.room:room-compiler:${vRoom}")

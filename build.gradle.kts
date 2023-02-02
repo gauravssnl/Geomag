@@ -7,11 +7,11 @@ buildscript {
 
     @Suppress("GradleDependency", "GradleDynamicVersion")
     dependencies {
-        classpath("com.android.tools.build:gradle:7.4.0")
+        classpath("com.android.tools.build:gradle:7.4.1")
 
-        val kotlinVersion = "1.7.21"
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
-        classpath("com.google.devtools.ksp:symbol-processing-gradle-plugin:${kotlinVersion}-1.0.8")
+        val kotlinVersion = "1.8.0"
+        classpath(kotlin("gradle-plugin", version = kotlinVersion))
+        classpath("com.google.devtools.ksp:symbol-processing-gradle-plugin:${kotlinVersion}-1.0.9")
     }
 }
 
