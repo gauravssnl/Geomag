@@ -1,6 +1,6 @@
 #/bin/bash
 
-export NDK_VERSION=25.1.8937393
+export NDK_VERSION=25.2.9519653
 export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/${NDK_VERSION}
 export PATH=${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/darwin-x86_64/bin:${PATH}
 
