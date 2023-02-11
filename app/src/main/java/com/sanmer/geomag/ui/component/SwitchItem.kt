@@ -3,12 +3,14 @@ package com.sanmer.geomag.ui.component
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
@@ -19,7 +21,6 @@ fun SwitchItem(
     text: String,
     subText: String? = null,
     @DrawableRes iconRes: Int? = null,
-    colorful: Boolean = false,
     enabled: Boolean = true,
     checked: Boolean,
     onChange: (Boolean) -> Unit,
@@ -44,8 +45,7 @@ fun SwitchItem(
                 modifier = Modifier
                     .size(24.dp),
                 painter = painterResource(id = iconRes),
-                contentDescription = null,
-                tint = if (colorful) Color.Unspecified else LocalContentColor.current
+                contentDescription = null
             )
 
             Spacer(modifier = Modifier.width(18.dp))

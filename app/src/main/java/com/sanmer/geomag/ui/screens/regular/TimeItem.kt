@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.page.regular
+package com.sanmer.geomag.ui.screens.regular
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -84,10 +84,10 @@ fun TimeItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(20.dp))
+                .clip(RoundedCornerShape(15.dp))
                 .border(
                     width = 1.dp,
-                    shape = RoundedCornerShape(20.dp),
+                    shape = RoundedCornerShape(15.dp),
                     color = MaterialTheme.colorScheme.outline
                 )
                 .then(if (!edit) {

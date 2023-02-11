@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.page.settings
+package com.sanmer.geomag.ui.screens.settings
 
 import android.content.Intent
 import androidx.activity.compose.BackHandler
@@ -15,14 +15,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
+import com.sanmer.geomag.app.Config
 import com.sanmer.geomag.app.Config.State
 import com.sanmer.geomag.ui.activity.log.LogActivity
-import com.sanmer.geomag.ui.component.NormalItem
-import com.sanmer.geomag.ui.component.NormalTitle
+import com.sanmer.geomag.ui.component.NormalItemForSetting
 import com.sanmer.geomag.ui.component.SwitchItem
-import com.sanmer.geomag.utils.expansion.navigatePopUpTo
+import com.sanmer.geomag.ui.component.TitleItemForSetting
 import com.sanmer.geomag.ui.navigation.graph.SettingsGraph
 import com.sanmer.geomag.ui.navigation.navigateToHome
+import com.sanmer.geomag.utils.expansion.navigatePopUpTo
 
 @Composable
 fun SettingsScreen(
@@ -48,15 +49,15 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
         ) {
-            NormalTitle(text = stringResource(id = R.string.settings_title_normal))
-            NormalItem(
+            TitleItemForSetting(text = stringResource(id = R.string.settings_title_normal))
+            NormalItemForSetting(
                 iconRes = R.drawable.brush_outline,
                 text = stringResource(id = R.string.settings_app_theme),
                 subText = stringResource(id = R.string.settings_app_theme_desc)
             ) {
                 navController.navigatePopUpTo(SettingsGraph.AppTheme.route)
             }
-            NormalItem(
+            NormalItemForSetting(
                 iconRes = R.drawable.health_outline,
                 text = stringResource(id = R.string.settings_log_viewer),
                 subText = stringResource(id = R.string.settings_log_viewer_desc)
@@ -64,7 +65,7 @@ fun SettingsScreen(
                 val intent = Intent(context, LogActivity::class.java)
                 context.startActivity(intent)
             }
-            NormalTitle(text = stringResource(id = R.string.settings_title_app))
+            TitleItemForSetting(text = stringResource(id = R.string.settings_title_app))
             SwitchItem(
                 iconRes = R.drawable.main_component_outline,
                 text = stringResource(id = R.string.settings_simple_mode),
@@ -89,7 +90,7 @@ private fun SettingsTopBar(
         )
     },
     navigationIcon = {
-        if (State.simpleMode) {
+        if (Config.SIMPLE_MODE) {
             IconButton(
                 onClick = {
                     navController.navigateToHome()

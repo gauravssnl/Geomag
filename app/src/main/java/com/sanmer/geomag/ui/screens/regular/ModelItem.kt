@@ -1,12 +1,17 @@
-package com.sanmer.geomag.ui.page.regular
+package com.sanmer.geomag.ui.screens.regular
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -16,7 +21,7 @@ import com.sanmer.geomag.core.models.Models
 import com.sanmer.geomag.core.models.getModel
 import com.sanmer.geomag.core.models.models
 import com.sanmer.geomag.ui.component.CardItem
-import com.sanmer.geomag.ui.component.CustomShape
+import com.sanmer.geomag.ui.component.DropdownMenu
 import com.sanmer.geomag.ui.utils.HtmlText
 import com.sanmer.geomag.viewmodel.HomeViewModel
 
@@ -68,52 +73,46 @@ fun ModelSelect(
     onClick: (Models) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
-    Box {
-        FilterChip(
-            selected = true,
-            onClick = {
-                expanded = true
-            },
-            label = {
-                Text(text = getModel(selected).label)
-            },
-            trailingIcon = {
-                Icon(
-                    modifier = Modifier
-                        .size(16.dp),
-                    painter = painterResource(
-                        id = if (expanded) {
-                            R.drawable.arrow_up_bold
-                        } else {
-                            R.drawable.arrow_down_bold
-                        }
-                    ),
-                    contentDescription = null
-                )
-            }
-        )
+    val animateZ by animateFloatAsState(
+        targetValue = if (expanded) 180f else 0f,
+        animationSpec = tween(
+                durationMillis = 300,
+                easing = FastOutSlowInEasing
+            )
+    )
 
-        CustomShape {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .align(Alignment.BottomEnd)
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false },
+        shape = RoundedCornerShape(15.dp),
+        contentAlignment = Alignment.BottomEnd,
+        surface = {
+            FilterChip(
+                selected = true,
+                onClick = { expanded = true },
+                label = { Text(text = getModel(selected).label) },
+                trailingIcon = {
+                    Icon(
+                        modifier = Modifier
+                            .size(16.dp)
+                            .graphicsLayer {
+                                rotationZ = animateZ
+                            },
+                        painter = painterResource(id = R.drawable.arrow_down_bold),
+                        contentDescription = null
+                    )
+                }
+            )
+        }
+    ) {
+        models.forEach {
+            MenuItem(
+                value = it,
+                selected = selected
             ) {
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    models.forEach {
-                        MenuItem(
-                            value = it,
-                            selected = selected
-                        ) {
-                            if (it.enable) {
-                                onClick(it)
-                                expanded = false
-                            }
-                        }
-                    }
+                if (it.enable) {
+                    onClick(it)
+                    expanded = false
                 }
             }
         }

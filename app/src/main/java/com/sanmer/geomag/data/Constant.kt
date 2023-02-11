@@ -58,8 +58,7 @@ object Constant {
         recordDao.delete(list.map { it.toEntity() })
     }
 
-    fun delete(value: Record, timeMillis: Long = 0) = coroutineScope.launch(Dispatchers.IO) {
-        delay(timeMillis)
+    fun delete(value: Record) = coroutineScope.launch(Dispatchers.IO) {
         records.remove(value)
         recordDao.delete(value.toEntity())
     }

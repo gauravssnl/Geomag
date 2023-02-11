@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.page.apptheme
+package com.sanmer.geomag.ui.screens.apptheme
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
-import com.sanmer.geomag.ui.component.NormalTitle
+import com.sanmer.geomag.ui.component.TitleItemForSetting
 import com.sanmer.geomag.ui.utils.NavigateUpTopBar
 import com.sanmer.geomag.utils.expansion.navigateBack
 
@@ -41,13 +41,13 @@ fun AppThemeScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(innerPadding),
         ) {
-            NormalTitle(text = stringResource(id = R.string.settings_example))
+            TitleItemForSetting(text = stringResource(id = R.string.settings_example))
             ExampleItem()
 
-            NormalTitle(text = stringResource(id = R.string.settings_theme_palette))
+            TitleItemForSetting(text = stringResource(id = R.string.settings_theme_palette))
             ThemePaletteItem()
 
-            NormalTitle(text = stringResource(id = R.string.settings_dark_theme))
+            TitleItemForSetting(text = stringResource(id = R.string.settings_dark_theme))
             DarkModeItem()
         }
     }

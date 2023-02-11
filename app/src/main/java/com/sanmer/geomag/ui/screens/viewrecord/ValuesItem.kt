@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.page.viewrecord
+package com.sanmer.geomag.ui.screens.viewrecord
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,7 +21,7 @@ fun ValuesItem(
     value: MagneticField
 ) {
     OutlinedCard(
-        shape = RoundedCornerShape(20.dp)
+        shape = RoundedCornerShape(15.dp)
     ) {
         Column(
             modifier = Modifier

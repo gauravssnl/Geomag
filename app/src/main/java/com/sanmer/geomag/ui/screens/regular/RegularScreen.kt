@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.page.regular
+package com.sanmer.geomag.ui.screens.regular
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -16,10 +16,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sanmer.geomag.BuildConfig
 import com.sanmer.geomag.R
-import com.sanmer.geomag.utils.expansion.navigatePopUpTo
 import com.sanmer.geomag.ui.navigation.graph.RecordGraph.View.toRoute
 import com.sanmer.geomag.ui.utils.HtmlText
 import com.sanmer.geomag.ui.utils.Logo
+import com.sanmer.geomag.utils.expansion.navigatePopUpTo
 import com.sanmer.geomag.viewmodel.HomeViewModel
 
 @Composable
@@ -42,12 +42,11 @@ fun RegularScreen(
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
                 .padding(all = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             ModelItem()
             TimeItem()

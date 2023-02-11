@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.page.simple
+package com.sanmer.geomag.ui.screens.simple
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,9 +25,9 @@ import com.sanmer.geomag.R
 import com.sanmer.geomag.core.time.TimerManager
 import com.sanmer.geomag.core.time.toDateTime
 import com.sanmer.geomag.ui.component.CardItem
-import com.sanmer.geomag.ui.page.regular.EditLocation
-import com.sanmer.geomag.ui.page.regular.EditTime
-import com.sanmer.geomag.ui.page.regular.ModelSelect
+import com.sanmer.geomag.ui.screens.regular.EditLocation
+import com.sanmer.geomag.ui.screens.regular.EditTime
+import com.sanmer.geomag.ui.screens.regular.ModelSelect
 import com.sanmer.geomag.viewmodel.HomeViewModel
 
 @Composable
@@ -73,10 +73,10 @@ fun InputItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(20.dp))
+                .clip(RoundedCornerShape(15.dp))
                 .border(
                     width = 1.dp,
-                    shape = RoundedCornerShape(20.dp),
+                    shape = RoundedCornerShape(15.dp),
                     color = MaterialTheme.colorScheme.outline
                 )
                 .then(if (!edit) {

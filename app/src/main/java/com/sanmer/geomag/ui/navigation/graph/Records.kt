@@ -10,8 +10,8 @@ import com.sanmer.geomag.data.Constant
 import com.sanmer.geomag.ui.animate.SlideIn
 import com.sanmer.geomag.ui.animate.SlideOut
 import com.sanmer.geomag.ui.navigation.MainGraph
-import com.sanmer.geomag.ui.page.records.RecordsScreen
-import com.sanmer.geomag.ui.page.viewrecord.ViewRecordScreen
+import com.sanmer.geomag.ui.screens.records.RecordsScreen
+import com.sanmer.geomag.ui.screens.viewrecord.ViewRecordScreen
 
 sealed class RecordGraph(val route: String) {
     object Record : RecordGraph("record")
@@ -54,7 +54,11 @@ fun NavGraphBuilder.recordGraph(
         exitTransition = { SlideOut.leftToRight }
     ) { backStackEntry ->
         val index = backStackEntry.arguments?.getInt("index") ?: 0
-        val record = Constant.records[index]
+        val record = try {
+            Constant.records[index]
+        } catch (e: Exception) {
+            null
+        }
 
         ViewRecordScreen(
             navController = navController,

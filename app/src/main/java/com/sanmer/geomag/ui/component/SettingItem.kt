@@ -2,18 +2,17 @@ package com.sanmer.geomag.ui.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -22,7 +21,78 @@ import androidx.compose.ui.unit.dp
 import com.sanmer.geomag.R
 
 @Composable
-fun EditItem(
+fun NormalItemForSetting(
+    text: String,
+    subText: String,
+    modifier: Modifier = Modifier,
+    @DrawableRes iconRes: Int? = null,
+    colorfulIcon: Boolean = false,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .alpha(alpha = if (enabled) 1f else 0.5f )
+            .clickable(
+                enabled = enabled,
+                onClick = onClick
+            ),
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(all = 18.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            iconRes?.let {
+                Icon(
+                    modifier = Modifier
+                        .size(24.dp),
+                    painter = painterResource(id = iconRes),
+                    contentDescription = null,
+                    tint = if (colorfulIcon) Color.Unspecified else LocalContentColor.current
+                )
+
+                Spacer(modifier = Modifier.width(18.dp))
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+                Text(
+                    text = subText,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.outline
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun TitleItemForSetting(
+    text: String
+) {
+    Spacer(modifier = Modifier.height(18.dp))
+    Row {
+        Spacer(modifier = Modifier.width(18.dp))
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
+    }
+}
+
+@Composable
+fun EditItemForSetting(
     @DrawableRes iconRes: Int? = null,
     title: String,
     subtitle: String,
@@ -33,7 +103,7 @@ fun EditItem(
     var edit by remember { mutableStateOf(false) }
     var value by remember { mutableStateOf(subtitle) }
     if (edit) {
-        TextFieldDialog(
+        EditDialog(
             title = title,
             text = subtitle,
             onClose = { edit = false },
@@ -47,7 +117,7 @@ fun EditItem(
         )
     }
 
-    NormalItem(
+    NormalItemForSetting(
         enabled = enabled,
         iconRes = iconRes,
         text = title,
@@ -58,7 +128,7 @@ fun EditItem(
 }
 
 @Composable
-private fun TextFieldDialog(
+private fun EditDialog(
     onClose: () -> Unit,
     onConfirm: (String) -> Unit,
     onCancel: () -> Unit = {},
@@ -66,8 +136,6 @@ private fun TextFieldDialog(
     text: String,
     supportingText: @Composable (() -> Unit)? = null
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val focusRequester = remember { FocusRequester() }
     var value by remember { mutableStateOf(text) }
 
     AlertDialog(
@@ -76,12 +144,11 @@ private fun TextFieldDialog(
         title = { Text(text = title) },
         text = {
             OutlinedTextField(
-                modifier = Modifier
-                    .focusRequester(focusRequester),
+                modifier = Modifier,
                 textStyle = MaterialTheme.typography.bodyLarge,
                 value = value,
                 onValueChange = { value = it },
-                shape = RoundedCornerShape(20.dp),
+                shape = RoundedCornerShape(15.dp),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Done
@@ -92,7 +159,6 @@ private fun TextFieldDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    keyboardController?.hide()
                     onClose()
                     onConfirm(value)
                 }
@@ -105,7 +171,6 @@ private fun TextFieldDialog(
         dismissButton = {
             TextButton(
                 onClick = {
-                    keyboardController?.hide()
                     onClose()
                     onCancel()
                 }
@@ -119,14 +184,14 @@ private fun TextFieldDialog(
 }
 
 @Composable
-fun PickerItem(
+fun MenuItemForSetting(
     @DrawableRes iconRes: Int? = null,
     itemList: List<String>,
     title: String,
     selected: Int,
     enabled: Boolean = true,
     onChange: (Int, String) -> Unit
-) = PickerItem(
+) = MenuItemForSetting(
     iconRes = iconRes,
     itemList = itemList,
     title = title,
@@ -136,7 +201,7 @@ fun PickerItem(
 )
 
 @Composable
-fun PickerItem(
+fun MenuItemForSetting(
     @DrawableRes iconRes: Int? = null,
     itemList: List<String>,
     title: String,
@@ -145,39 +210,32 @@ fun PickerItem(
     onChange: (Int, String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    Box {
-        NormalItem(
-            enabled = enabled,
-            iconRes = iconRes,
-            text = title,
-            subText = selected,
-        ) {
-            expanded = true
-        }
 
-        CustomShape {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .align(Alignment.TopStart),
-                contentAlignment = Alignment.TopStart
+    DropdownMenu(
+        expanded = expanded,
+        offset = DpOffset(16.dp, 16.dp),
+        shape = RoundedCornerShape(15.dp),
+        onDismissRequest = { expanded = false },
+        contentAlignment = Alignment.TopStart,
+        surface = {
+            NormalItemForSetting(
+                enabled = enabled,
+                iconRes = iconRes,
+                text = title,
+                subText = selected,
             ) {
-                DropdownMenu(
-                    expanded = expanded,
-                    offset = DpOffset(16.dp, 16.dp),
-                    onDismissRequest = { expanded = false }
-                ) {
-                    itemList.forEachIndexed { index, value ->
-                        MenuItem(
-                            value = value,
-                            selected = selected
-                        ) {
-                            expanded = false
-                            if (value != selected) {
-                                onChange(index, value)
-                            }
-                        }
-                    }
+                expanded = true
+            }
+        }
+    ) {
+        itemList.forEachIndexed { index, value ->
+            MenuItem(
+                value = value,
+                selected = selected
+            ) {
+                expanded = false
+                if (value != selected) {
+                    onChange(index, value)
                 }
             }
         }

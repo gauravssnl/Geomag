@@ -1,10 +1,9 @@
-package com.sanmer.geomag.ui.page.viewrecord
+package com.sanmer.geomag.ui.screens.viewrecord
 
 import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,15 +22,17 @@ import com.sanmer.geomag.R
 import com.sanmer.geomag.data.Constant
 import com.sanmer.geomag.data.json.JsonUtils
 import com.sanmer.geomag.data.record.Record
-import com.sanmer.geomag.utils.expansion.navigateBack
+import com.sanmer.geomag.ui.component.PageIndicator
 import com.sanmer.geomag.ui.utils.NavigateUpTopBar
+import com.sanmer.geomag.utils.expansion.navigateBack
 
 @Composable
 fun ViewRecordScreen(
     navController: NavController,
-    record: Record
+    record: Record?
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val list by remember { derivedStateOf { Constant.records } }
 
     BackHandler { navController.navigateBack() }
 
@@ -46,18 +47,35 @@ fun ViewRecordScreen(
             )
         }
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(innerPadding)
-                .padding(all = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            InfoItem(record = record)
-            ValuesItem(value = record.values)
+        if (list.isEmpty() || record == null) {
+            PageIndicator(
+                modifier = Modifier.padding(innerPadding),
+                icon = R.drawable.box_time_outline,
+                text = R.string.records_empty
+            )
+        } else {
+            ViewRecord(
+                modifier = Modifier.padding(innerPadding),
+                record = record
+            )
         }
+    }
+}
+
+@Composable
+private fun ViewRecord(
+    record: Record,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .verticalScroll(rememberScrollState())
+            .padding(all = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        InfoItem(record = record)
+        ValuesItem(value = record.values)
     }
 }
 
@@ -66,14 +84,15 @@ private fun ViewRecordTopBar(
     context: Context = LocalContext.current,
     scrollBehavior: TopAppBarScrollBehavior,
     navController: NavController,
-    record: Record
+    record: Record?
 ) = NavigateUpTopBar(
     title = R.string.page_view_record,
     actions = {
         IconButton(
             onClick = {
-                JsonUtils.share(context = context, value = record)
-            }
+                JsonUtils.share(context = context, value = record!!)
+            },
+            enabled = record != null
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.send_outline),
@@ -82,9 +101,10 @@ private fun ViewRecordTopBar(
         }
 
         var delete by remember { mutableStateOf(false) }
-        if (delete) DeleteDialog(navController, record) { delete = false }
+        if (delete) DeleteDialog(navController, record!!) { delete = false }
         IconButton(
-            onClick = { delete = true }
+            onClick = { delete = true },
+            enabled = record != null
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.trash_outline),
@@ -109,12 +129,7 @@ private fun DeleteDialog(
     confirmButton = {
         TextButton(
             onClick = {
-                /*
-                It takes 200 milliseconds for exit animation,
-                delay deleting the data to ensure safe exit.
-                */
-
-                Constant.delete(value = record, timeMillis = 400)
+                Constant.delete(value = record)
                 navController.navigateBack()
                 onClose()
             }

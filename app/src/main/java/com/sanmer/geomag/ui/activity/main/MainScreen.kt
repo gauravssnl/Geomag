@@ -1,18 +1,20 @@
 package com.sanmer.geomag.ui.activity.main
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.PagerDefaults
+import androidx.compose.foundation.pager.PagerSnapDistance
+import androidx.compose.foundation.pager.VerticalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.sanmer.geomag.app.Config.State
-import com.sanmer.geomag.ui.animate.SlideIn
-import com.sanmer.geomag.ui.animate.SlideOut
+import com.sanmer.geomag.app.Config
 import com.sanmer.geomag.ui.navigation.BottomNav
 import com.sanmer.geomag.ui.navigation.MainGraph
 import com.sanmer.geomag.ui.navigation.graph.HomeGraph
@@ -20,22 +22,34 @@ import com.sanmer.geomag.ui.navigation.graph.homeGraph
 import com.sanmer.geomag.ui.navigation.graph.recordGraph
 import com.sanmer.geomag.ui.navigation.graph.settingsGraph
 
+private fun Boolean.toInt() = if (this) 1 else 0
+private fun Int.toBoolean() = when (this) {
+    1 -> true
+    else -> false
+}
+
 @Composable
 fun MainScreen() {
-    AnimatedVisibility(
-        visible = !State.simpleMode,
-        enter = SlideIn.topToBottom,
-        exit = SlideOut.bottomToTop
-    ) {
-        RegularScreen()
+    val state = rememberPagerState(initialPage = Config.SIMPLE_MODE.toInt())
+
+    LaunchedEffect(Config.State.simpleMode) {
+        val id = Config.State.simpleMode.toInt()
+        state.animateScrollToPage(id)
     }
 
-    AnimatedVisibility(
-        visible = State.simpleMode,
-        enter = SlideIn.bottomToTop,
-        exit = SlideOut.topToBottom
+    VerticalPager(
+        pageCount = 2,
+        state = state,
+        flingBehavior = PagerDefaults.flingBehavior(
+            state = state,
+            pagerSnapDistance = PagerSnapDistance.atMost(0)
+        ),
+        userScrollEnabled = false
     ) {
-        SimpleScreen()
+        when {
+            it.toBoolean() -> SimpleScreen()
+            else -> RegularScreen()
+        }
     }
 }
 

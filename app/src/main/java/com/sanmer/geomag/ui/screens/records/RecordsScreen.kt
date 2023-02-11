@@ -1,32 +1,30 @@
-package com.sanmer.geomag.ui.page.records
+package com.sanmer.geomag.ui.screens.records
 
 import android.content.Context
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
-import com.sanmer.geomag.app.Config.State
+import com.sanmer.geomag.app.Config
 import com.sanmer.geomag.data.Constant
 import com.sanmer.geomag.data.record.Record
-import com.sanmer.geomag.utils.expansion.navigatePopUpTo
+import com.sanmer.geomag.ui.component.PageIndicator
 import com.sanmer.geomag.ui.navigation.graph.RecordGraph.View.toRoute
 import com.sanmer.geomag.ui.navigation.navigateToHome
+import com.sanmer.geomag.utils.expansion.navigatePopUpTo
 import com.sanmer.geomag.viewmodel.RecordViewModel
 
 @Composable
@@ -35,10 +33,7 @@ fun RecordsScreen(
     viewModel: RecordViewModel = viewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-
-    val list by remember {
-        derivedStateOf { Constant.records }
-    }
+    val list by remember { derivedStateOf { Constant.records } }
 
     if (viewModel.isEmpty()) {
         viewModel.close()
@@ -63,14 +58,14 @@ fun RecordsScreen(
         }
     ) { innerPadding ->
         if (list.isEmpty()) {
-            EmptyView(
-                modifier = Modifier
-                    .padding(innerPadding)
+            PageIndicator(
+                modifier = Modifier.padding(innerPadding),
+                icon = R.drawable.box_time_outline,
+                text = R.string.records_empty
             )
         } else {
             RecordsList(
-                modifier = Modifier
-                    .padding(innerPadding),
+                modifier = Modifier.padding(innerPadding),
                 list = list,
                 navController = navController
             )
@@ -106,7 +101,7 @@ private fun RecordsNormalTopBar(
         )
     },
     navigationIcon = {
-        if (State.simpleMode) {
+        if (Config.SIMPLE_MODE) {
             IconButton(
                 onClick = {
                     navController.navigateToHome()
@@ -196,36 +191,6 @@ private fun RecordsList(
                 navController.navigatePopUpTo(index.toRoute())
             }
         }
-    }
-}
-
-@Composable
-private fun EmptyView(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.box_time_outline),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.outline.copy(0.2f),
-            modifier = Modifier
-                .size(80.dp)
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(
-            text = stringResource(id = R.string.records_empty),
-            color = MaterialTheme.colorScheme.outline.copy(0.5f),
-            fontSize = 20.sp,
-            fontFamily = FontFamily.SansSerif,
-            fontWeight = FontWeight.Medium
-        )
     }
 }
 

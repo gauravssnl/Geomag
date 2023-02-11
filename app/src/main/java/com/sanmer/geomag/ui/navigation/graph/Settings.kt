@@ -7,8 +7,8 @@ import com.google.accompanist.navigation.animation.navigation
 import com.sanmer.geomag.ui.animate.SlideIn
 import com.sanmer.geomag.ui.animate.SlideOut
 import com.sanmer.geomag.ui.navigation.MainGraph
-import com.sanmer.geomag.ui.page.apptheme.AppThemeScreen
-import com.sanmer.geomag.ui.page.settings.SettingsScreen
+import com.sanmer.geomag.ui.screens.apptheme.AppThemeScreen
+import com.sanmer.geomag.ui.screens.settings.SettingsScreen
 
 sealed class SettingsGraph(val route: String) {
     object Settings : SettingsGraph("settings")

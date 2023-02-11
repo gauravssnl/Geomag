@@ -17,6 +17,6 @@ inline fun <reified T> SnapshotStateList<T>.update(value: T) {
         add(value)
     } else {
         removeAt(index)
-        add(value)
+        add(index, value)
     }
 }

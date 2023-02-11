@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.page.simple
+package com.sanmer.geomag.ui.screens.simple
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -10,7 +10,7 @@ import com.sanmer.geomag.R
 import com.sanmer.geomag.data.Constant
 import com.sanmer.geomag.data.json.JsonUtils
 import com.sanmer.geomag.ui.component.CardItem
-import com.sanmer.geomag.ui.page.viewrecord.ValuesItem
+import com.sanmer.geomag.ui.screens.viewrecord.ValuesItem
 
 @Composable
 fun OutputItem() {

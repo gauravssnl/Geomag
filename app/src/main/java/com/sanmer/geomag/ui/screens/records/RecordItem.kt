@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.page.records
+package com.sanmer.geomag.ui.screens.records
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable

@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.page.apptheme
+package com.sanmer.geomag.ui.screens.apptheme
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

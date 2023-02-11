@@ -5,8 +5,8 @@ import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.sanmer.geomag.ui.navigation.MainGraph
-import com.sanmer.geomag.ui.page.regular.RegularScreen
-import com.sanmer.geomag.ui.page.simple.SimpleScreen
+import com.sanmer.geomag.ui.screens.regular.RegularScreen
+import com.sanmer.geomag.ui.screens.simple.SimpleScreen
 
 sealed class HomeGraph(val route: String) {
     object Regular : HomeGraph("regular")

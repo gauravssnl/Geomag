@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,7 +20,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.sanmer.geomag.R
 import com.sanmer.geomag.service.LogcatService
-import com.sanmer.geomag.ui.component.CustomShape
+import com.sanmer.geomag.ui.component.DropdownMenu
 import com.sanmer.geomag.ui.utils.NavigateUpTopBar
 import com.sanmer.geomag.utils.log.LogItem
 
@@ -183,20 +184,19 @@ private fun PrioritySelect(
     selected: String,
     onClose: () -> Unit,
     onClick: (String) -> Unit,
-) = CustomShape {
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = onClose,
-        offset = DpOffset(15.dp, 0.dp)
-    ) {
-        priorities.forEach {
-            MenuItem(
-                value = it,
-                selected = selected
-            ) {
-                if (it != selected) onClick(it)
-                onClose()
-            }
+) = DropdownMenu(
+    expanded = expanded,
+    onDismissRequest = onClose,
+    offset = DpOffset(15.dp, 0.dp),
+    shape = RoundedCornerShape(15.dp)
+) {
+    priorities.forEach {
+        MenuItem(
+            value = it,
+            selected = selected
+        ) {
+            if (it != selected) onClick(it)
+            onClose()
         }
     }
 }

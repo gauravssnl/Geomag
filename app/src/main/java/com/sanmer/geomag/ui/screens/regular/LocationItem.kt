@@ -1,4 +1,4 @@
-package com.sanmer.geomag.ui.page.regular
+package com.sanmer.geomag.ui.screens.regular
 
 import android.content.Context
 import android.content.Intent
@@ -66,7 +66,7 @@ fun LocationItem(
     )
 
     var isNeeded by remember { mutableStateOf(false) }
-    if (isNeeded) LocationNeededDialog { isNeeded = false }
+    if (isNeeded) LocationServiceDialog { isNeeded = false }
 
     CardItem(
         iconRes = if (isEnable) iconRes else R.drawable.location_slash_outline,
@@ -106,10 +106,10 @@ fun LocationItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(20.dp))
+                .clip(RoundedCornerShape(15.dp))
                 .border(
                     width = 1.dp,
-                    shape = RoundedCornerShape(20.dp),
+                    shape = RoundedCornerShape(15.dp),
                     color = MaterialTheme.colorScheme.outline
                 )
                 .then(if (!edit) {
@@ -119,8 +119,7 @@ fun LocationItem(
                     }.padding(16.dp)
                 } else {
                     Modifier.padding(16.dp)
-                }
-                ),
+                }),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             if (edit) {
@@ -293,7 +292,7 @@ fun EditItem(
 }
 
 @Composable
-private fun LocationNeededDialog(
+private fun LocationServiceDialog(
     context: Context = LocalContext.current,
     onClose: () -> Unit
 ) = AlertDialog(

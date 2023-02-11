@@ -3,6 +3,7 @@ package com.sanmer.geomag.utils
 import android.content.Context
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
+import com.sanmer.geomag.BuildConfig
 import java.io.File
 
 object MediaStoreUtils {
@@ -23,7 +24,7 @@ object MediaStoreUtils {
 
     fun File.share(context: Context, mimeType: String) {
         val uri = FileProvider.getUriForFile(context,
-                "${context.packageName}.provider", this)
+                "${BuildConfig.APPLICATION_ID}.provider", this)
 
         ShareCompat.IntentBuilder(context)
             .setType(mimeType)
