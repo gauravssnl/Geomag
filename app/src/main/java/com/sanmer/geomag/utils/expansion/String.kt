@@ -1,17 +1,6 @@
-package com.sanmer.geomag.utils
+package com.sanmer.geomag.utils.expansion
 
 import timber.log.Timber
-
-fun String.toIntOrZero(): Int {
-    if (isEmpty() || isBlank()) return 0
-
-    return try {
-        toInt()
-    } catch (e: NumberFormatException) {
-        Timber.e(e.message)
-        0
-    }
-}
 
 fun String.toIntOr(v: Int): Int {
     if (isEmpty() || isBlank()) return v
@@ -23,6 +12,8 @@ fun String.toIntOr(v: Int): Int {
         v
     }
 }
+
+fun String.toIntOrZero(): Int = toIntOr(0)
 
 fun String.toDoubleOrZero(): Double {
     if (isEmpty() || isBlank()) return 0.0

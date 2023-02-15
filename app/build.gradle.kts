@@ -6,8 +6,8 @@ plugins {
     kotlin("android")
 }
 
-val verName = "0.3.0"
-val verCode = 30
+val verName = "0.3.1"
+val verCode = 31
 
 android {
     namespace = "com.sanmer.geomag"

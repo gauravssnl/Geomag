@@ -26,7 +26,6 @@ fun NormalItemForSetting(
     subText: String,
     modifier: Modifier = Modifier,
     @DrawableRes iconRes: Int? = null,
-    colorfulIcon: Boolean = false,
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
@@ -50,7 +49,7 @@ fun NormalItemForSetting(
                         .size(24.dp),
                     painter = painterResource(id = iconRes),
                     contentDescription = null,
-                    tint = if (colorfulIcon) Color.Unspecified else LocalContentColor.current
+                    tint = LocalContentColor.current
                 )
 
                 Spacer(modifier = Modifier.width(18.dp))
@@ -95,21 +94,21 @@ fun TitleItemForSetting(
 fun EditItemForSetting(
     @DrawableRes iconRes: Int? = null,
     title: String,
-    subtitle: String,
+    text: String,
     supportingText: @Composable (() -> Unit)? = null,
     enabled: Boolean = true,
     onChange: (String) -> Unit,
 ) {
     var edit by remember { mutableStateOf(false) }
-    var value by remember { mutableStateOf(subtitle) }
+    var value by remember { mutableStateOf(text) }
     if (edit) {
         EditDialog(
             title = title,
-            text = subtitle,
+            text = text,
             onClose = { edit = false },
             onConfirm = {
                 value = it
-                if (it != subtitle) {
+                if (it != text) {
                     onChange(value)
                 }
             },
@@ -121,7 +120,7 @@ fun EditItemForSetting(
         enabled = enabled,
         iconRes = iconRes,
         text = title,
-        subText = subtitle
+        subText = text
     ) {
         edit = true
     }
@@ -159,8 +158,8 @@ private fun EditDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onClose()
                     onConfirm(value)
+                    onClose()
                 }
             ) {
                 Text(
@@ -171,8 +170,8 @@ private fun EditDialog(
         dismissButton = {
             TextButton(
                 onClick = {
-                    onClose()
                     onCancel()
+                    onClose()
                 }
             ) {
                 Text(

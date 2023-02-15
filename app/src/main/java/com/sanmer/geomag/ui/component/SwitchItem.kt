@@ -1,13 +1,15 @@
 package com.sanmer.geomag.ui.component
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -19,22 +21,23 @@ import androidx.compose.ui.unit.dp
 fun SwitchItem(
     modifier: Modifier = Modifier,
     text: String,
+    checked: Boolean,
     subText: String? = null,
     @DrawableRes iconRes: Int? = null,
     enabled: Boolean = true,
-    checked: Boolean,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     onChange: (Boolean) -> Unit,
 ) {
     Row(
         modifier = modifier
             .alpha(alpha = if (enabled) 1f else 0.5f )
-            .selectable(
+            .toggleable(
+                value = checked,
                 enabled = enabled,
-                selected = checked,
-                onClick = {
-                    onChange(!checked)
-                },
-                role = Role.Switch
+                onValueChange = onChange,
+                role = Role.Switch,
+                interactionSource = interactionSource,
+                indication = null
             )
             .padding(all = 18.dp)
             .fillMaxWidth(),

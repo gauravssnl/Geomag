@@ -53,27 +53,31 @@ fun SettingsScreen(
             NormalItemForSetting(
                 iconRes = R.drawable.brush_outline,
                 text = stringResource(id = R.string.settings_app_theme),
-                subText = stringResource(id = R.string.settings_app_theme_desc)
-            ) {
-                navController.navigatePopUpTo(SettingsGraph.AppTheme.route)
-            }
+                subText = stringResource(id = R.string.settings_app_theme_desc),
+                onClick = {
+                    navController.navigatePopUpTo(SettingsGraph.AppTheme.route)
+                }
+            )
             NormalItemForSetting(
                 iconRes = R.drawable.health_outline,
                 text = stringResource(id = R.string.settings_log_viewer),
-                subText = stringResource(id = R.string.settings_log_viewer_desc)
-            ) {
-                val intent = Intent(context, LogActivity::class.java)
-                context.startActivity(intent)
-            }
+                subText = stringResource(id = R.string.settings_log_viewer_desc),
+                onClick = {
+                    val intent = Intent(context, LogActivity::class.java)
+                    context.startActivity(intent)
+                }
+            )
+
             TitleItemForSetting(text = stringResource(id = R.string.settings_title_app))
             SwitchItem(
                 iconRes = R.drawable.main_component_outline,
                 text = stringResource(id = R.string.settings_simple_mode),
                 subText = stringResource(id = R.string.settings_simple_mode_desc),
-                checked = State.simpleMode
-            ) {
-                State.simpleMode = it
-            }
+                checked = State.simpleMode,
+                onChange = {
+                    State.simpleMode = it
+                }
+            )
         }
     }
 }

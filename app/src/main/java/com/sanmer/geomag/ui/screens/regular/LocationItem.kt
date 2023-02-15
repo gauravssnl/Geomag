@@ -38,7 +38,7 @@ import com.sanmer.geomag.R
 import com.sanmer.geomag.core.localtion.AppLocationManager
 import com.sanmer.geomag.service.LocationService
 import com.sanmer.geomag.ui.component.CardItem
-import com.sanmer.geomag.utils.toDoubleOrZero
+import com.sanmer.geomag.utils.expansion.toDoubleOrZero
 import com.sanmer.geomag.viewmodel.HomeViewModel
 
 @Composable
@@ -77,8 +77,11 @@ fun LocationItem(
             IconButton(
                 onClick = {
                     if (isEnable) {
-                        if (!isReady) AppLocationManager.launchPermissionRequest()
-                        if (!edit) viewModel.changeLocationServiceState(context)
+                        if (!isReady) {
+                            AppLocationManager.launchPermissionRequest()
+                        } else {
+                            if (!edit) viewModel.changeLocationServiceState(context)
+                        }
                     } else {
                         isNeeded = true
                     }

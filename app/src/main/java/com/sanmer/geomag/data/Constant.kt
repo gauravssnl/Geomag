@@ -7,11 +7,13 @@ import com.sanmer.geomag.data.database.toEntity
 import com.sanmer.geomag.data.database.toRecord
 import com.sanmer.geomag.data.record.Record
 import com.sanmer.geomag.utils.expansion.update
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 object Constant {
-    private val job = Job()
-    private val coroutineScope = CoroutineScope(job)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private lateinit var db: AppDatabase
     private val recordDao get() = db.recordDao()
 
@@ -24,7 +26,7 @@ object Constant {
         return db
     }
 
-    fun getAll() = coroutineScope.launch(Dispatchers.IO) {
+    fun getAll() = coroutineScope.launch {
         val list = withContext(Dispatchers.IO) {
             recordDao.getAll().asReversed()
         }
