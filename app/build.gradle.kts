@@ -32,7 +32,7 @@ android {
         multiDexEnabled = true
 
         ndk {
-            abiFilters += arrayOf("armeabi-v7a", "arm64-v8a")
+            abiFilters += arrayOf("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
         }
 
         externalNativeBuild {
@@ -42,10 +42,23 @@ android {
         }
     }
 
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
+    }
+
+    sourceSets {
+        getByName("main") {
+            jniLibs.srcDir("src/main/golang/libs")
+        }
+    }
+
     dependenciesInfo.includeInApk = false
 
     buildTypes {
-        getByName("release") {
+        release {
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
@@ -54,7 +67,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-
     }
 
     compileOptions {
@@ -74,19 +86,6 @@ android {
         kotlinCompilerExtensionVersion = "1.4.0"
     }
 
-    externalNativeBuild {
-        cmake {
-            path = file("src/main/cpp/CMakeLists.txt")
-            version = "3.22.1"
-        }
-    }
-
-    sourceSets {
-        getByName("main") {
-            jniLibs.srcDir("libs")
-        }
-    }
-
     packagingOptions {
         resources {
             excludes += setOf(
@@ -104,8 +103,6 @@ android {
     setProperty("archivesBaseName", "geomag-$verName")
     splits {
         abi {
-            reset()
-            include("armeabi-v7a", "arm64-v8a")
             isEnable = true
             isUniversalApk = true
         }
@@ -141,7 +138,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
     implementation("androidx.navigation:navigation-compose:2.5.3")
-    implementation("androidx.compose.material3:material3:1.1.0-alpha05")
+    implementation("androidx.compose.material3:material3:1.1.0-alpha06")
 
     val vCompose = "1.4.0-alpha04"
     implementation("androidx.compose.ui:ui:${vCompose}")

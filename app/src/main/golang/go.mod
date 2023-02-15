@@ -1,4 +1,4 @@
-module Geomag
+module geomag
 
 go 1.19
 

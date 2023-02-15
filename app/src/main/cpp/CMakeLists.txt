@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22.1)
 
 project(Geomag)
 
-set(LIBS_DIR ${CMAKE_SOURCE_DIR}/../../../libs)
+set(LIBS_DIR ${CMAKE_SOURCE_DIR}/../golang/libs)
 
 link_directories(${LIBS_DIR}/${CMAKE_ANDROID_ARCH_ABI})
 include_directories(${LIBS_DIR}/${CMAKE_ANDROID_ARCH_ABI})
