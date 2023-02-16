@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -30,14 +31,14 @@ fun SwitchItem(
 ) {
     Row(
         modifier = modifier
-            .alpha(alpha = if (enabled) 1f else 0.5f )
+            .alpha(alpha = if (enabled) 1f else 0.5f)
             .toggleable(
                 value = checked,
                 enabled = enabled,
                 onValueChange = onChange,
                 role = Role.Switch,
                 interactionSource = interactionSource,
-                indication = null
+                indication = rememberRipple()
             )
             .padding(all = 18.dp)
             .fillMaxWidth(),
