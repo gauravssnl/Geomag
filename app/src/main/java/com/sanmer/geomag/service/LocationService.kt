@@ -11,7 +11,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.app.ServiceCompat
 import androidx.lifecycle.LifecycleService
-import androidx.lifecycle.repeatOnLifecycle
 import com.sanmer.geomag.R
 import com.sanmer.geomag.app.Const
 import com.sanmer.geomag.core.localtion.AppLocationManager
@@ -58,7 +57,7 @@ class LocationService : LifecycleService() {
             .buildNotification(context, Const.NOTIFICATION_ID_LOCATION)
             .setContentTitle(getString(R.string.notification_name_location))
             .setContentText(getString(R.string.message_location_click))
-            .setContentIntent(NotificationUtils.getActivity(context, MainActivity::class))
+            .setContentIntent(NotificationUtils.getActivity(MainActivity::class))
             .addAction(0, getString(R.string.action_stop), stopSelf)
             .setOngoing(true)
             .build()

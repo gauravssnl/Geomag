@@ -1,7 +1,6 @@
 package com.sanmer.geomag
 
 import android.app.Application
-import com.sanmer.geomag.app.Config
 import com.sanmer.geomag.core.localtion.AppLocationManager
 import com.sanmer.geomag.core.models.Geomag
 import com.sanmer.geomag.core.time.TimerManager
@@ -13,21 +12,30 @@ import com.sanmer.geomag.utils.timber.ReleaseTree
 import timber.log.Timber
 
 class App : Application() {
-    override fun onCreate() {
-        super.onCreate()
-
+    init {
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         } else {
             Timber.plant(ReleaseTree())
         }
+    }
+    override fun onCreate() {
+        super.onCreate()
+        app = this
+
+        SPUtils.init(this)
+        NotificationUtils.init(this)
 
         AppLocationManager.init(this)
         TimerManager.init()
         Constant.init(this)
         Geomag.init()
-        SPUtils.init(this)
-        NotificationUtils.init(this)
+    }
 
+    companion object {
+        private lateinit var app: App
+
+        /** Used in [NotificationUtils] */
+        val context get() = app
     }
 }
