@@ -26,11 +26,12 @@ def parse_parameters():
                         dest="abi_filters",
                         metavar="ABI",
                         nargs="+",
+                        default=[],
                         help="arm64-v8a, armeabi-v7a, x86, x86_64 or all")
     parser.add_argument("-d",
                         "--debug",
                         action="store_true",
-                        help="default: {0}".format('%(default)s'))
+                        help="enable debug mode to output compilation log")
     return parser
 
 
@@ -181,6 +182,9 @@ def main():
 
     ndk_version = args.ndk_version
     sdk_version = args.min_sdk
+
+    if len(args.abi_filters) == 0:
+        parser.print_help()
 
     if "all" in args.abi_filters:
         abi_filters = ["arm64-v8a", "armeabi-v7a", "x86", "x86_64"]
