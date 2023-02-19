@@ -6,7 +6,6 @@ import com.sanmer.geomag.data.database.AppDatabase
 import com.sanmer.geomag.data.database.toEntity
 import com.sanmer.geomag.data.database.toRecord
 import com.sanmer.geomag.data.record.Record
-import com.sanmer.geomag.utils.expansion.update
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,15 +26,14 @@ object Constant {
     }
 
     fun getAll() = coroutineScope.launch {
-        val list = withContext(Dispatchers.IO) {
-            recordDao.getAll().asReversed()
+        if (records.isNotEmpty()) {
+            records.clear()
         }
-        if (records.isEmpty()) {
+
+        withContext(Dispatchers.IO) {
+            recordDao.getAll().asReversed()
+        }.let { list ->
             records.addAll(list.map { it.toRecord() })
-        } else {
-            list.forEach {
-                records.update(it.toRecord())
-            }
         }
     }
 
@@ -45,13 +43,11 @@ object Constant {
     }
 
     suspend fun insert(list: List<Record>) = withContext(Dispatchers.IO) {
-        if (records.isEmpty()) {
-            records.addAll(list)
-        } else {
-            list.forEach {
-                records.update(it)
-            }
+        if (records.isNotEmpty()) {
+            records.clear()
         }
+
+        records.addAll(list)
         recordDao.insert(list.map { it.toEntity() })
     }
 

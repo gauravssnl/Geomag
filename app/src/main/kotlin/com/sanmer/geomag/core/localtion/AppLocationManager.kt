@@ -4,26 +4,17 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Criteria
-import android.location.GnssMeasurement
-import android.location.GnssMeasurementRequest
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.location.LocationRequest
 import android.os.Build
-import android.os.CancellationSignal
-import android.os.Looper
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import com.sanmer.geomag.data.record.toPosition
 import timber.log.Timber
-import java.util.concurrent.Executor
-import java.util.function.Consumer
 
 object AppLocationManager {
     private lateinit var permissionsState: MultiplePermissionsState

@@ -1,6 +1,5 @@
 package com.sanmer.geomag.core.models
 
-import android.content.Context
 import androidx.annotation.Keep
 import com.sanmer.geomag.core.time.DateTime
 import timber.log.Timber

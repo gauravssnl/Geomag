@@ -1,7 +1,6 @@
 package com.sanmer.geomag.data.json
 
 import com.sanmer.geomag.core.models.MagneticField
-import com.sanmer.geomag.core.models.getModel
 import com.sanmer.geomag.data.record.Record
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

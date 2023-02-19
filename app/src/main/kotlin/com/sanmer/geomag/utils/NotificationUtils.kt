@@ -20,7 +20,7 @@ import com.sanmer.geomag.app.Const
 import kotlin.reflect.KClass
 
 object NotificationUtils {
-    val context = App.context
+    val context by lazy { App.context }
     private val notificationManager by lazy { NotificationManagerCompat.from(context) }
 
     fun init(context: Context) {

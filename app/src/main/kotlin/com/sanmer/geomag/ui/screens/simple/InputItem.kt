@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
@@ -24,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sanmer.geomag.R
 import com.sanmer.geomag.core.time.TimerManager
 import com.sanmer.geomag.core.time.toDateTime
+import com.sanmer.geomag.service.LocationService
 import com.sanmer.geomag.ui.component.CardItem
 import com.sanmer.geomag.ui.screens.regular.EditLocation
 import com.sanmer.geomag.ui.screens.regular.EditTime
@@ -34,9 +36,14 @@ import com.sanmer.geomag.viewmodel.HomeViewModel
 fun InputItem(
     viewModel: HomeViewModel = viewModel(),
 ) {
+    val context = LocalContext.current
+
     SideEffect {
         if (viewModel.isTSRunning) {
             TimerManager.stop()
+        }
+        if (viewModel.isLSRunning) {
+            LocationService.stop(context)
         }
     }
 
