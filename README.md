@@ -1,5 +1,5 @@
 # Geomag
-[![GitHub release](https://img.shields.io/github/v/release/ya0211/Geomag)](https://github.com/ya0211/Geomag/releases) [![License](https://img.shields.io/github/license/ya0211/Geomag?color=blue)](LICENSE)
+[![release](https://img.shields.io/github/v/release/ya0211/Geomag?label=release&color=red)](https://github.com/ya0211/Geomag/releases) [![download](https://shields.io/github/downloads/ya0211/Geomag/total?label=download)](https://github.com/ya0211/Geomag/releases) [![license](https://img.shields.io/github/license/ya0211/Geomag?label=license&color=orange)](LICENSE)
 
 Geomag (short for `Geomagnetic`) is an Android app that calculates the geomagnetic field model.
 
