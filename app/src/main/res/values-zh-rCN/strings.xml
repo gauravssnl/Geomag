@@ -61,7 +61,7 @@
     <!-- App -->
     <string name="settings_title_app">应用</string>
     <string name="settings_simple_mode">简洁模式</string>
-    <string name="settings_simple_mode_desc">简洁明了的UI设计，只保留核心功能 (实验性)</string>
+    <string name="settings_simple_mode_desc">简洁明了的UI设计，只保留核心功能</string>
     <!-- App Theme -->
     <string name="settings_example">示例</string>
     <string name="settings_theme_palette">主题调色板</string>

@@ -61,12 +61,12 @@ class HomeViewModel : ViewModel() {
             LocationService.start(context)
         } else {
             LocationService.stop(context)
-            requestSingleUpdate()
+            getLastKnownLocation()
         }
     }
 
-    fun requestSingleUpdate() {
-        _location = AppLocationManager.getLocation()
+    fun getLastKnownLocation() {
+        _location = AppLocationManager.getLastKnownLocation()
     }
 
     fun changeTimeServiceState() {
@@ -87,8 +87,9 @@ class HomeViewModel : ViewModel() {
         val dt = dateTime
         val dy = decimalYears
         val location = locationOrZero
-        return when (model) {
-            is Models.MIGRF -> {
+
+        val record = when (model) {
+            Models.MIGRF -> {
                 IGRF.decimalYears = dy
                 IGRF.igrf(location.latitude, location.longitude, location.altitude)
                 Record(
@@ -98,7 +99,8 @@ class HomeViewModel : ViewModel() {
                     values = IGRF.MF
                 )
             }
-            is Models.MWMM -> {
+
+            Models.MWMM -> {
                 WMM.decimalYears = dy
                 WMM.wmm(location.latitude, location.longitude, location.altitude)
                 Record(
@@ -109,6 +111,8 @@ class HomeViewModel : ViewModel() {
                 )
             }
         }
+
+        return record
     }
 
     fun toDatabase(record: Record)  = viewModelScope.launch(Dispatchers.IO) {
@@ -118,7 +122,7 @@ class HomeViewModel : ViewModel() {
     init {
         snapshotFlow { AppLocationManager.isReady && AppLocationManager.isEnable }
             .onEach {
-                if (it) requestSingleUpdate()
+                if (it) getLastKnownLocation()
             }
             .launchIn(viewModelScope)
 

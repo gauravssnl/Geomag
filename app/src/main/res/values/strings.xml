@@ -63,7 +63,7 @@
     <!-- App -->
     <string name="settings_title_app">App</string>
     <string name="settings_simple_mode">Simple Mode</string>
-    <string name="settings_simple_mode_desc">Simple and clear UI design, keep only the core feature (experimental)</string>
+    <string name="settings_simple_mode_desc">Simple and clear UI design, keep only the core feature</string>
     <!-- App Theme -->
     <string name="settings_example">Example</string>
     <string name="settings_theme_palette">Theme Palette</string>

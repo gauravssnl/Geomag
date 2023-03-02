@@ -26,7 +26,7 @@ class App : Application() {
         SPUtils.init(this)
         NotificationUtils.init(this)
 
-        AppLocationManager.init(this)
+        AppLocationManager.init()
         TimerManager.init()
         Constant.init(this)
         Geomag.init()
@@ -35,7 +35,7 @@ class App : Application() {
     companion object {
         private lateinit var app: App
 
-        /** Used in [NotificationUtils] */
+        /** Used in [NotificationUtils], [AppLocationManager] */
         val context get() = app
     }
 }

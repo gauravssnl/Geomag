@@ -36,10 +36,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sanmer.geomag.R
 import com.sanmer.geomag.core.localtion.AppLocationManager
+import com.sanmer.geomag.data.record.toPosition
 import com.sanmer.geomag.service.LocationService
 import com.sanmer.geomag.ui.component.CardItem
 import com.sanmer.geomag.utils.expansion.toDoubleOrZero
 import com.sanmer.geomag.viewmodel.HomeViewModel
+import timber.log.Timber
 
 @Composable
 fun LocationItem(
@@ -58,7 +60,7 @@ fun LocationItem(
     AppLocationManager.PermissionsState(
         onGranted = {
             iconRes = R.drawable.location_outline
-            onClick = { viewModel.requestSingleUpdate() }
+            onClick = { viewModel.getLastKnownLocation() }
         },
         onDenied = {
             iconRes = R.drawable.location_cross_outline
@@ -116,10 +118,12 @@ fun LocationItem(
                     color = MaterialTheme.colorScheme.outline
                 )
                 .then(if (!edit) {
-                    Modifier.clickable {
-                        location = viewModel.locationOrZero
-                        edit = true
-                    }.padding(16.dp)
+                    Modifier
+                        .clickable {
+                            location = viewModel.locationOrZero
+                            edit = true
+                        }
+                        .padding(16.dp)
                 } else {
                     Modifier.padding(16.dp)
                 }),
