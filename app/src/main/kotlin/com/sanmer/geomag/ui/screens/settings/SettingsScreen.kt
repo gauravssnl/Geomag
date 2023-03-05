@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
 import com.sanmer.geomag.app.Config
-import com.sanmer.geomag.app.Config.State
 import com.sanmer.geomag.ui.activity.log.LogActivity
 import com.sanmer.geomag.ui.component.NormalItemForSetting
 import com.sanmer.geomag.ui.component.SwitchItem
@@ -73,9 +72,9 @@ fun SettingsScreen(
                 iconRes = R.drawable.main_component_outline,
                 text = stringResource(id = R.string.settings_simple_mode),
                 subText = stringResource(id = R.string.settings_simple_mode_desc),
-                checked = State.simpleMode,
+                checked = Config.SIMPLE_MODE,
                 onChange = {
-                    State.simpleMode = it
+                    Config.SIMPLE_MODE = it
                 }
             )
         }

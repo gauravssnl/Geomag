@@ -6,9 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import com.sanmer.geomag.app.Config.State
 import com.sanmer.geomag.service.LogcatService
 import com.sanmer.geomag.ui.theme.AppTheme
 
@@ -18,13 +18,12 @@ class LogActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            AppTheme(
-                darkTheme = State.isDarkTheme(),
-                themeColor = State.themeColor
-            ) {
-
-                if (!LogcatService.isActive) {
-                    LogcatService.start(this)
+            AppTheme {
+                val context = this
+                LaunchedEffect(LogcatService.isActive) {
+                    if (!LogcatService.isActive) {
+                        LogcatService.start(context)
+                    }
                 }
 
                 Surface(

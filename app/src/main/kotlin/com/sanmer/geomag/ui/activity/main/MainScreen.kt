@@ -32,8 +32,8 @@ private fun Int.toBoolean() = when (this) {
 fun MainScreen() {
     val state = rememberPagerState(initialPage = Config.SIMPLE_MODE.toInt())
 
-    LaunchedEffect(Config.State.simpleMode) {
-        val id = Config.State.simpleMode.toInt()
+    LaunchedEffect(Config.SIMPLE_MODE) {
+        val id = Config.SIMPLE_MODE.toInt()
         state.animateScrollToPage(id)
     }
 
