@@ -1,6 +1,5 @@
 package com.sanmer.geomag.ui.screens.settings
 
-import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -17,6 +16,7 @@ import androidx.navigation.NavController
 import com.sanmer.geomag.R
 import com.sanmer.geomag.app.Config
 import com.sanmer.geomag.ui.activity.log.LogActivity
+import com.sanmer.geomag.ui.activity.main.MainActivity
 import com.sanmer.geomag.ui.component.NormalItemForSetting
 import com.sanmer.geomag.ui.component.SwitchItem
 import com.sanmer.geomag.ui.component.TitleItemForSetting
@@ -62,8 +62,7 @@ fun SettingsScreen(
                 text = stringResource(id = R.string.settings_log_viewer),
                 subText = stringResource(id = R.string.settings_log_viewer_desc),
                 onClick = {
-                    val intent = Intent(context, LogActivity::class.java)
-                    context.startActivity(intent)
+                    LogActivity.start(context)
                 }
             )
 

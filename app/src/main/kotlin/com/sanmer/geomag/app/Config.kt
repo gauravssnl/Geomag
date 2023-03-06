@@ -2,8 +2,6 @@ package com.sanmer.geomag.app
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.*
-import com.sanmer.geomag.app.Config.getValue
-import com.sanmer.geomag.app.Config.setValue
 import com.sanmer.geomag.core.models.Models
 import com.sanmer.geomag.ui.theme.Colors
 import com.sanmer.geomag.utils.SPUtils
@@ -13,10 +11,7 @@ object Config {
     private val sp = SPUtils
 
     // MODEL
-    private const val MODEL_KEY = "MODEL"
-    var MODEL: Int
-        get() = sp.getValue(MODEL_KEY, Models.MIGRF.id)
-        set(value) { sp.putValue(MODEL_KEY, value) }
+    var MODEL by mutableStateOf(Models.MIGRF.id)
 
     // THEME_COLOR
     var THEME_COLOR by mutableStateOf(
@@ -46,13 +41,6 @@ object Config {
         return sp.getValue(property.name, value)
     }
 
-    @Composable
-    fun isDarkTheme() = when (DARK_MODE) {
-        ALWAYS_ON -> true
-        ALWAYS_OFF -> false
-        else -> isSystemInDarkTheme()
-    }
-
     private fun <T> update(value: T): T {
         val res: Any = when (value) {
             is Long -> Long.MAX_VALUE
@@ -64,5 +52,12 @@ object Config {
         }
         @Suppress("UNCHECKED_CAST")
         return res as T
+    }
+
+    @Composable
+    fun isDarkTheme() = when (DARK_MODE) {
+        ALWAYS_ON -> true
+        ALWAYS_OFF -> false
+        else -> isSystemInDarkTheme()
     }
 }

@@ -54,22 +54,21 @@ object AppLocationManager {
         onDenied: () -> Unit = {},
         onInit: () -> Unit = {},
     ) {
-        val locationPermissionsState = rememberMultiplePermissionsState(
+        permissionsState = rememberMultiplePermissionsState(
             listOf(
                 permission.ACCESS_FINE_LOCATION,
                 permission.ACCESS_COARSE_LOCATION,
             )
         )
-        permissionsState = locationPermissionsState
 
         val allPermissionsRevoked =
-            locationPermissionsState.permissions.size ==
-                    locationPermissionsState.revokedPermissions.size
+            permissionsState.permissions.size ==
+                    permissionsState.revokedPermissions.size
 
         if (!allPermissionsRevoked) {
             onGranted()
             isReady = true
-        } else if (locationPermissionsState.shouldShowRationale) {
+        } else if (permissionsState.shouldShowRationale) {
             onDenied()
         } else {
             onInit()
