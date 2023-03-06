@@ -14,12 +14,27 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class RecordViewModel : ViewModel() {
+class RecordsViewModel : ViewModel() {
+    val records = mutableStateListOf<Record>()
+
+    private val out = mutableStateListOf<Record>()
     var chooser by mutableStateOf(false)
     val size: Int get() = out.size
-    private val out = mutableStateListOf<Record>()
 
-    fun change(value: Record) {
+    init {
+        Timber.d("RecordViewModel init")
+    }
+
+    fun getAll() = viewModelScope.launch {
+        if (records.isNotEmpty()) {
+            records.clear()
+        }
+
+        val list = Constant.getAll()
+        records.addAll(list)
+    }
+
+    fun toggle(value: Record) {
         if (isSelected(value)) {
             out.remove(value)
         } else {
@@ -42,10 +57,7 @@ class RecordViewModel : ViewModel() {
 
     fun delete() = viewModelScope.launch(Dispatchers.IO) {
         Constant.delete(out)
+        records.removeAll(out)
         out.clear()
-    }
-
-    init {
-        Timber.d("RecordViewModel init")
     }
 }

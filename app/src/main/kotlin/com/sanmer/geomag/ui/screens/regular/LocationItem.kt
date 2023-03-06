@@ -82,7 +82,7 @@ fun LocationItem(
                         if (!isReady) {
                             AppLocationManager.launchPermissionRequest()
                         } else {
-                            if (!edit) viewModel.changeLocationServiceState(context)
+                            if (!edit) viewModel.toggleLocation(context)
                         }
                     } else {
                         isNeeded = true

@@ -53,10 +53,19 @@ class HomeViewModel : ViewModel() {
                 longitude = location?.longitude ?: 0.0
             }
 
-    private var _model: Models by mutableStateOf(getModel(Config.MODEL))
-    val model: Models get() = _model
+    val model: Models get() = getModel(Config.MODEL)
+    var record: Record? by mutableStateOf(null)
+        private set
 
-    fun changeLocationServiceState(context: Context) {
+    init {
+        Timber.d("HomeViewModel init")
+
+        snapshotFlow { AppLocationManager.isReady && AppLocationManager.isEnable }
+            .onEach { if (it) getLastKnownLocation() }
+            .launchIn(viewModelScope)
+    }
+
+    fun toggleLocation(context: Context) {
         if (!isLSRunning) {
             LocationService.start(context)
         } else {
@@ -69,7 +78,7 @@ class HomeViewModel : ViewModel() {
         _location = AppLocationManager.getLastKnownLocation()
     }
 
-    fun changeTimeServiceState() {
+    fun toggleTime() {
         if (!isTSRunning) {
             TimerManager.start()
         } else {
@@ -78,21 +87,17 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun updateModel(value: Models) {
-        _model = value
-        Config.MODEL = value.id
-    }
-
-    fun runModel(): Record {
+    fun runModel() {
         val dt = dateTime
         val dy = decimalYears
         val location = locationOrZero
 
-        val record = when (model) {
+        when (model) {
             Models.MIGRF -> {
                 IGRF.decimalYears = dy
                 IGRF.igrf(location.latitude, location.longitude, location.altitude)
-                Record(
+
+                record = Record(
                     model = "IGRF",
                     time = dt,
                     location = location.toPosition(),
@@ -103,7 +108,8 @@ class HomeViewModel : ViewModel() {
             Models.MWMM -> {
                 WMM.decimalYears = dy
                 WMM.wmm(location.latitude, location.longitude, location.altitude)
-                Record(
+
+                record = Record(
                     model = "WMM",
                     time = dt,
                     location = location.toPosition(),
@@ -112,21 +118,9 @@ class HomeViewModel : ViewModel() {
             }
         }
 
-        return record
-    }
-
-    fun toDatabase(record: Record)  = viewModelScope.launch(Dispatchers.IO) {
-        Constant.insert(record)
-    }
-
-    init {
-        snapshotFlow { AppLocationManager.isReady && AppLocationManager.isEnable }
-            .onEach {
-                if (it) getLastKnownLocation()
-            }
-            .launchIn(viewModelScope)
-
-        Timber.d("HomeViewModel init")
+        viewModelScope.launch(Dispatchers.IO) {
+            Constant.insert(record!!)
+        }
     }
 
 }

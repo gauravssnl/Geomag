@@ -96,8 +96,7 @@ private fun RegularFloatingButton(
     if (viewModel.decimalYears in viewModel.model.start .. viewModel.model.end) {
         FloatingActionButton(
             onClick = {
-                val record = viewModel.runModel()
-                viewModel.toDatabase(record)
+                viewModel.runModel()
                 navController.navigatePopUpTo(0.toRoute())
             },
             contentColor = MaterialTheme.colorScheme.onPrimary,

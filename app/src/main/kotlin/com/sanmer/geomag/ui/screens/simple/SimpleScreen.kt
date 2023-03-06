@@ -29,7 +29,8 @@ import com.sanmer.geomag.viewmodel.HomeViewModel
 
 @Composable
 fun SimpleScreen(
-    navController: NavController,
+    viewModel: HomeViewModel = viewModel(),
+    navController: NavController
 ) {
     var isFirst by rememberSaveable { mutableStateOf(true) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -57,7 +58,7 @@ fun SimpleScreen(
         ) {
             InputItem()
 
-            if (Constant.records.isNotEmpty() && !isFirst) {
+            if (viewModel.record != null && !isFirst) {
                 OutputItem()
             }
         }
@@ -117,8 +118,7 @@ private fun SimpleFloatingButton(
     if (viewModel.decimalYears in viewModel.model.start .. viewModel.model.end) {
         FloatingActionButton(
             onClick = {
-                val record = viewModel.runModel()
-                viewModel.toDatabase(record)
+                viewModel.runModel()
                 onClick()
             },
             contentColor = MaterialTheme.colorScheme.onPrimary,

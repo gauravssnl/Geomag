@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
 import com.sanmer.geomag.data.Constant
@@ -25,14 +26,15 @@ import com.sanmer.geomag.data.record.Record
 import com.sanmer.geomag.ui.component.PageIndicator
 import com.sanmer.geomag.ui.utils.NavigateUpTopBar
 import com.sanmer.geomag.utils.expansion.navigateBack
+import com.sanmer.geomag.viewmodel.DetailViewModel
+import com.sanmer.geomag.viewmodel.RecordsViewModel
 
 @Composable
 fun ViewRecordScreen(
+    viewModel: DetailViewModel = viewModel(),
     navController: NavController,
-    record: Record?
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val list by remember { derivedStateOf { Constant.records } }
 
     BackHandler { navController.navigateBack() }
 
@@ -42,12 +44,11 @@ fun ViewRecordScreen(
         topBar = {
             ViewRecordTopBar(
                 scrollBehavior = scrollBehavior,
-                navController = navController,
-                record = record
+                navController = navController
             )
         }
     ) { innerPadding ->
-        if (list.isEmpty() || record == null) {
+        if (viewModel.record == null) {
             PageIndicator(
                 modifier = Modifier.padding(innerPadding),
                 icon = R.drawable.box_time_outline,
@@ -55,8 +56,7 @@ fun ViewRecordScreen(
             )
         } else {
             ViewRecord(
-                modifier = Modifier.padding(innerPadding),
-                record = record
+                modifier = Modifier.padding(innerPadding)
             )
         }
     }
@@ -64,9 +64,11 @@ fun ViewRecordScreen(
 
 @Composable
 private fun ViewRecord(
-    record: Record,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: DetailViewModel = viewModel()
 ) {
+    val record = viewModel.record!!
+
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
@@ -81,18 +83,18 @@ private fun ViewRecord(
 
 @Composable
 private fun ViewRecordTopBar(
+    viewModel: DetailViewModel = viewModel(),
     context: Context = LocalContext.current,
     scrollBehavior: TopAppBarScrollBehavior,
-    navController: NavController,
-    record: Record?
+    navController: NavController
 ) = NavigateUpTopBar(
     title = R.string.page_view_record,
     actions = {
         IconButton(
             onClick = {
-                JsonUtils.share(context = context, value = record!!)
+                JsonUtils.share(context = context, value = viewModel.record!!)
             },
-            enabled = record != null
+            enabled = viewModel.record != null
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.send_outline),
@@ -101,10 +103,10 @@ private fun ViewRecordTopBar(
         }
 
         var delete by remember { mutableStateOf(false) }
-        if (delete) DeleteDialog(navController, record!!) { delete = false }
+        if (delete) DeleteDialog(navController = navController) { delete = false }
         IconButton(
             onClick = { delete = true },
-            enabled = record != null
+            enabled = viewModel.record != null
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.trash_outline),
@@ -118,8 +120,8 @@ private fun ViewRecordTopBar(
 
 @Composable
 private fun DeleteDialog(
+    viewModel: DetailViewModel = viewModel(),
     navController: NavController,
-    record: Record,
     onClose: () -> Unit
 ) = AlertDialog(
     onDismissRequest = onClose,
@@ -129,7 +131,7 @@ private fun DeleteDialog(
     confirmButton = {
         TextButton(
             onClick = {
-                Constant.delete(value = record)
+                viewModel.delete()
                 navController.navigateBack()
                 onClose()
             }

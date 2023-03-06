@@ -22,11 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sanmer.geomag.R
 import com.sanmer.geomag.data.record.Record
-import com.sanmer.geomag.viewmodel.RecordViewModel
+import com.sanmer.geomag.viewmodel.RecordsViewModel
 
 @Composable
 fun RecordItem(
-    viewModel: RecordViewModel = viewModel(),
+    viewModel: RecordsViewModel = viewModel(),
     record: Record,
     onClick: () -> Unit = {}
 ) {
@@ -38,7 +38,7 @@ fun RecordItem(
                 enabled = true,
                 onClick = {
                     if (viewModel.chooser) {
-                        viewModel.change(record)
+                        viewModel.toggle(record)
                     } else {
                         onClick()
                     }
@@ -46,7 +46,7 @@ fun RecordItem(
                 onLongClick = {
                     if (!viewModel.chooser) {
                         viewModel.chooser = true
-                        viewModel.change(record)
+                        viewModel.toggle(record)
                     }
                 },
                 interactionSource = remember { MutableInteractionSource() },

@@ -57,7 +57,7 @@ fun TimeItem(
         trailingIcon = {
             IconButton(
                 onClick = {
-                    if (!edit) viewModel.changeTimeServiceState()
+                    if (!edit) viewModel.toggleTime()
                 }
             ) {
                 Icon(

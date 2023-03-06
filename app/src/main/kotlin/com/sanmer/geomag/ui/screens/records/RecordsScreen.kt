@@ -19,21 +19,19 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
 import com.sanmer.geomag.app.Config
-import com.sanmer.geomag.data.Constant
 import com.sanmer.geomag.data.record.Record
 import com.sanmer.geomag.ui.component.PageIndicator
 import com.sanmer.geomag.ui.navigation.graph.RecordGraph.View.toRoute
 import com.sanmer.geomag.ui.navigation.navigateToHome
 import com.sanmer.geomag.utils.expansion.navigatePopUpTo
-import com.sanmer.geomag.viewmodel.RecordViewModel
+import com.sanmer.geomag.viewmodel.RecordsViewModel
 
 @Composable
 fun RecordsScreen(
-    navController: NavController,
-    viewModel: RecordViewModel = viewModel()
+    viewModel: RecordsViewModel = viewModel(),
+    navController: NavController
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val list by remember { derivedStateOf { Constant.records } }
 
     if (viewModel.isEmpty()) {
         viewModel.close()
@@ -47,6 +45,10 @@ fun RecordsScreen(
         }
     }
 
+    LaunchedEffect(viewModel) {
+        viewModel.getAll()
+    }
+
     Scaffold(
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -57,7 +59,7 @@ fun RecordsScreen(
             )
         }
     ) { innerPadding ->
-        if (list.isEmpty()) {
+        if (viewModel.records.isEmpty()) {
             PageIndicator(
                 modifier = Modifier.padding(innerPadding),
                 icon = R.drawable.box_time_outline,
@@ -66,7 +68,7 @@ fun RecordsScreen(
         } else {
             RecordsList(
                 modifier = Modifier.padding(innerPadding),
-                list = list,
+                list = viewModel.records,
                 navController = navController
             )
         }
@@ -75,7 +77,7 @@ fun RecordsScreen(
 
 @Composable
 private fun RecordsTopBar(
-    viewModel: RecordViewModel = viewModel(),
+    viewModel: RecordsViewModel = viewModel(),
     navController: NavController,
     scrollBehavior: TopAppBarScrollBehavior
 ) = if (viewModel.chooser) {
@@ -91,6 +93,7 @@ private fun RecordsTopBar(
 
 @Composable
 private fun RecordsNormalTopBar(
+    viewModel: RecordsViewModel = viewModel(),
     navController: NavController,
     scrollBehavior: TopAppBarScrollBehavior
 ) = TopAppBar(
@@ -116,9 +119,7 @@ private fun RecordsNormalTopBar(
     },
     actions = {
         IconButton(
-            onClick = {
-                Constant.getAll()
-            }
+            onClick = { viewModel.getAll() }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.rotate_left_outline),
@@ -132,7 +133,7 @@ private fun RecordsNormalTopBar(
 @Composable
 private fun RecordsSharedTopBar(
     context: Context = LocalContext.current,
-    viewModel: RecordViewModel = viewModel(),
+    viewModel: RecordsViewModel = viewModel(),
     scrollBehavior: TopAppBarScrollBehavior
 ) = TopAppBar(
     navigationIcon = {
@@ -196,7 +197,7 @@ private fun RecordsList(
 
 @Composable
 private fun DeleteDialog(
-    viewModel: RecordViewModel = viewModel(),
+    viewModel: RecordsViewModel = viewModel(),
     onClose: () -> Unit
 ) = AlertDialog(
     onDismissRequest = onClose,

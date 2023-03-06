@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sanmer.geomag.R
+import com.sanmer.geomag.app.Config
 import com.sanmer.geomag.core.time.TimerManager
 import com.sanmer.geomag.core.time.toDateTime
 import com.sanmer.geomag.service.LocationService
@@ -71,9 +72,9 @@ fun InputItem(
         label = stringResource(id = R.string.simple_input),
         trailingIcon = {
             ModelSelect(
-                selected = viewModel.model.id
+                selected = Config.MODEL
             ) {
-                viewModel.updateModel(it)
+                Config.MODEL = it.id
             }
         }
     ) {

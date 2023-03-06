@@ -6,16 +6,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sanmer.geomag.R
 import com.sanmer.geomag.data.Constant
 import com.sanmer.geomag.data.json.JsonUtils
 import com.sanmer.geomag.ui.component.CardItem
 import com.sanmer.geomag.ui.screens.viewrecord.ValuesItem
+import com.sanmer.geomag.viewmodel.HomeViewModel
 
 @Composable
-fun OutputItem() {
+fun OutputItem(
+    viewModel: HomeViewModel = viewModel()
+) {
     val context = LocalContext.current
-    val record = Constant.records.first()
+    val record = viewModel.record!!
 
     CardItem(
         iconRes = R.drawable.code_outline,

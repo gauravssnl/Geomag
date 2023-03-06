@@ -52,17 +52,9 @@ fun NavGraphBuilder.recordGraph(
         arguments = listOf(navArgument("index") { type = NavType.IntType }),
         enterTransition = { SlideIn.rightToLeft },
         exitTransition = { SlideOut.leftToRight }
-    ) { backStackEntry ->
-        val index = backStackEntry.arguments?.getInt("index") ?: 0
-        val record = try {
-            Constant.records[index]
-        } catch (e: Exception) {
-            null
-        }
-
+    ) {
         ViewRecordScreen(
-            navController = navController,
-            record = record
+            navController = navController
         )
     }
 }

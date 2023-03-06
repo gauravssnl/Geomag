@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sanmer.geomag.R
+import com.sanmer.geomag.app.Config
 import com.sanmer.geomag.core.models.Models
 import com.sanmer.geomag.core.models.getModel
 import com.sanmer.geomag.core.models.models
@@ -34,9 +35,9 @@ fun ModelItem(
         label = stringResource(id = R.string.model_title),
         trailingIcon = {
             ModelSelect(
-                selected = viewModel.model.id
+                selected = Config.MODEL
             ) {
-                viewModel.updateModel(it)
+                Config.MODEL = it.id
             }
         }
     ) {
