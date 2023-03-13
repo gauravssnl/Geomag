@@ -1,16 +1,14 @@
 package com.sanmer.geomag.utils
 
 import android.content.Context
-import android.content.SharedPreferences
+import com.sanmer.geomag.App
 import com.sanmer.geomag.BuildConfig
+import kotlin.reflect.KProperty
 
 object SPUtils {
+    private val context by lazy { App.context }
     private const val SP_NAME = "${BuildConfig.APPLICATION_ID}_preferences"
-    private lateinit var sp: SharedPreferences
-
-    fun init(context: Context) {
-        sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
-    }
+    private val sp by lazy { context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE) }
 
     fun <T> getValue(name: String, default: T): T = with(sp) {
         val res: Any = when (default) {
@@ -19,7 +17,7 @@ object SPUtils {
             is Int -> getInt(name, default)
             is Boolean -> getBoolean(name, default)
             is Float -> getFloat(name, default)
-            else -> throw java.lang.IllegalArgumentException()
+            else -> throw IllegalArgumentException()
         }
         @Suppress("UNCHECKED_CAST")
         res as T
@@ -32,7 +30,29 @@ object SPUtils {
             is Int -> putInt(name, value)
             is Boolean -> putBoolean(name, value)
             is Float -> putFloat(name, value)
-            else -> throw IllegalArgumentException("This type can't be saved into Preferences")
+            else -> throw IllegalArgumentException("This type can't be saved into Preferences!")
         }.apply()
     }
 }
+
+data class Preference<T>(
+    var value: T
+) {
+    operator fun getValue(
+        thisObj: Any?, property:
+        KProperty<*>
+    ): T {
+        return SPUtils.getValue(property.name, value)
+    }
+
+    operator fun setValue(
+        thisObj: Any?,
+        property: KProperty<*>,
+        value: T
+    ) {
+        SPUtils.putValue(property.name, value)
+        this.value = value
+    }
+}
+
+fun <T>mutablePreferenceOf(value: T) = Preference(value)
