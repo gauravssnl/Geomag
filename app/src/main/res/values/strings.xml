@@ -1,14 +1,12 @@
 <resources>
-    <string name="app_name" translatable="false">Geomag</string>
     <string name="igrf">International Geomagnetic Reference Field</string>
     <string name="wmm">World Magnetic Model</string>
 
     <!-- Page -->
     <string name="page_home">Home</string>
-    <string name="page_record">Records</string>
+    <string name="page_records">Records</string>
     <string name="page_settings">Settings</string>
     <string name="page_view_record">View Record</string>
-    <string name="page_app_theme">@string/settings_app_theme</string>
 
     <!-- Home -->
     <!-- Model -->
@@ -91,5 +89,8 @@
 
     <!-- Notification -->
     <string name="notification_name_location">Location Service</string>
+
+    <!-- Shortcut -->
+    <string name="shortcut_log_label">Logs</string>
 
 </resources>

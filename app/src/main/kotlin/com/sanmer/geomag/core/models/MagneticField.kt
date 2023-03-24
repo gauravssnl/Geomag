@@ -1,8 +1,5 @@
 package com.sanmer.geomag.core.models
 
-import androidx.annotation.Keep
-
-@Keep
 data class MagneticField(
     val declination: Double,
     val declinationSV: Double,

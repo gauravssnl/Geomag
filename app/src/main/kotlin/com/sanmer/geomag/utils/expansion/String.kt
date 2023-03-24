@@ -1,14 +1,11 @@
 package com.sanmer.geomag.utils.expansion
 
-import timber.log.Timber
-
 fun String.toIntOr(v: Int): Int {
     if (isEmpty() || isBlank()) return v
 
     return try {
         toInt()
     } catch (e: NumberFormatException) {
-        Timber.e(e.message)
         v
     }
 }
@@ -21,7 +18,6 @@ fun String.toDoubleOrZero(): Double {
     return try {
         toDouble()
     } catch (e: NumberFormatException) {
-        Timber.e(e.message)
         0.0
     }
 }

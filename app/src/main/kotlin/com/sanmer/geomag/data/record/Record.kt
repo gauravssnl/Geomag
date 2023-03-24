@@ -1,13 +1,13 @@
 package com.sanmer.geomag.data.record
 
 import com.sanmer.geomag.core.models.MagneticField
-import com.sanmer.geomag.core.time.DateTime
 import com.squareup.moshi.JsonClass
+import kotlinx.datetime.LocalDateTime
 
 @JsonClass(generateAdapter = true)
 data class Record(
     val model: String,
-    val time: DateTime,
+    val time: LocalDateTime,
     val location: Position,
     val values: MagneticField
 ) {

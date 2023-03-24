@@ -8,8 +8,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sanmer.geomag.R
-import com.sanmer.geomag.data.Constant
-import com.sanmer.geomag.data.json.JsonUtils
+import com.sanmer.geomag.utils.JsonUtils
 import com.sanmer.geomag.ui.component.CardItem
 import com.sanmer.geomag.ui.screens.viewrecord.ValuesItem
 import com.sanmer.geomag.viewmodel.HomeViewModel

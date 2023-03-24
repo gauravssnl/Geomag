@@ -11,7 +11,7 @@ object Config {
     private val sp = SPUtils
 
     // MODEL
-    var MODEL by mutableStateOf(Models.MIGRF.id)
+    var MODEL by mutableStateOf(Models.IGRF.id)
 
     // THEME_COLOR
     var THEME_COLOR by mutableStateOf(

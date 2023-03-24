@@ -35,10 +35,8 @@ class Position(
     }
 }
 
-fun Location.toPosition(): Position {
-    return Position(
-        altitude = altitude,
-        latitude = latitude,
-        longitude = longitude
-    )
-}
+fun Location.toPosition() = Position(
+    altitude = altitude,
+    latitude = latitude,
+    longitude = longitude
+)

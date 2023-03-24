@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
-import com.sanmer.geomag.utils.expansion.navigatePopUpTo
+import com.sanmer.geomag.ui.utils.navigatePopUpTo
 
 sealed class MainGraph(
     val route: String,
@@ -20,12 +20,12 @@ sealed class MainGraph(
     )
     object Records : MainGraph(
         route = "recordsGraph",
-        label = R.string.page_record,
+        label = R.string.page_records,
         icon = R.drawable.message_text_outline,
         iconSelected = R.drawable.message_text_bold
     )
     object Settings : MainGraph(
-        route = "SettingsGraph",
+        route = "settingsGraph",
         label = R.string.page_settings,
         icon = R.drawable.setting_outline,
         iconSelected = R.drawable.setting_bold

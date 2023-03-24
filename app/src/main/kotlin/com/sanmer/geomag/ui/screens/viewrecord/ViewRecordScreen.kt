@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,14 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
-import com.sanmer.geomag.data.Constant
-import com.sanmer.geomag.data.json.JsonUtils
-import com.sanmer.geomag.data.record.Record
 import com.sanmer.geomag.ui.component.PageIndicator
 import com.sanmer.geomag.ui.utils.NavigateUpTopBar
-import com.sanmer.geomag.utils.expansion.navigateBack
+import com.sanmer.geomag.ui.utils.navigateBack
+import com.sanmer.geomag.ui.utils.none
+import com.sanmer.geomag.utils.JsonUtils
 import com.sanmer.geomag.viewmodel.DetailViewModel
-import com.sanmer.geomag.viewmodel.RecordsViewModel
 
 @Composable
 fun ViewRecordScreen(
@@ -46,7 +45,8 @@ fun ViewRecordScreen(
                 scrollBehavior = scrollBehavior,
                 navController = navController
             )
-        }
+        },
+        contentWindowInsets = WindowInsets.none
     ) { innerPadding ->
         if (viewModel.record == null) {
             PageIndicator(

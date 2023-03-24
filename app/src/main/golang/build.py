@@ -49,18 +49,10 @@ class BuildTask:
 
         self._sdk_version = sdk_version
 
-        self._is_debug = False
+        self.is_debug = False
 
     def __getattr__(self, item):
         return self.__dict__[item]
-
-    @property
-    def is_debug(self):
-        return self._is_debug
-
-    @is_debug.setter
-    def is_debug(self, value: bool):
-        self._is_debug = value
 
     @staticmethod
     def is_windows_x86_64() -> bool:
@@ -138,7 +130,7 @@ class BuildTask:
         commands.append("go")
         commands.append("build")
 
-        if self._is_debug:
+        if self.is_debug:
             commands.append("-x")
 
         commands.append("-trimpath")
@@ -154,13 +146,12 @@ class BuildTask:
         commands.append(package_name)
 
         print(f"> Task :{library_name}:configureEnvironment[{abi}]")
-        env = os.environ.update(self.build_environment(abi))
+        os.environ.update(self.build_environment(abi))
 
         print(f"> Task :{library_name}:buildLibrary[{abi}]")
         subprocess.run(
             args=commands,
-            cwd=self._work_directory.as_posix(),
-            env=env
+            cwd=self._work_directory.as_posix()
         )
 
     def task(self):

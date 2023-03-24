@@ -4,7 +4,7 @@
 
     <!-- Page -->
     <string name="page_home">首页</string>
-    <string name="page_record">记录</string>
+    <string name="page_records">记录</string>
     <string name="page_settings">设置</string>
     <string name="page_view_record">查看记录</string>
 
@@ -89,5 +89,8 @@
 
     <!-- Notification -->
     <string name="notification_name_location">定位服务</string>
+
+    <!-- Shortcut -->
+    <string name="shortcut_log_label">日志</string>
 
 </resources>

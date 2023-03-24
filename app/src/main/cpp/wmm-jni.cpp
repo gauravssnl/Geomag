@@ -4,8 +4,6 @@
 #include "libwmm.h"
 #include "logging.h"
 
-MagneticField W_MF;
-
 MagneticField wmm(double lat, double lon, double alt, double decimal_years) {
     double *values = WMM(lat, lon, alt, decimal_years);
 
@@ -26,19 +24,14 @@ MagneticField wmm(double lat, double lon, double alt, double decimal_years) {
 }
 
 extern "C"
-JNIEXPORT void JNICALL
-Java_com_sanmer_geomag_core_models_WMM_wmm(JNIEnv *env, jobject thiz, jdouble latitude,
-                                           jdouble longitude, jdouble alt_km) {
+JNIEXPORT jobject JNICALL
+Java_com_sanmer_geomag_core_models_Geomag_wmm(JNIEnv *env, jobject thiz, jdouble latitude,
+                                              jdouble longitude, jdouble alt_km) {
     jclass cls = (*env).GetObjectClass(thiz);
     jfieldID dy_id = (*env).GetStaticFieldID(cls, "decimalYears", "D");
     jdouble dy = (*env).GetStaticDoubleField(cls, dy_id);
 
     LOGD("WMM lat=%f, lon=%f, alt_km=%f, date=%f", latitude, longitude, alt_km, dy);
-    W_MF = wmm(latitude, longitude, alt_km, dy);
-}
-
-extern "C"
-JNIEXPORT jobject JNICALL
-Java_com_sanmer_geomag_core_models_WMM_getMF(JNIEnv *env, jobject thiz) {
-    return GEOMAG::toMagneticField(env, W_MF);
+    MagneticField values = wmm(latitude, longitude, alt_km, dy);
+    return GEOMAG::toMagneticField(env, values);
 }

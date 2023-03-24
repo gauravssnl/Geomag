@@ -19,7 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sanmer.geomag.R
 import com.sanmer.geomag.app.Config
 import com.sanmer.geomag.core.models.Models
-import com.sanmer.geomag.core.models.getModel
+import com.sanmer.geomag.core.models.getModelById
 import com.sanmer.geomag.core.models.models
 import com.sanmer.geomag.ui.component.CardItem
 import com.sanmer.geomag.ui.component.DropdownMenu
@@ -91,7 +91,7 @@ fun ModelSelect(
             FilterChip(
                 selected = true,
                 onClick = { expanded = true },
-                label = { Text(text = getModel(selected).label) },
+                label = { Text(text = getModelById(selected).label) },
                 trailingIcon = {
                     Icon(
                         modifier = Modifier

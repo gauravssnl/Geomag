@@ -6,10 +6,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.sanmer.geomag.core.models.Geomag
 import com.sanmer.geomag.core.models.MagneticField
-import com.sanmer.geomag.core.models.getModelID
-import com.sanmer.geomag.core.time.toDateTime
+import com.sanmer.geomag.core.models.getModelByLabel
 import com.sanmer.geomag.data.record.Position
 import com.sanmer.geomag.data.record.Record
+import kotlinx.datetime.toLocalDateTime
 
 @Entity(tableName = "records")
 data class RecordEntity(
@@ -25,29 +25,25 @@ data class RecordEntity(
 private val Record.primaryKey: Double get() {
     val decimal = Geomag.toDecimalYears(time)
     val position = location.altitude - location.latitude - location.longitude
-    return decimal + position + getModelID(model)
+    return decimal + position + getModelByLabel(model).id
 }
 
-fun Record.toEntity(): RecordEntity {
-    return RecordEntity(
-        model = model,
-        time = time.toString(),
-        altitude = location.altitude,
-        latitude = location.latitude,
-        longitude = location.longitude,
-        values = values.toEntity(),
-        id = primaryKey
-    )
-}
+fun Record.toEntity() = RecordEntity(
+    model = model,
+    time = time.toString(),
+    altitude = location.altitude,
+    latitude = location.latitude,
+    longitude = location.longitude,
+    values = values.toEntity(),
+    id = primaryKey
+)
 
-fun RecordEntity.toRecord(): Record {
-    return Record(
-        model = model,
-        time = time.toDateTime(),
-        location = Position(altitude, latitude, longitude),
-        values = values.toMF()
-    )
-}
+fun RecordEntity.toRecord() = Record(
+    model = model,
+    time = time.toLocalDateTime(),
+    location = Position(altitude, latitude, longitude),
+    values = values.toMF()
+)
 
 @Entity(tableName = "magnetic_field")
 data class MagneticFieldEntity(
@@ -67,26 +63,22 @@ data class MagneticFieldEntity(
     @ColumnInfo(name = "total_sv") val totalSV: Double
 )
 
-fun MagneticField.toEntity(): MagneticFieldEntity {
-    return MagneticFieldEntity(
-        declination, declinationSV,
-        inclination, inclinationSV,
-        horizontalIntensity, horizontalSV,
-        northComponent, northSV,
-        eastComponent, eastSV,
-        verticalComponent, verticalSV,
-        totalIntensity, totalSV
-    )
-}
+fun MagneticField.toEntity() = MagneticFieldEntity(
+    declination, declinationSV,
+    inclination, inclinationSV,
+    horizontalIntensity, horizontalSV,
+    northComponent, northSV,
+    eastComponent, eastSV,
+    verticalComponent, verticalSV,
+    totalIntensity, totalSV
+)
 
-fun MagneticFieldEntity.toMF(): MagneticField {
-    return MagneticField(
-        declination, declinationSV,
-        inclination, inclinationSV,
-        horizontalIntensity, horizontalSV,
-        northComponent, northSV,
-        eastComponent, eastSV,
-        verticalComponent, verticalSV,
-        totalIntensity, totalSV
-    )
-}
+fun MagneticFieldEntity.toMF() = MagneticField(
+    declination, declinationSV,
+    inclination, inclinationSV,
+    horizontalIntensity, horizontalSV,
+    northComponent, northSV,
+    eastComponent, eastSV,
+    verticalComponent, verticalSV,
+    totalIntensity, totalSV
+)

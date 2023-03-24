@@ -25,10 +25,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sanmer.geomag.R
-import com.sanmer.geomag.core.time.TimerManager
-import com.sanmer.geomag.core.time.toDateTime
+import com.sanmer.geomag.core.TimerManager
 import com.sanmer.geomag.ui.component.CardItem
 import com.sanmer.geomag.viewmodel.HomeViewModel
+import kotlinx.datetime.toLocalDateTime
 
 @Composable
 fun TimeItem(
@@ -40,7 +40,7 @@ fun TimeItem(
 
     val onDone: KeyboardActionScope.(FocusManager) -> Unit = {
         try {
-            viewModel.editDateTime(dateTime.text.toDateTime())
+            viewModel.editDateTime(dateTime.text.toLocalDateTime())
             edit = false
             fail = false
 

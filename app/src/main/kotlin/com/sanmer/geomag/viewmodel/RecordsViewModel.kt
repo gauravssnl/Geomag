@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sanmer.geomag.data.Constant
-import com.sanmer.geomag.data.json.JsonUtils
+import com.sanmer.geomag.utils.JsonUtils
 import com.sanmer.geomag.data.record.Record
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

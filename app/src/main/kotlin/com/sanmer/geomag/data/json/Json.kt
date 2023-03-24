@@ -15,16 +15,14 @@ data class RecordJson(
     @Json(name = "magnetic_field") val values: MagneticFieldJson
 )
 
-fun Record.toJson(): RecordJson {
-    return RecordJson(
-        model = model,
-        time = time.toString(),
-        altitude = location.altitude,
-        latitude = location.latitude,
-        longitude = location.longitude,
-        values = values.toJson()
-    )
-}
+fun Record.toJson() = RecordJson(
+    model = model,
+    time = time.toString(),
+    altitude = location.altitude,
+    latitude = location.latitude,
+    longitude = location.longitude,
+    values = values.toJson()
+)
 
 @JsonClass(generateAdapter = true)
 data class MagneticFieldJson(
@@ -44,14 +42,12 @@ data class MagneticFieldJson(
     @Json(name = "total_sv") val totalSV: Double,
 )
 
-fun MagneticField.toJson(): MagneticFieldJson {
-    return MagneticFieldJson(
-        declination, declinationSV,
-        inclination, inclinationSV,
-        horizontalIntensity, horizontalSV,
-        northComponent, northSV,
-        eastComponent, eastSV,
-        verticalComponent, verticalSV,
-        totalIntensity, totalSV
-    )
-}
+fun MagneticField.toJson() = MagneticFieldJson(
+    declination, declinationSV,
+    inclination, inclinationSV,
+    horizontalIntensity, horizontalSV,
+    northComponent, northSV,
+    eastComponent, eastSV,
+    verticalComponent, verticalSV,
+    totalIntensity, totalSV
+)

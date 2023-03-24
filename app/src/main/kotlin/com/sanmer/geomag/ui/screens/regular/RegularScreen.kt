@@ -1,5 +1,7 @@
 package com.sanmer.geomag.ui.screens.regular
 
+import android.content.Intent
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -19,7 +22,8 @@ import com.sanmer.geomag.R
 import com.sanmer.geomag.ui.navigation.graph.RecordGraph.View.toRoute
 import com.sanmer.geomag.ui.utils.HtmlText
 import com.sanmer.geomag.ui.utils.Logo
-import com.sanmer.geomag.utils.expansion.navigatePopUpTo
+import com.sanmer.geomag.ui.utils.navigatePopUpTo
+import com.sanmer.geomag.ui.utils.none
 import com.sanmer.geomag.viewmodel.HomeViewModel
 
 @Composable
@@ -27,6 +31,15 @@ fun RegularScreen(
     navController: NavController,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val context = LocalContext.current
+
+    BackHandler {
+        val home = Intent(Intent.ACTION_MAIN).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            addCategory(Intent.CATEGORY_HOME)
+        }
+        context.startActivity(home)
+    }
 
     Scaffold(
         modifier = Modifier
@@ -38,7 +51,8 @@ fun RegularScreen(
             RegularFloatingButton(
                 navController = navController,
             )
-        }
+        },
+        contentWindowInsets = WindowInsets.none
     ) { innerPadding ->
         Column(
             modifier = Modifier

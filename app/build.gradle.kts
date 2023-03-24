@@ -6,8 +6,8 @@ plugins {
     kotlin("android")
 }
 
-val verName = "0.4.1"
-val verCode = 41
+val verName = "0.4.2"
+val verCode = 42
 
 android {
     namespace = "com.sanmer.geomag"
@@ -136,26 +136,29 @@ ksp {
 
 dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-service:2.5.1")
-    implementation("com.google.android.material:material:1.9.0-alpha02")
-
-    implementation("androidx.activity:activity-compose:1.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
+    implementation("androidx.activity:activity-compose:1.7.0")
     implementation("androidx.navigation:navigation-compose:2.5.3")
-    implementation("androidx.compose.material3:material3:1.1.0-alpha07")
+    implementation("androidx.compose.material3:material3:1.1.0-beta01")
+    implementation("com.google.android.material:material:1.9.0-beta01")
 
-    val vCompose = "1.4.0-beta02"
+    val vLifecycle = "2.6.1"
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${vLifecycle}")
+    implementation("androidx.lifecycle:lifecycle-service:${vLifecycle}")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:${vLifecycle}")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:${vLifecycle}")
+
+    val vCompose = "1.4.0-rc01"
     implementation("androidx.compose.ui:ui:${vCompose}")
     implementation("androidx.compose.ui:ui-tooling-preview:${vCompose}")
     debugImplementation("androidx.compose.ui:ui-tooling:${vCompose}")
     debugImplementation("androidx.compose.ui:ui-test-manifest:${vCompose}")
 
-    val vAccompanist = "0.29.1-alpha"
+    val vAccompanist = "0.30.0"
     implementation("com.google.accompanist:accompanist-systemuicontroller:${vAccompanist}")
     implementation("com.google.accompanist:accompanist-permissions:${vAccompanist}")
     implementation("com.google.accompanist:accompanist-navigation-animation:${vAccompanist}")
 
-    val vRoom = "2.5.0"
+    val vRoom = "2.5.1"
     implementation("androidx.room:room-runtime:${vRoom}")
     implementation("androidx.room:room-ktx:${vRoom}")
     ksp("androidx.room:room-compiler:${vRoom}")
@@ -165,4 +168,5 @@ dependencies {
     ksp("com.squareup.moshi:moshi-kotlin-codegen:${vMoshi}")
 
     implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 }

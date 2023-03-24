@@ -1,6 +1,5 @@
 package com.sanmer.geomag.ui.screens.regular
 
-import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.provider.Settings
@@ -35,13 +34,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sanmer.geomag.R
-import com.sanmer.geomag.core.localtion.AppLocationManager
-import com.sanmer.geomag.data.record.toPosition
+import com.sanmer.geomag.core.AppLocationManager
 import com.sanmer.geomag.service.LocationService
 import com.sanmer.geomag.ui.component.CardItem
 import com.sanmer.geomag.utils.expansion.toDoubleOrZero
 import com.sanmer.geomag.viewmodel.HomeViewModel
-import timber.log.Timber
 
 @Composable
 fun LocationItem(
@@ -52,7 +49,7 @@ fun LocationItem(
     var location by remember { mutableStateOf(viewModel.locationOrZero) }
     var edit by remember { mutableStateOf(false) }
 
-    val isEnable = AppLocationManager.isEnable
+    val isEnable by AppLocationManager.isEnable.collectAsState()
     val isReady = AppLocationManager.isReady
     var iconRes by remember { mutableStateOf(R.drawable.location_slash_outline) }
     var onClick = { AppLocationManager.launchPermissionRequest() }
@@ -67,27 +64,38 @@ fun LocationItem(
         }
     )
 
-    var isNeeded by remember { mutableStateOf(false) }
-    if (isNeeded) LocationServiceDialog { isNeeded = false }
+    val updateLocation: () -> Unit = {
+        AppLocationManager.update {
+            if (!it) {
+                context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            } else {
+                onClick()
+            }
+        }
+    }
+
+    val toggleLocation: () -> Unit = {
+        AppLocationManager.update {
+            if (!it) {
+                context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            } else {
+                if (!isReady) {
+                    AppLocationManager.launchPermissionRequest()
+                } else {
+                    if (!edit) viewModel.toggleLocation(context)
+                }
+            }
+        }
+    }
 
     CardItem(
         iconRes = if (isEnable) iconRes else R.drawable.location_slash_outline,
-        onClick = if (isEnable) { onClick } else { { isNeeded = true } },
+        onClick = updateLocation,
         clickable = true,
         label = stringResource(id = R.string.location_title),
         trailingIcon = {
             IconButton(
-                onClick = {
-                    if (isEnable) {
-                        if (!isReady) {
-                            AppLocationManager.launchPermissionRequest()
-                        } else {
-                            if (!edit) viewModel.toggleLocation(context)
-                        }
-                    } else {
-                        isNeeded = true
-                    }
-                }
+                onClick = toggleLocation
             ) {
                 Icon(
                     painter = painterResource(id = if (viewModel.isLSRunning) {
@@ -282,7 +290,7 @@ fun EditItem(
                 color = textColor
             ),
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
+                keyboardType = KeyboardType.Ascii,
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(onDone = onDone),
@@ -297,41 +305,3 @@ fun EditItem(
         }
     }
 }
-
-@Composable
-private fun LocationServiceDialog(
-    context: Context = LocalContext.current,
-    onClose: () -> Unit
-) = AlertDialog(
-    shape = RoundedCornerShape(20.dp),
-    onDismissRequest = onClose,
-    title = {
-        Text(text = stringResource(id = R.string.dialog_title_attention))
-    },
-    text = {
-        Text(text = stringResource(id = R.string.location_dialog_desc))
-    },
-    confirmButton = {
-        TextButton(
-            onClick = {
-                context.startActivity(Intent().apply {
-                    action = Settings.ACTION_LOCATION_SOURCE_SETTINGS
-                })
-                onClose()
-            }
-        ) {
-            Text(
-                text = stringResource(id = R.string.dialog_ok)
-            )
-        }
-    },
-    dismissButton = {
-        TextButton(
-            onClick = onClose
-        ) {
-            Text(
-                text = stringResource(id = R.string.dialog_cancel)
-            )
-        }
-    }
-)

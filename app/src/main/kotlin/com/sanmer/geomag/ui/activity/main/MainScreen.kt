@@ -3,7 +3,9 @@ package com.sanmer.geomag.ui.activity.main
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.VerticalPager
@@ -12,9 +14,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.sanmer.geomag.app.Config
+import com.sanmer.geomag.app.Shortcut
 import com.sanmer.geomag.ui.navigation.BottomNav
 import com.sanmer.geomag.ui.navigation.MainGraph
 import com.sanmer.geomag.ui.navigation.graph.HomeGraph
@@ -31,6 +35,13 @@ private fun Int.toBoolean() = when (this) {
 @Composable
 fun MainScreen() {
     val state = rememberPagerState(initialPage = Config.SIMPLE_MODE.toInt())
+    val that = LocalContext.current as MainActivity
+
+    val startDestination = when (that.intent.action) {
+        Shortcut.ACTION_RECORDS -> MainGraph.Records.route
+        Shortcut.ACTION_SETTINGS -> MainGraph.Settings.route
+        else -> MainGraph.Home.route
+    }
 
     LaunchedEffect(Config.SIMPLE_MODE) {
         val id = Config.SIMPLE_MODE.toInt()
@@ -47,28 +58,28 @@ fun MainScreen() {
         userScrollEnabled = false
     ) {
         when {
-            it.toBoolean() -> SimpleScreen()
-            else -> RegularScreen()
+            it.toBoolean() -> SimpleScreen(startDestination)
+            else -> RegularScreen(startDestination)
         }
     }
 }
 
 @Composable
-private fun RegularScreen() {
+private fun RegularScreen(
+    startDestination: String
+) {
     val navController = rememberAnimatedNavController()
 
     Scaffold(
         bottomBar = {
-            BottomNav(
-                navController = navController
-            )
+            BottomNav(navController = navController)
         },
+        contentWindowInsets = WindowInsets.safeContent
     ) {
         AnimatedNavHost(
-            modifier = Modifier
-                .padding(bottom = it.calculateBottomPadding()),
+            modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
             navController = navController,
-            startDestination = MainGraph.Home.route,
+            startDestination = startDestination,
             enterTransition = { fadeIn(animationSpec = tween(400)) },
             exitTransition = { fadeOut(animationSpec = tween(300)) }
         ) {
@@ -87,24 +98,31 @@ private fun RegularScreen() {
 }
 
 @Composable
-private fun SimpleScreen() {
+private fun SimpleScreen(
+    startDestination: String
+) {
     val navController = rememberAnimatedNavController()
 
-    AnimatedNavHost(
-        navController = navController,
-        startDestination = MainGraph.Home.route,
-        enterTransition = { fadeIn(animationSpec = tween(400)) },
-        exitTransition = { fadeOut(animationSpec = tween(300)) }
+    Scaffold(
+        contentWindowInsets = WindowInsets.safeContent
     ) {
-        homeGraph(
+        AnimatedNavHost(
+            modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
             navController = navController,
-            startDestination = HomeGraph.Simple.route
-        )
-        recordGraph(
-            navController = navController
-        )
-        settingsGraph(
-            navController = navController
-        )
+            startDestination = startDestination,
+            enterTransition = { fadeIn(animationSpec = tween(400)) },
+            exitTransition = { fadeOut(animationSpec = tween(300)) }
+        ) {
+            homeGraph(
+                navController = navController,
+                startDestination = HomeGraph.Simple.route
+            )
+            recordGraph(
+                navController = navController
+            )
+            settingsGraph(
+                navController = navController
+            )
+        }
     }
 }

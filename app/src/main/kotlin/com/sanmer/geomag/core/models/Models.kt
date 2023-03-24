@@ -12,7 +12,7 @@ sealed class Models(
     val end: Double,
     val enable: Boolean = true
 ) {
-    object MIGRF : Models(
+    object IGRF : Models(
         id = 0,
         label = "IGRF",
         name = R.string.igrf,
@@ -20,7 +20,7 @@ sealed class Models(
         start = 1900.0,
         end = 2025.0
     )
-    object MWMM : Models(
+    object WMM : Models(
         id = 1,
         label = "WMM",
         name = R.string.wmm,
@@ -31,18 +31,10 @@ sealed class Models(
 }
 
 val models = listOf(
-    Models.MIGRF,
-    Models.MWMM
+    Models.IGRF,
+    Models.WMM
 )
 
-fun getModel(id: Int): Models {
-    return models.find {
-        it.id == id
-    } ?: Models.MIGRF
-}
+fun getModelById(id: Int) = models.find { it.id == id } ?: Models.IGRF
 
-fun getModelID(label: String): Int {
-    return models.find {
-        it.label == label
-    }?.id ?: Models.MIGRF.id
-}
+fun getModelByLabel(label: String) = models.find { it.label == label } ?: Models.IGRF

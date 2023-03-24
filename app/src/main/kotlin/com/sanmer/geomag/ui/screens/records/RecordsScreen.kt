@@ -2,6 +2,7 @@ package com.sanmer.geomag.ui.screens.records
 
 import android.content.Context
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,7 +24,8 @@ import com.sanmer.geomag.data.record.Record
 import com.sanmer.geomag.ui.component.PageIndicator
 import com.sanmer.geomag.ui.navigation.graph.RecordGraph.View.toRoute
 import com.sanmer.geomag.ui.navigation.navigateToHome
-import com.sanmer.geomag.utils.expansion.navigatePopUpTo
+import com.sanmer.geomag.ui.utils.navigatePopUpTo
+import com.sanmer.geomag.ui.utils.none
 import com.sanmer.geomag.viewmodel.RecordsViewModel
 
 @Composable
@@ -57,7 +59,8 @@ fun RecordsScreen(
                 navController = navController,
                 scrollBehavior = scrollBehavior
             )
-        }
+        },
+        contentWindowInsets = WindowInsets.none
     ) { innerPadding ->
         if (viewModel.records.isEmpty()) {
             PageIndicator(
@@ -99,7 +102,7 @@ private fun RecordsNormalTopBar(
 ) = TopAppBar(
     title = {
         Text(
-            text = stringResource(id = R.string.page_record),
+            text = stringResource(id = R.string.page_records),
             style = MaterialTheme.typography.titleLarge
         )
     },

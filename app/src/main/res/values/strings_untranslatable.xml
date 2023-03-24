@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Geomag</string>
+
+    <!-- Page -->
+    <string name="page_app_theme" translatable="false">@string/settings_app_theme</string>
+    <string name="page_log_viewer" translatable="false">@string/settings_log_viewer</string>
+
+
+    <!-- Shortcut -->
+    <string name="shortcut_records_label" translatable="false">@string/page_records</string>
+    <string name="shortcut_settings_label" translatable="false">@string/page_settings</string>
+
+</resources>

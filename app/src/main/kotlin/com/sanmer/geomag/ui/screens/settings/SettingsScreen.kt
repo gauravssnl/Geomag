@@ -2,6 +2,8 @@ package com.sanmer.geomag.ui.screens.settings
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -16,13 +18,13 @@ import androidx.navigation.NavController
 import com.sanmer.geomag.R
 import com.sanmer.geomag.app.Config
 import com.sanmer.geomag.ui.activity.log.LogActivity
-import com.sanmer.geomag.ui.activity.main.MainActivity
 import com.sanmer.geomag.ui.component.NormalItemForSetting
 import com.sanmer.geomag.ui.component.SwitchItem
 import com.sanmer.geomag.ui.component.TitleItemForSetting
 import com.sanmer.geomag.ui.navigation.graph.SettingsGraph
 import com.sanmer.geomag.ui.navigation.navigateToHome
-import com.sanmer.geomag.utils.expansion.navigatePopUpTo
+import com.sanmer.geomag.ui.utils.navigatePopUpTo
+import com.sanmer.geomag.ui.utils.none
 
 @Composable
 fun SettingsScreen(
@@ -41,7 +43,8 @@ fun SettingsScreen(
                 navController = navController,
                 scrollBehavior = scrollBehavior
             )
-        }
+        },
+        contentWindowInsets = WindowInsets.none
     ) { innerPadding ->
         Column(
             modifier = Modifier

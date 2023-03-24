@@ -1,9 +1,8 @@
 package com.sanmer.geomag.ui.screens.simple
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import android.content.Intent
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -15,16 +14,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sanmer.geomag.R
-import com.sanmer.geomag.data.Constant
 import com.sanmer.geomag.ui.navigation.navigateToRecords
 import com.sanmer.geomag.ui.navigation.navigateToSettings
 import com.sanmer.geomag.ui.utils.Logo
+import com.sanmer.geomag.ui.utils.none
 import com.sanmer.geomag.viewmodel.HomeViewModel
 
 @Composable
@@ -34,6 +34,15 @@ fun SimpleScreen(
 ) {
     var isFirst by rememberSaveable { mutableStateOf(true) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val context = LocalContext.current
+
+    BackHandler {
+        val home = Intent(Intent.ACTION_MAIN).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            addCategory(Intent.CATEGORY_HOME)
+        }
+        context.startActivity(home)
+    }
 
     Scaffold(
         modifier = Modifier
@@ -46,7 +55,8 @@ fun SimpleScreen(
         },
         floatingActionButton = {
             SimpleFloatingButton { if (isFirst) isFirst = false }
-        }
+        },
+        contentWindowInsets = WindowInsets.none
     ) { innerPadding ->
         Column(
             modifier = Modifier
