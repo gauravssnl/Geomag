@@ -1,14 +1,13 @@
-@file:Suppress("UnstableApiUsage")
-
 plugins {
     id("com.android.application")
     id("com.google.devtools.ksp")
     kotlin("android")
 }
 
-val verName = "0.4.2"
-val verCode = 42
+val verName = "0.4.3"
+val verCode = 43
 
+@Suppress("UnstableApiUsage")
 android {
     namespace = "com.sanmer.geomag"
     compileSdk = 33
@@ -87,7 +86,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
+        kotlinCompilerExtensionVersion = "1.4.3"
     }
 
     packagingOptions {
@@ -147,7 +146,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:${vLifecycle}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:${vLifecycle}")
 
-    val vCompose = "1.4.0-rc01"
+    val vCompose = "1.4.0"
     implementation("androidx.compose.ui:ui:${vCompose}")
     implementation("androidx.compose.ui:ui-tooling-preview:${vCompose}")
     debugImplementation("androidx.compose.ui:ui-tooling:${vCompose}")
