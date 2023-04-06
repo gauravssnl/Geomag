@@ -8,9 +8,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sanmer.geomag.data.Constant
-import com.sanmer.geomag.utils.JsonUtils
 import com.sanmer.geomag.data.record.Record
+import com.sanmer.geomag.utils.JsonUtils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -19,19 +21,27 @@ class RecordsViewModel : ViewModel() {
 
     private val out = mutableStateListOf<Record>()
     var chooser by mutableStateOf(false)
-    val size: Int get() = out.size
+    val size get() = out.size
 
     init {
         Timber.d("RecordViewModel init")
+
+        Constant.getAllAsFlow().onEach { list ->
+            if (list.isEmpty()) return@onEach
+
+            if (records.isNotEmpty()) records.clear()
+            records.addAll(list)
+            Timber.d("RecordsViewModel: update")
+
+        }.launchIn(viewModelScope)
     }
 
     fun getAll() = viewModelScope.launch {
-        if (records.isNotEmpty()) {
-            records.clear()
-        }
-
         val list = Constant.getAll()
+
+        if (records.isNotEmpty()) records.clear()
         records.addAll(list)
+        Timber.d("RecordsViewModel: update")
     }
 
     fun toggle(value: Record) {

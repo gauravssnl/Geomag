@@ -1,27 +1,28 @@
 package com.sanmer.geomag.data
 
 import android.content.Context
-import androidx.compose.runtime.mutableStateListOf
 import com.sanmer.geomag.data.database.AppDatabase
 import com.sanmer.geomag.data.database.toEntity
 import com.sanmer.geomag.data.database.toRecord
 import com.sanmer.geomag.data.record.Record
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 object Constant {
     private lateinit var db: AppDatabase
     private val recordDao get() = db.recordDao()
 
-    fun init(context: Context): AppDatabase {
+    fun init(context: Context) {
         db = AppDatabase.getDatabase(context)
-        return db
+    }
+
+    fun getAllAsFlow() = recordDao.getAllAsFlow().map { list ->
+        list.map { it.toRecord() }.asReversed()
     }
 
     suspend fun getAll() = withContext(Dispatchers.IO) {
-        recordDao.getAll().asReversed().map { it.toRecord() }
+        recordDao.getAll().map { it.toRecord() }.asReversed()
     }
 
     suspend fun insert(value: Record) = withContext(Dispatchers.IO) {

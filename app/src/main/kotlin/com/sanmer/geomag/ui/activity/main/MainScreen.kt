@@ -6,13 +6,9 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.pager.PagerDefaults
-import androidx.compose.foundation.pager.PagerSnapDistance
-import androidx.compose.foundation.pager.VerticalPager
-import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -26,15 +22,8 @@ import com.sanmer.geomag.ui.navigation.graph.homeGraph
 import com.sanmer.geomag.ui.navigation.graph.recordGraph
 import com.sanmer.geomag.ui.navigation.graph.settingsGraph
 
-private fun Boolean.toInt() = if (this) 1 else 0
-private fun Int.toBoolean() = when (this) {
-    1 -> true
-    else -> false
-}
-
 @Composable
 fun MainScreen() {
-    val state = rememberPagerState(initialPage = Config.SIMPLE_MODE.toInt())
     val that = LocalContext.current as MainActivity
 
     val startDestination = when (that.intent.action) {
@@ -43,24 +32,10 @@ fun MainScreen() {
         else -> MainGraph.Home.route
     }
 
-    LaunchedEffect(Config.SIMPLE_MODE) {
-        val id = Config.SIMPLE_MODE.toInt()
-        state.animateScrollToPage(id)
-    }
-
-    VerticalPager(
-        pageCount = 2,
-        state = state,
-        flingBehavior = PagerDefaults.flingBehavior(
-            state = state,
-            pagerSnapDistance = PagerSnapDistance.atMost(0)
-        ),
-        userScrollEnabled = false
-    ) {
-        when {
-            it.toBoolean() -> SimpleScreen(startDestination)
-            else -> RegularScreen(startDestination)
-        }
+    if (Config.SIMPLE_MODE) {
+        SimpleScreen(startDestination)
+    } else {
+        RegularScreen(startDestination)
     }
 }
 
@@ -104,7 +79,7 @@ private fun SimpleScreen(
     val navController = rememberAnimatedNavController()
 
     Scaffold(
-        contentWindowInsets = WindowInsets.safeContent
+        contentWindowInsets = WindowInsets.statusBars
     ) {
         AnimatedNavHost(
             modifier = Modifier.padding(bottom = it.calculateBottomPadding()),

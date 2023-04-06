@@ -28,7 +28,7 @@ class DetailViewModel(
             }.onSuccess {
                 record = it
             }.onFailure {
-                Timber.d("Record: ${it.message}")
+                Timber.d("getRecord: ${it.message}")
             }
         }
     }

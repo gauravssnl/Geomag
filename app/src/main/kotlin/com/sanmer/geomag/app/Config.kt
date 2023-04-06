@@ -1,15 +1,14 @@
 package com.sanmer.geomag.app
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import com.sanmer.geomag.core.models.Models
 import com.sanmer.geomag.ui.theme.Colors
-import com.sanmer.geomag.utils.SPUtils
-import kotlin.reflect.KProperty
+import com.sanmer.geomag.utils.preference.getValue
+import com.sanmer.geomag.utils.preference.setValue
 
 object Config {
-    private val sp = SPUtils
-
     // MODEL
     var MODEL by mutableStateOf(Models.IGRF.id)
 
@@ -28,36 +27,13 @@ object Config {
     const val ALWAYS_ON = 2
     var DARK_MODE by mutableStateOf(FOLLOW_SYSTEM)
 
-    //SIMPLE_MODE
-    var SIMPLE_MODE by mutableStateOf(false)
-
-    operator fun <T> MutableState<T>.setValue(thisObj: Any?, property: KProperty<*>, value: T) {
-        sp.putValue(property.name, value)
-        this.value = update(value)
-        this.value = value
-    }
-
-    operator fun <T> MutableState<T>.getValue(thisObj: Any?, property: KProperty<*>): T {
-        return sp.getValue(property.name, value)
-    }
-
-    private fun <T> update(value: T): T {
-        val res: Any = when (value) {
-            is Long -> Long.MAX_VALUE
-            is String -> ""
-            is Int -> Int.MAX_VALUE
-            is Boolean -> !value
-            is Float -> Float.MAX_VALUE
-            else -> throw java.lang.IllegalArgumentException()
-        }
-        @Suppress("UNCHECKED_CAST")
-        return res as T
-    }
-
     @Composable
     fun isDarkTheme() = when (DARK_MODE) {
         ALWAYS_ON -> true
         ALWAYS_OFF -> false
         else -> isSystemInDarkTheme()
     }
+
+    //SIMPLE_MODE
+    var SIMPLE_MODE by mutableStateOf(false)
 }

@@ -47,10 +47,6 @@ fun RecordsScreen(
         }
     }
 
-    LaunchedEffect(viewModel) {
-        viewModel.getAll()
-    }
-
     Scaffold(
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
