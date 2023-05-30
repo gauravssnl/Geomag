@@ -1,3 +1,4 @@
+
 import com.android.build.gradle.internal.api.ApkVariantOutputImpl
 import java.time.Instant
 
@@ -28,12 +29,6 @@ android {
 
         ndk {
             abiFilters += arrayOf("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
-        }
-
-        externalNativeBuild {
-            cmake {
-                arguments += "-DANDROID_STL=c++_static"
-            }
         }
     }
 
@@ -105,8 +100,15 @@ android {
 
     applicationVariants.configureEach {
         outputs.configureEach {
-            (this as ApkVariantOutputImpl).outputFileName =
-                "geomag-v${versionName}-${versionCode}-${name}.apk"
+            this as ApkVariantOutputImpl
+            outputFileName = "geomag-${versionName}-${versionCode}-${name}.apk"
+        }
+    }
+
+    splits {
+        abi {
+            isEnable = true
+            isUniversalApk = true
         }
     }
 }
