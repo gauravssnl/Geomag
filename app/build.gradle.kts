@@ -1,32 +1,28 @@
+import com.android.build.gradle.internal.api.ApkVariantOutputImpl
+import java.time.Instant
+
 plugins {
-    id("com.android.application")
-    id("com.google.devtools.ksp")
-    kotlin("android")
+    id("mrepo.android.application")
+    id("mrepo.android.application.compose")
+    id("mrepo.android.hilt")
+    id("mrepo.android.room")
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.protobuf)
 }
 
-val verName = "0.4.3"
-val verCode = 43
+val baseVersionName = "0.4.4"
+val isDevVersion: Boolean get() = exec("git tag -l v${baseVersionName}").isEmpty()
+val verNameSuffix: String get() = if (isDevVersion) ".dev" else ""
 
-@Suppress("UnstableApiUsage")
 android {
     namespace = "com.sanmer.geomag"
-    compileSdk = 33
-    buildToolsVersion = "33.0.2"
-    ndkVersion = "25.2.9519653"
-
-    signingConfigs {
-        create("release") {
-            enableV2Signing = true
-            enableV3Signing = true
-        }
-    }
 
     defaultConfig {
         applicationId = namespace
-        minSdk = 26
-        targetSdk = 33
-        versionCode = verCode
-        versionName = verName
+        versionName = "${baseVersionName}${verNameSuffix}.${commitId}"
+        versionCode = commitCount
+
         resourceConfigurations += arrayOf("en", "zh-rCN")
         multiDexEnabled = true
 
@@ -54,15 +50,25 @@ android {
         }
     }
 
+    val releaseSigning = if (project.hasReleaseKeyStore) {
+        signingConfigs.create("release") {
+            storeFile = project.releaseKeyStore
+            storePassword = project.releaseKeyStorePassword
+            keyAlias = project.releaseKeyAlias
+            keyPassword = project.releaseKeyPassword
+            enableV2Signing = true
+            enableV3Signing = true
+        }
+    } else {
+        signingConfigs.getByName("debug")
+    }
+
     buildTypes {
         debug {
-            versionNameSuffix = ".dev"
-            isMinifyEnabled = false
-            isShrinkResources = false
+            versionNameSuffix = ".debug"
         }
 
         release {
-            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -70,20 +76,17 @@ android {
                 "proguard-rules.pro"
             )
         }
-    }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        all {
+            signingConfig = releaseSigning
+            buildConfigField("Boolean", "IS_DEV_VERSION", isDevVersion.toString())
+            buildConfigField("String", "BUILD_TIME", "\"${Instant.now()}\"")
+        }
     }
 
     buildFeatures {
+        aidl = true
         buildConfig = true
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
     }
 
     packaging {
@@ -100,75 +103,56 @@ android {
         }
     }
 
-    setProperty("archivesBaseName", "geomag-$verName")
-    splits {
-        abi {
-            isEnable = true
-            isUniversalApk = true
+    applicationVariants.configureEach {
+        outputs.configureEach {
+            (this as ApkVariantOutputImpl).outputFileName =
+                "geomag-v${versionName}-${versionCode}-${name}.apk"
         }
     }
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+protobuf {
+    protoc {
+        artifact = libs.protobuf.protoc.get().toString()
     }
-}
 
-kotlin {
-    jvmToolchain(17)
-
-    sourceSets.all {
-        languageSettings {
-            optIn("androidx.compose.material3.ExperimentalMaterial3Api")
-            optIn("androidx.compose.ui.ExperimentalComposeUiApi")
-            optIn("androidx.compose.animation.ExperimentalAnimationApi")
-            optIn("androidx.compose.foundation.ExperimentalFoundationApi")
-            optIn("com.google.accompanist.permissions.ExperimentalPermissionsApi")
-            optIn("kotlin.ExperimentalStdlibApi")
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                register("java") {
+                    option("lite")
+                }
+                register("kotlin") {
+                    option("lite")
+                }
+            }
         }
     }
-}
-
-ksp {
-    arg("room.incremental", "true")
-    arg("room.expandProjection", "true")
-    arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.10.0")
-    implementation("androidx.activity:activity-compose:1.7.0")
-    implementation("androidx.navigation:navigation-compose:2.5.3")
-    implementation("androidx.compose.material3:material3:1.1.0-beta02")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation(libs.accompanist.drawablepainter)
+    implementation(libs.accompanist.navigation.animation)
+    implementation(libs.accompanist.permissions)
+    implementation(libs.accompanist.systemuicontroller)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.androidx.documentfile)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.service)
+    implementation(libs.androidx.lifecycle.viewModel.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.work.ktx)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.protobuf.kotlin.lite)
 
-    val vLifecycle = "2.6.1"
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${vLifecycle}")
-    implementation("androidx.lifecycle:lifecycle-service:${vLifecycle}")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:${vLifecycle}")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:${vLifecycle}")
+    implementation(libs.square.moshi)
+    ksp(libs.square.moshi.kotlin)
 
-    val vCompose = "1.4.0"
-    implementation("androidx.compose.ui:ui:${vCompose}")
-    implementation("androidx.compose.ui:ui-tooling-preview:${vCompose}")
-    debugImplementation("androidx.compose.ui:ui-tooling:${vCompose}")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:${vCompose}")
-
-    val vAccompanist = "0.30.0"
-    implementation("com.google.accompanist:accompanist-systemuicontroller:${vAccompanist}")
-    implementation("com.google.accompanist:accompanist-permissions:${vAccompanist}")
-    implementation("com.google.accompanist:accompanist-navigation-animation:${vAccompanist}")
-
-    val vRoom = "2.5.1"
-    implementation("androidx.room:room-runtime:${vRoom}")
-    implementation("androidx.room:room-ktx:${vRoom}")
-    ksp("androidx.room:room-compiler:${vRoom}")
-
-    val vMoshi = "1.14.0"
-    implementation("com.squareup.moshi:moshi:${vMoshi}")
-    ksp("com.squareup.moshi:moshi-kotlin-codegen:${vMoshi}")
-
-    implementation("com.jakewharton.timber:timber:5.0.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+    implementation(libs.timber)
 }

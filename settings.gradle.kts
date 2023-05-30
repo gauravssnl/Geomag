@@ -1,4 +1,6 @@
-@Suppress("UnstableApiUsage")
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -16,9 +18,6 @@ pluginManagement {
     }
 }
 
-rootProject.apply {
-    name = "Geomag"
-    buildFileName = "build.gradle.kts"
-}
-
+rootProject.name = "Geomag"
 include(":app")
+includeBuild("build-logic")
