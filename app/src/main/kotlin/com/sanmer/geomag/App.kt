@@ -1,10 +1,7 @@
 package com.sanmer.geomag
 
 import android.app.Application
-import com.sanmer.geomag.core.AppLocationManager
-import com.sanmer.geomag.core.TimerManager
-import com.sanmer.geomag.data.Constant
-import com.sanmer.geomag.utils.NotificationUtils
+import com.sanmer.geomag.app.utils.ShortcutUtils
 import com.sanmer.geomag.utils.timber.DebugTree
 import com.sanmer.geomag.utils.timber.ReleaseTree
 import timber.log.Timber
@@ -21,11 +18,7 @@ class App : Application() {
         super.onCreate()
         app = this
 
-        NotificationUtils.init(this)
-
-        AppLocationManager.init()
-        TimerManager.init()
-        Constant.init(this)
+        ShortcutUtils.push()
     }
 
     companion object {

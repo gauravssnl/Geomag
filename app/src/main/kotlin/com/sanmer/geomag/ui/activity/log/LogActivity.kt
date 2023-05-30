@@ -3,28 +3,30 @@ package com.sanmer.geomag.ui.activity.log
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.runtime.LaunchedEffect
-import androidx.core.view.WindowCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.sanmer.geomag.service.LogcatService
-import com.sanmer.geomag.ui.theme.AppTheme
+import com.sanmer.geomag.ui.activity.base.BaseActivity
+import kotlinx.coroutines.launch
 
-class LogActivity : ComponentActivity() {
+class LogActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        setContent {
-            LaunchedEffect(LogcatService.isActive) {
-                if (!LogcatService.isActive) {
-                    LogcatService.start(this@LogActivity)
-                }
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                LogcatService.isActive
+                    .collect { isActive ->
+                        if (!isActive) {
+                            LogcatService.start(this@LogActivity)
+                        }
+                    }
             }
+        }
 
-            AppTheme {
-                LogScreen()
-            }
+        setActivityContent {
+            LogScreen()
         }
     }
 

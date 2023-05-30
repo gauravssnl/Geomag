@@ -4,7 +4,7 @@
 
 namespace GEOMAG {
     jobject toMagneticField(JNIEnv *env, MagneticField values) {
-        jclass mf_clazz = (*env).FindClass("com/sanmer/geomag/core/models/MagneticField");
+        jclass mf_clazz = (*env).FindClass("com/sanmer/geomag/model/MagneticField");
         jmethodID mf_init = (*env).GetMethodID(mf_clazz, "<init>", "(DDDDDDDDDDDDDD)V");
         jobject mf_object = (*env).NewObject(mf_clazz, mf_init,
                     values.Declination, values.DeclinationSV,
@@ -26,7 +26,7 @@ namespace GEOMAG {
 
 extern "C"
 JNIEXPORT jdouble JNICALL
-Java_com_sanmer_geomag_core_models_Geomag_toDecimalYears(JNIEnv *env, jobject thiz, jint year,
+Java_com_sanmer_geomag_Geomag_toDecimalYears(JNIEnv *env, jobject thiz, jint year,
                                                          jint month, jint day, jint hour, jint min,
                                                          jint sec) {
     return GEOMAG::getDecimalYears(year, month, day, hour, min, sec);

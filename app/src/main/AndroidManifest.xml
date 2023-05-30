@@ -20,25 +20,19 @@
 
         <activity
             android:name=".ui.activity.main.MainActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <intent-filter>
-                <action android:name="${applicationId}.shortcut.RECORDS"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="${applicationId}.shortcut.SETTINGS"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
         </activity>
 
         <activity android:name=".ui.activity.log.LogActivity"
-            android:exported="true"/>
+            android:label="@string/settings_log_viewer"
+            android:exported="true"
+            android:launchMode="singleTask"/>
 
         <service
             android:name=".service.LocationService"
@@ -48,6 +42,15 @@
 
         <service android:name=".service.LogcatService"
             android:exported="false"/>
+
+        <receiver
+            android:name=".receiver.LogcatReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <provider
             android:name="androidx.core.content.FileProvider"

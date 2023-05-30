@@ -15,9 +15,9 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.sanmer.geomag.R
 import com.sanmer.geomag.app.Const
-import com.sanmer.geomag.core.AppLocationManager
+import com.sanmer.geomag.app.utils.LocationManagerUtils
+import com.sanmer.geomag.app.utils.NotificationUtils
 import com.sanmer.geomag.ui.activity.main.MainActivity
-import com.sanmer.geomag.utils.NotificationUtils
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -38,7 +38,7 @@ class LocationService : LifecycleService() {
             return START_NOT_STICKY
         }
 
-        AppLocationManager.locationUpdates(lifecycleScope)
+        LocationManagerUtils.locationUpdates()
             .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
             .onEach {
                 location = it
@@ -74,7 +74,7 @@ class LocationService : LifecycleService() {
     }
 
     companion object {
-        const val STOP_SERVICE = "STOP_SERVICE"
+        const val STOP_SERVICE = "STOP_LOCATION_SERVICE"
 
         var isRunning by mutableStateOf(false)
             private set

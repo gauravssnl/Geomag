@@ -25,7 +25,7 @@ MagneticField wmm(double lat, double lon, double alt, double decimal_years) {
 
 extern "C"
 JNIEXPORT jobject JNICALL
-Java_com_sanmer_geomag_core_models_Geomag_wmm(JNIEnv *env, jobject thiz, jdouble latitude,
+Java_com_sanmer_geomag_Geomag_wmm(JNIEnv *env, jobject thiz, jdouble latitude,
                                               jdouble longitude, jdouble alt_km) {
     jclass cls = (*env).GetObjectClass(thiz);
     jfieldID dy_id = (*env).GetStaticFieldID(cls, "decimalYears", "D");

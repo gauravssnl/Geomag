@@ -1,13 +1,12 @@
 package com.sanmer.geomag.utils
 
-import android.content.Context
 import com.sanmer.geomag.App
-import com.sanmer.geomag.data.json.RecordJson
-import com.sanmer.geomag.data.json.toJson
-import com.sanmer.geomag.data.record.Record
+import com.sanmer.geomag.model.Record
+import com.sanmer.geomag.model.json.RecordJson
+import com.sanmer.geomag.model.json.toJson
+import com.sanmer.geomag.utils.expansion.jsonDir
 import com.sanmer.geomag.utils.expansion.now
 import com.sanmer.geomag.utils.expansion.shareFile
-import com.sanmer.geomag.utils.expansion.toCacheDir
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapter
 import kotlinx.datetime.LocalDateTime
@@ -19,33 +18,35 @@ object JsonUtils {
     private val records = moshi.adapter<List<RecordJson>>()
 
     init {
-        deleteJson(context)
+        context.jsonDir.deleteRecursively()
     }
 
-    private fun toJson(value: Record): String? {
-        return record.indent("    ").toJson(value.toJson())
+    private fun Record.toJsonText(): String? {
+        return record.indent("    ").toJson(toJson())
     }
 
-    private fun toJson(values: List<Record>): String? {
-        val list = values.map { it.toJson() }
+    private fun List<Record>.toJsonText(): String? {
+        val list = map { it.toJson() }
         return records.indent("    ").toJson(list)
     }
 
-    fun share(context: Context, value: Record) {
-        val jsonString = toJson(value)
-        val name = "json/${value.time}.json"
-        val file = context.toCacheDir(jsonString, name)
+    fun shareJsonFile(value: Record) {
+        val file = context.jsonDir
+            .resolve("${value.time}.json")
+            .apply {
+                writeText(value.toJsonText()!!)
+            }
+
         context.shareFile(file, "text/json")
     }
 
-    fun share(context: Context, values: List<Record>) {
-        val jsonString = toJson(values)
-        val name = "json/${LocalDateTime.now()}.json"
-        val file = context.toCacheDir(jsonString, name)
-        context.shareFile(file, "text/json")
-    }
+    fun shareJsonFile(values: List<Record>) {
+        val file = context.jsonDir
+            .resolve("${LocalDateTime.now()}.json")
+            .apply {
+                writeText(values.toJsonText()!!)
+            }
 
-    private fun deleteJson(context: Context) {
-        context.cacheDir.resolve("json").deleteRecursively()
+        context.shareFile(file, "text/json")
     }
 }
