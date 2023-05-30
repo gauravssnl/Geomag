@@ -2,10 +2,10 @@ import com.android.build.gradle.internal.api.ApkVariantOutputImpl
 import java.time.Instant
 
 plugins {
-    id("mrepo.android.application")
-    id("mrepo.android.application.compose")
-    id("mrepo.android.hilt")
-    id("mrepo.android.room")
+    id("geomag.android.application")
+    id("geomag.android.application.compose")
+    id("geomag.android.hilt")
+    id("geomag.android.room")
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
     alias(libs.plugins.protobuf)

@@ -11,22 +11,22 @@ dependencies {
 gradlePlugin {
     plugins {
         register("androidApplication") {
-            id = "mrepo.android.application"
+            id = "geomag.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
 
         register("androidApplicationCompose") {
-            id = "mrepo.android.application.compose"
+            id = "geomag.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
 
         register("androidHilt") {
-            id = "mrepo.android.hilt"
+            id = "geomag.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
         }
 
         register("androidRoom") {
-            id = "mrepo.android.room"
+            id = "geomag.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
     }
