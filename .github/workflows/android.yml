@@ -44,12 +44,12 @@ jobs:
           architecture: x64
     
     - name: Set up Go
-    - uses: actions/setup-go@v4
+      uses: actions/setup-go@v4
       with:
         go-version: '>=1.20.0'
     
     - name: Set up NDK
-    - uses: nttld/setup-ndk@v1.2.0
+      uses: nttld/setup-ndk@v1.2.0
       with:
         ndk-version: r25c
         add-to-path: false
