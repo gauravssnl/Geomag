@@ -4,8 +4,10 @@ import android.app.Application
 import com.sanmer.geomag.app.utils.ShortcutUtils
 import com.sanmer.geomag.utils.timber.DebugTree
 import com.sanmer.geomag.utils.timber.ReleaseTree
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
+@HiltAndroidApp
 class App : Application() {
     init {
         if (BuildConfig.DEBUG) {
