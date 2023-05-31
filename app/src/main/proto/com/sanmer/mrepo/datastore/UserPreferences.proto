@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "com.sanmer.geomag.datastore";
+option java_multiple_files = true;
+
+enum DarkMode {
+    FOLLOW_SYSTEM = 0;
+    ALWAYS_OFF = 1;
+    ALWAYS_ON = 2;
+}
+
+message UserPreferences {
+  DarkMode darkMode = 1;
+  int32 themeColor = 2;
+  bool enableNavigationAnimation = 3; // TODO: Waiting for https://github.com/google/accompanist/issues/1487 to be fixed
+}
