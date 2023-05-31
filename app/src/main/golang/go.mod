@@ -1,6 +1,6 @@
 module geomag
 
-go 1.19
+go 1.20
 
 require (
 	github.com/proway2/go-igrf v0.5.1
