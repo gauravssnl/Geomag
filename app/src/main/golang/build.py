@@ -38,10 +38,9 @@ def parse_parameters():
 class BuildTask:
     def __init__(self, ndk_directory: Path, work_directory: Path, output_directory: Path,
                  abi_filters: list, package_names: list, library_names: list, sdk_version: int):
-
-        setattr(self, "_ndk_directory", ndk_directory)
-        setattr(self, "_work_directory", work_directory)
-        setattr(self, "_output_directory", output_directory)
+        self._ndk_directory = ndk_directory
+        self._work_directory = work_directory
+        self._output_directory = output_directory
 
         self._abi_filters = abi_filters
         self._package_names = package_names
@@ -50,9 +49,6 @@ class BuildTask:
         self._sdk_version = sdk_version
 
         self.is_debug = False
-
-    def __getattr__(self, item):
-        return self.__dict__[item]
 
     @staticmethod
     def is_windows_x86_64() -> bool:
@@ -167,6 +163,15 @@ class BuildTask:
                 )
 
 
+def get_env(key: str):
+    try:
+        value = os.environ[key]
+    except KeyError:
+        value = None
+
+    return value
+
+
 def main():
     parser = parse_parameters()
     args = parser.parse_args()
@@ -187,8 +192,16 @@ def main():
     library_names = ["igrf", "wmm"]
 
     # dirs
-    sdk_dir = Path(os.environ["ANDROID_SDK_ROOT"])
-    ndk_directory = sdk_dir.joinpath("ndk", ndk_version)
+    sdk_dir = get_env("ANDROID_SDK_ROOT")
+    if sdk_dir is None:
+        ndk_dir = get_env("ANDROID_NDK_ROOT")
+        if ndk_dir is None:
+            raise KeyError("ANDROID_SDK_ROOT or ANDROID_NDK_ROOT does not exist in env")
+
+        ndk_directory = Path(ndk_dir)
+    else:
+        ndk_directory = Path(sdk_dir, "ndk", ndk_version)
+
     root_directory = Path(__file__).resolve().parent
 
     build = BuildTask(
