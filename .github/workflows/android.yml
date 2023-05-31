@@ -56,7 +56,7 @@ jobs:
         local-cache: true
         
     - name: Build Golang library
-    - run: python3 app/src/main/golang/build.py -m 26 -a all -d
+      run: python3 app/src/main/golang/build.py -m 26 -a all -d
       env:
         ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
     
