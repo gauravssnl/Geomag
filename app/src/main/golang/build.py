@@ -74,6 +74,12 @@ class BuildTask:
 
         return False
 
+    def setup(self):
+        subprocess.run(
+            args=["go", "mod", "tidy"],
+            cwd=self._work_directory.as_posix()
+        )
+
     def build_environment(self, abi: str) -> dict:
         toolchains_root = self._ndk_directory.absolute()
         toolchains_root = toolchains_root.joinpath("toolchains", "llvm", "prebuilt")
@@ -214,6 +220,7 @@ def main():
         output_directory=root_directory.joinpath("libs")
     )
     build.is_debug = args.debug
+    build.setup()
     build.task()
 
 
