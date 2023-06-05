@@ -34,11 +34,15 @@
             android:exported="true"
             android:launchMode="singleTask"/>
 
-        <service
-            android:name=".service.LocationService"
+        <service android:name=".service.LocationService"
             android:foregroundServiceType="location"
             android:enabled="true"
             android:exported="false"/>
+
+        <service android:name=".service.CalculateService"
+            android:foregroundServiceType="dataSync"
+            android:enabled="true"
+            android:exported="false" />
 
         <service android:name=".service.LogcatService"
             android:exported="false"/>

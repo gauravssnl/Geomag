@@ -32,6 +32,11 @@ object NotificationUtils {
             NotificationChannel(Const.CHANNEL_ID_LOCATION,
                 context.getString(R.string.notification_name_location),
                 NotificationManager.IMPORTANCE_HIGH
+            ),
+
+            NotificationChannel(Const.CHANNEL_ID_CALCULATE,
+                context.getString(R.string.notification_name_calculate),
+                NotificationManager.IMPORTANCE_HIGH
             )
         )
 

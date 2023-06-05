@@ -8,5 +8,7 @@ object Const {
 
     // NOTIFICATION
     const val CHANNEL_ID_LOCATION = "location_service"
+    const val CHANNEL_ID_CALCULATE = "calculate_service"
     const val NOTIFICATION_ID_LOCATION = 1024
+    const val NOTIFICATION_ID_CALCULATE = 1025
 }
