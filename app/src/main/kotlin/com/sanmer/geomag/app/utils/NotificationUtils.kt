@@ -35,8 +35,8 @@ object NotificationUtils {
             )
         )
 
-        NotificationManagerCompat.from(context)
-            .createNotificationChannels(channels)
+        notificationManager.createNotificationChannels(channels)
+        notificationManager.deleteUnlistedNotificationChannels(channels.map { it.id })
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
