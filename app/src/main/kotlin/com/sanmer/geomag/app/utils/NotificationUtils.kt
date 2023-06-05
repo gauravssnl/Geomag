@@ -29,7 +29,7 @@ object NotificationUtils {
 
     init {
         val channels = listOf(
-            NotificationChannel(Const.NOTIFICATION_ID_LOCATION,
+            NotificationChannel(Const.CHANNEL_ID_LOCATION,
                 context.getString(R.string.notification_name_location),
                 NotificationManager.IMPORTANCE_HIGH
             )

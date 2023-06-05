@@ -4,7 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.location.Location
-import android.os.Process
+import android.location.LocationManager
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -23,8 +23,6 @@ import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 class LocationService : LifecycleService() {
-    private val context = this
-
     override fun onCreate() {
         super.onCreate()
         Timber.d("onCreate")
@@ -59,27 +57,32 @@ class LocationService : LifecycleService() {
         val intent = Intent(this, LocationService::class.java).apply {
             action = STOP_SERVICE
         }
+
         val stopSelf = PendingIntent.getService(this, 0, intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
         val notification = NotificationUtils
-            .buildNotification(context, Const.NOTIFICATION_ID_LOCATION)
+            .buildNotification(this, Const.CHANNEL_ID_LOCATION)
+            .setSmallIcon(R.drawable.location_outline)
             .setContentTitle(getString(R.string.notification_name_location))
             .setContentText(getString(R.string.message_location_click))
             .setContentIntent(NotificationUtils.getActivity(MainActivity::class))
             .addAction(0, getString(R.string.action_stop), stopSelf)
             .setOngoing(true)
             .build()
-        startForeground(Process.myPid(), notification)
+
+        startForeground(Const.NOTIFICATION_ID_LOCATION, notification)
     }
 
     companion object {
-        const val STOP_SERVICE = "STOP_LOCATION_SERVICE"
+        private const val STOP_SERVICE = "STOP_LOCATION_SERVICE"
 
         var isRunning by mutableStateOf(false)
             private set
 
-        var location by mutableStateOf<Location?>(null)
+        var location by mutableStateOf(LocationManagerUtils.getLastKnownLocation()
+            ?: Location(LocationManager.GPS_PROVIDER)
+        )
             private set
 
         fun start(context: Context) {
