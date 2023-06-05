@@ -12,5 +12,7 @@ enum DarkMode {
 message UserPreferences {
   DarkMode darkMode = 1;
   int32 themeColor = 2;
-  bool enableNavigationAnimation = 3; // TODO: Waiting for https://github.com/google/accompanist/issues/1487 to be fixed
+  string fieldModel = 3;
+  bool enableRecords = 4;
+  bool enableNavigationAnimation = 5; // TODO: Waiting for https://github.com/google/accompanist/issues/1487 to be fixed
 }

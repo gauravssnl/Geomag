@@ -1,5 +1,6 @@
 package com.sanmer.geomag.repository
 
+import com.sanmer.geomag.Geomag
 import com.sanmer.geomag.datastore.DarkMode
 import com.sanmer.geomag.datastore.UserData
 import com.sanmer.geomag.datastore.UserPreferencesDataSource
@@ -36,6 +37,14 @@ class UserDataRepository @Inject constructor(
 
     fun setThemeColor(value: Int) = applicationScope.launch {
         userPreferencesDataSource.setThemeColor(value)
+    }
+
+    fun setFieldModel(value: Geomag.Models) = applicationScope.launch {
+        userPreferencesDataSource.setFieldModel(value.name)
+    }
+
+    fun setEnableRecords(value: Boolean) = applicationScope.launch {
+        userPreferencesDataSource.setEnableRecords(value)
     }
 
     fun setEnableNavigationAnimation(value: Boolean) = applicationScope.launch {

@@ -27,6 +27,22 @@ class UserPreferencesDataSource @Inject constructor(
         }
     }
 
+    suspend fun setFieldModel(value: String) = withContext(Dispatchers.IO) {
+        userPreferences.updateData {
+            it.copy {
+                fieldModel = value
+            }
+        }
+    }
+
+    suspend fun setEnableRecords(value: Boolean) = withContext(Dispatchers.IO) {
+        userPreferences.updateData {
+            it.copy {
+                enableRecords = value
+            }
+        }
+    }
+
     suspend fun setEnableNavigationAnimation(value: Boolean) = withContext(Dispatchers.IO) {
         userPreferences.updateData {
             it.copy {
