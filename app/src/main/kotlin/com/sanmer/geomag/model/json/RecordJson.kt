@@ -15,10 +15,10 @@ data class RecordJson(
 )
 
 fun Record.toJson() = RecordJson(
-    model = model,
+    model = model.name,
     time = time.toString(),
-    altitude = location.altitude,
-    latitude = location.latitude,
-    longitude = location.longitude,
+    altitude = position.altitude,
+    latitude = position.latitude,
+    longitude = position.longitude,
     values = values.toJson()
 )

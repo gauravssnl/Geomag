@@ -18,29 +18,29 @@ data class RecordEntity(
     val latitude: Double,
     val longitude: Double,
     @Embedded val values: MagneticFieldEntity,
-    @PrimaryKey val id: Double,
+    @PrimaryKey val id: Double
 )
 
 private val Record.primaryKey: Double get() {
     val decimal = Geomag.toDecimalYears(time)
-    val position = location.altitude - location.latitude - location.longitude
-    return decimal + position + Geomag.Models.valueOf(model).ordinal
+    val position = position.altitude - position.latitude - position.longitude
+    return decimal + position + model.ordinal
 }
 
 fun Record.toEntity() = RecordEntity(
-    model = model,
+    model = model.name,
     time = time.toString(),
-    altitude = location.altitude,
-    latitude = location.latitude,
-    longitude = location.longitude,
+    altitude = position.altitude,
+    latitude = position.latitude,
+    longitude = position.longitude,
     values = values.toEntity(),
     id = primaryKey
 )
 
 fun RecordEntity.toRecord() = Record(
-    model = model,
+    model = Geomag.Models.valueOf(model),
     time = time.toLocalDateTime(),
-    location = Position(altitude, latitude, longitude),
+    position = Position(altitude, latitude, longitude),
     values = values.toMF()
 )
 

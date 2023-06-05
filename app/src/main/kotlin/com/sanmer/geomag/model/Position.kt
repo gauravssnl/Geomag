@@ -3,10 +3,14 @@ package com.sanmer.geomag.model
 import android.location.Location
 
 class Position(
-    val altitude: Double,
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
+    val altitude: Double
 ) {
+    val latitudeWithUnit get() = "${latitude}º N"
+    val longitudeWithUnit get() = "${longitude}º W"
+    val altitudeWithUnit get() = "$altitude km"
+
     override fun equals(other: Any?): Boolean {
         return when (other) {
             is Location -> {
@@ -40,7 +44,7 @@ class Position(
 }
 
 fun Location.toPosition() = Position(
-    altitude = altitude,
     latitude = latitude,
-    longitude = longitude
+    longitude = longitude,
+    altitude = altitude / 1000.0
 )

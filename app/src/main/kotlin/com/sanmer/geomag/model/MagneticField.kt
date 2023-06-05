@@ -14,7 +14,7 @@ data class MagneticField(
     val verticalComponent: Double,
     val verticalSV: Double,
     val totalIntensity: Double,
-    val totalSV: Double,
+    val totalSV: Double
 ) {
     companion object {
         fun empty() = MagneticField(
