@@ -25,7 +25,6 @@ class AndroidApplicationComposeConventionPlugin : Plugin<Project> {
                 }
 
                 dependencies {
-                    "implementation"(libs.findLibrary("androidx.compose.material").get())
                     "implementation"(libs.findLibrary("androidx.compose.material3").get())
                     "implementation"(libs.findLibrary("androidx.compose.ui").get())
                     "implementation"(libs.findLibrary("androidx.compose.ui.tooling.preview").get())

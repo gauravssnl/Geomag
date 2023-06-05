@@ -1,4 +1,3 @@
-
 import com.android.build.gradle.internal.api.ApkVariantOutputImpl
 import java.time.Instant
 
