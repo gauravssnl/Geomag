@@ -9,6 +9,7 @@ import android.location.LocationManager
 import android.os.Looper
 import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -19,9 +20,10 @@ import androidx.core.location.LocationRequestCompat
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.sanmer.geomag.App
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 
 object LocationManagerUtils {
@@ -32,7 +34,8 @@ object LocationManagerUtils {
 
     var isReady by mutableStateOf(false)
         private set
-    val isEnable = MutableStateFlow(false)
+    var isEnable by mutableStateOf(false)
+        private set
 
     private val criteria: Criteria
         get() = Criteria().apply {
@@ -46,14 +49,16 @@ object LocationManagerUtils {
             criteria, true
         ) ?: LocationManager.GPS_PROVIDER
 
-    private fun <T>update(callback: (enable: Boolean) -> T): T {
-        isEnable.value = LocationManagerCompat.isLocationEnabled(locationManager)
-        return callback(isEnable.value)
+    fun <T> update(callback: LocationManagerUtils.(Boolean) -> T): T {
+        isEnable = LocationManagerCompat.isLocationEnabled(locationManager)
+
+        @Suppress("UNUSED_EXPRESSION")
+        return callback(isEnable)
     }
 
     init {
-        update { enable ->
-            Timber.d("isLocationEnabled: $enable")
+        update {
+            Timber.d("isLocationEnabled: $isEnable")
         }
     }
 
@@ -82,6 +87,10 @@ object LocationManagerUtils {
         } else {
             onInit()
         }
+
+        SideEffect {
+            update {}
+        }
     }
 
     fun launchPermissionRequest() = update {
@@ -106,8 +115,8 @@ object LocationManagerUtils {
     }
 
     @RequiresPermission(anyOf = [permission.ACCESS_COARSE_LOCATION, permission.ACCESS_FINE_LOCATION])
-    private fun requestLocationUpdates(listener: LocationListenerCompat) = update { enable ->
-        if (!enable) return@update
+    private fun requestLocationUpdates(listener: LocationListenerCompat) = update {
+        if (!isEnable) return@update
 
         Timber.i("AppLocationManager: requestLocationUpdates")
         val localeRequestCompat = LocationRequestCompat.Builder(1)
@@ -135,12 +144,12 @@ object LocationManagerUtils {
             close()
         }
 
-        val callback = LocationListenerCompat {
+        val listener = LocationListenerCompat {
             trySend(it)
         }
 
         try {
-            requestLocationUpdates(callback)
+            requestLocationUpdates(listener)
         } catch (e: Exception) {
             Timber.e(e.message)
             close(e)
@@ -148,7 +157,7 @@ object LocationManagerUtils {
 
         awaitClose {
             Timber.i("AppLocationManager: removeUpdates")
-            LocationManagerCompat.removeUpdates(locationManager, callback)
+            LocationManagerCompat.removeUpdates(locationManager, listener)
         }
-    }
+    }.flowOn(Dispatchers.Default)
 }
