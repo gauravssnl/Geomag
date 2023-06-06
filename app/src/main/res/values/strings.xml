@@ -33,14 +33,14 @@
     <!-- View Record -->
     <string name="record_dialog_delete_title">Delete record</string>
     <string name="record_dialog_delete_desc">Are you sure to delete this record? The operation cannot be undone.</string>
-    <string name="info_model">Model</string>
-    <string name="value_f">Total Intensity</string>
-    <string name="value_h">Horizontal Intensity</string>
-    <string name="value_x">X Component</string>
-    <string name="value_y">Y Component</string>
-    <string name="value_z">Z Component</string>
-    <string name="value_d">Declination</string>
-    <string name="value_i">Inclination</string>
+    <string name="record_info_model">Model</string>
+    <string name="record_value_f">Total Intensity</string>
+    <string name="record_value_h">Horizontal Intensity</string>
+    <string name="record_value_x">X Component</string>
+    <string name="record_value_y">Y Component</string>
+    <string name="record_value_z">Z Component</string>
+    <string name="record_value_d">Declination</string>
+    <string name="record_value_i">Inclination</string>
 
     <!-- Settings-->
     <!-- App -->

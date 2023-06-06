@@ -31,7 +31,7 @@ fun RecordInfoItem(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         ValueItem(
-            key = stringResource(id = R.string.info_model),
+            key = stringResource(id = R.string.record_info_model),
             value = record.model.name
         )
 

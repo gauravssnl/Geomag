@@ -33,14 +33,14 @@
     <!-- View Record -->
     <string name="record_dialog_delete_title">删除记录</string>
     <string name="record_dialog_delete_desc">你确定要删除该记录？该操作无法撤销。</string>
-    <string name="info_model">模型</string>
-    <string name="value_f">总强度</string>
-    <string name="value_h">水平强度</string>
-    <string name="value_x">X 分量</string>
-    <string name="value_y">Y 分量</string>
-    <string name="value_z">Z 分量</string>
-    <string name="value_d">磁偏角</string>
-    <string name="value_i">磁倾角</string>
+    <string name="record_info_model">模型</string>
+    <string name="record_value_f">总强度</string>
+    <string name="record_value_h">水平强度</string>
+    <string name="record_value_x">X 分量</string>
+    <string name="record_value_y">Y 分量</string>
+    <string name="record_value_z">Z 分量</string>
+    <string name="record_value_d">磁偏角</string>
+    <string name="record_value_i">磁倾角</string>
 
     <!-- Settings-->
     <!-- App -->
