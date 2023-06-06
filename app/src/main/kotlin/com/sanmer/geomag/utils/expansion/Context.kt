@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import com.sanmer.geomag.BuildConfig
+import kotlinx.datetime.LocalDateTime
 import java.io.File
 
 val Context.jsonDir get() = cacheDir.resolve("json")
@@ -15,10 +16,24 @@ val Context.logDir get() = cacheDir.resolve("log")
 fun Context.deleteLog(name: String) {
     logDir.listFiles().orEmpty()
         .forEach {
-            if (it.name.startsWith(name) && it.isFile) {
+            if (it.name.startsWith(name) && it.extension == "log") {
                 it.delete()
             }
         }
+}
+
+fun Context.createLog(name: String) = logDir
+    .resolve("${name}_${LocalDateTime.now()}.log")
+    .apply {
+        parentFile?.apply { if (!exists()) mkdirs() }
+        createNewFile()
+    }
+
+fun Context.getLogPath(name: String): File {
+    return logDir.listFiles().orEmpty()
+        .find {
+            it.name.startsWith(name) && it.extension == "log"
+        } ?: createLog(name)
 }
 
 fun Context.openUrl(url: String) {
