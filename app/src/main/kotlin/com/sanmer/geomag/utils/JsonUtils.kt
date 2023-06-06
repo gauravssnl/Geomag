@@ -1,5 +1,6 @@
 package com.sanmer.geomag.utils
 
+import android.content.Context
 import com.sanmer.geomag.App
 import com.sanmer.geomag.model.Record
 import com.sanmer.geomag.model.json.RecordJson
@@ -18,7 +19,18 @@ object JsonUtils {
     private val records = moshi.adapter<List<RecordJson>>()
 
     init {
-        context.jsonDir.deleteRecursively()
+        context.jsonDir.apply {
+            if (!exists()) {
+                mkdirs()
+                return@apply
+            }
+
+            listFiles()?.forEach {
+                if (it.isFile) {
+                    it.delete()
+                }
+            }
+        }
     }
 
     private fun Record.toJsonText(): String? {
@@ -30,7 +42,7 @@ object JsonUtils {
         return records.indent("    ").toJson(list)
     }
 
-    fun shareJsonFile(value: Record) {
+    fun shareJsonFile(context: Context, value: Record) {
         val file = context.jsonDir
             .resolve("${value.time}.json")
             .apply {
@@ -40,7 +52,7 @@ object JsonUtils {
         context.shareFile(file, "text/json")
     }
 
-    fun shareJsonFile(values: List<Record>) {
+    fun shareJsonFile(context: Context, values: List<Record>) {
         val file = context.jsonDir
             .resolve("${LocalDateTime.now()}.json")
             .apply {
