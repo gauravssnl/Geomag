@@ -16,6 +16,9 @@ interface RecordDao {
     @Query("SELECT * FROM records")
     fun getAllAsFlow(): Flow<List<RecordEntity>>
 
+    @Query("SELECT * FROM records WHERE id LIKE :id LIMIT 1")
+    fun getById(id: Double): RecordEntity
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(value: RecordEntity)
 

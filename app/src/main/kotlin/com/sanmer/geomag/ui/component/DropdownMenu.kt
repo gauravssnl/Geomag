@@ -2,6 +2,7 @@ package com.sanmer.geomag.ui.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.MaterialTheme
@@ -17,7 +18,7 @@ fun DropdownMenu(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    shape: RoundedCornerShape = RoundedCornerShape(15.dp),
+    shape: CornerBasedShape = RoundedCornerShape(15.dp),
     offset: DpOffset = DpOffset(0.dp, 0.dp),
     properties: PopupProperties = PopupProperties(focusable = true),
     content: @Composable ColumnScope.() -> Unit
@@ -37,7 +38,7 @@ fun DropdownMenu(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    shape: RoundedCornerShape = RoundedCornerShape(15.dp),
+    shape: CornerBasedShape = RoundedCornerShape(15.dp),
     contentAlignment: Alignment = Alignment.TopStart,
     offset: DpOffset = DpOffset(0.dp, 0.dp),
     properties: PopupProperties = PopupProperties(focusable = true),
@@ -65,7 +66,7 @@ fun DropdownMenu(
 
 @Composable
 private fun CustomMenuShape(
-    shape: RoundedCornerShape,
+    shape: CornerBasedShape,
     content: @Composable () -> Unit
 ) = MaterialTheme(
     shapes = MaterialTheme.shapes.copy(extraSmall = shape),

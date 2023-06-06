@@ -68,7 +68,7 @@ sealed class Colors(
             Orange,
         )
 
-        fun getColors(): List<Int> {
+        fun getColorIds(): List<Int> {
             return mColors.map { it.id }
         }
 

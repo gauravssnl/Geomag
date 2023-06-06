@@ -1,6 +1,71 @@
 <resources>
+    <!-- Page -->
+    <string name="page_records">记录</string>
+    <string name="page_view_record">查看记录</string>
+    <string name="page_settings">设置</string>
+    <string name="page_about">关于</string>
+
+    <!-- Home -->
+    <!-- Time -->
+    <string name="overview_datetime">日期/时间</string>
+    <string name="overview_decimal">十进制</string>
+    <!-- Location -->
+    <string name="overview_location">位置</string>
+    <string name="overview_latitude">纬度</string>
+    <string name="overview_longitude">经度</string>
+    <string name="overview_altitude">海拔</string>
+    <string name="overview_no_location_access">无法访问位置信息</string>
+    <string name="overview_no_location_access_desc">当前设备的位置信息服务已关闭，因此定位服务不可用！</string>
+    <string name="overview_turn_on_location">打开位置信息服务</string>
+    <!-- Calculation -->
+    <string name="overview_calculation">计算</string>
+    <string name="overview_single">单次</string>
+    <string name="overview_continuous">连续</string>
+    <string name="overview_customized">自定义参数</string>
+    <!-- Records -->
+    <string name="overview_current_mf">当前磁场</string>
+    <string name="overview_view_records">查看记录</string>
+
+    <!-- Records -->
+    <string name="records_dialog_delete_title">删除选中的记录</string>
+    <string name="records_dialog_delete_desc">你确定要删除选中的记录？该操作无法撤销。</string>
+    <string name="records_empty">没有记录</string>
+    <!-- View Record -->
+    <string name="record_dialog_delete_title">删除记录</string>
+    <string name="record_dialog_delete_desc">你确定要删除该记录？该操作无法撤销。</string>
+    <string name="info_model">模型</string>
+    <string name="value_f">总强度</string>
+    <string name="value_h">水平强度</string>
+    <string name="value_x">X 分量</string>
+    <string name="value_y">Y 分量</string>
+    <string name="value_z">Z 分量</string>
+    <string name="value_d">磁偏角</string>
+    <string name="value_i">磁倾角</string>
+
     <!-- Settings-->
+    <!-- App -->
     <string name="settings_log_viewer">日志查看器</string>
+    <string name="settings_log_viewer_desc">查看应用运行时日志</string>
+    <string name="settings_app_theme">主题</string>
+    <string name="settings_app_theme_desc">更改深色模式和主题调色板</string>
+    <string name="settings_navigation_animation">导航动画</string>
+    <string name="settings_navigation_animation_desc">由 Accompanist 提供的导航动画支持 (实验性)，请注意这存在稳定性问题，谨慎开启</string>
+    <!-- App Theme -->
+    <string name="app_theme_palette">主题调色板</string>
+    <string name="app_theme_dark_theme">深色主题</string>
+    <string name="app_theme_dark_theme_auto">自动</string>
+    <string name="app_theme_dark_theme_light">浅色</string>
+    <string name="app_theme_dark_theme_dark">深色</string>
+
+    <!-- About -->
+    <string name="about_app_version">版本 %1$s (%2$s)</string>
+    <string name="about_desc1">提供地磁场模型计算以及数据记录。</string>
+    <string name="about_desc2">由 %1$s 用 ❤️ 制作</string>
+
+    <!-- Dialog-->
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_close">关闭</string>
+    <string name="dialog_delete">删除</string>
 
     <!-- Message -->
     <string name="message_location_click">点按查看详情</string>
@@ -11,6 +76,7 @@
 
     <!-- Notification -->
     <string name="notification_name_location">定位服务</string>
+    <string name="notification_name_calculate">计算服务</string>
 
     <!-- Shortcut -->
     <string name="shortcut_log_label">日志</string>

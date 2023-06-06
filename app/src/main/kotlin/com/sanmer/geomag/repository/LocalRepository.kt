@@ -19,7 +19,11 @@ class LocalRepository @Inject constructor(
     }
 
     suspend fun getAll() = withContext(Dispatchers.IO) {
-        recordDao.getAll().map { it.toRecord() }.asReversed()
+        recordDao.getAll().map { it.toRecord() }
+    }
+
+    suspend fun getById(id: Double) = withContext(Dispatchers.IO) {
+        recordDao.getById(id).toRecord()
     }
 
     suspend fun insert(value: Record) = withContext(Dispatchers.IO) {
@@ -30,12 +34,12 @@ class LocalRepository @Inject constructor(
         recordDao.insert(list.map { it.toEntity() })
     }
 
-    suspend fun delete(list: List<Record>) = withContext(Dispatchers.IO) {
-        recordDao.delete(list.map { it.toEntity() })
-    }
-
     suspend fun delete(value: Record) = withContext(Dispatchers.IO) {
         recordDao.delete(value.toEntity())
+    }
+
+    suspend fun delete(list: List<Record>) = withContext(Dispatchers.IO) {
+        recordDao.delete(list.map { it.toEntity() })
     }
 
     suspend fun deleteAll() = withContext(Dispatchers.IO) {

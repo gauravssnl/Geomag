@@ -16,6 +16,7 @@ class App : Application() {
             Timber.plant(ReleaseTree())
         }
     }
+
     override fun onCreate() {
         super.onCreate()
         app = this

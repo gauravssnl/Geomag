@@ -21,7 +21,7 @@ data class RecordEntity(
     @PrimaryKey val id: Double
 )
 
-private val Record.primaryKey: Double get() {
+val Record.primaryKey: Double get() {
     val decimal = Geomag.toDecimalYears(time)
     val position = position.altitude - position.latitude - position.longitude
     return decimal + position + model.ordinal

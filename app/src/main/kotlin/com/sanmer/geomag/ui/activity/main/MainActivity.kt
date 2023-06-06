@@ -2,6 +2,7 @@ package com.sanmer.geomag.ui.activity.main
 
 import android.os.Build
 import android.os.Bundle
+import com.sanmer.geomag.app.utils.LocationManagerUtils
 import com.sanmer.geomag.app.utils.NotificationUtils
 import com.sanmer.geomag.ui.activity.base.BaseActivity
 
@@ -15,7 +16,13 @@ class MainActivity : BaseActivity() {
                 NotificationUtils.PermissionState()
             }
 
-            MainScreen()
+            LocationManagerUtils.PermissionsState()
+
+            if (it.enableNavigationAnimation) {
+                AnimatedMainScreen()
+            } else {
+                NormalMainScreen()
+            }
         }
     }
 }
