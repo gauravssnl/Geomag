@@ -11,6 +11,22 @@ import java.io.File
 
 val Context.jsonDir get() = cacheDir.resolve("json")
 
+fun Context.deleteJson() {
+    jsonDir.listFiles().orEmpty()
+        .forEach {
+            if (it.extension == "json") {
+                it.delete()
+            }
+        }
+}
+
+fun Context.createJson(name: String) = jsonDir
+    .resolve("${name}.json")
+    .apply {
+        parentFile?.apply { if (!exists()) mkdirs() }
+        createNewFile()
+    }
+
 val Context.logDir get() = cacheDir.resolve("log")
 
 fun Context.deleteLog(name: String) {

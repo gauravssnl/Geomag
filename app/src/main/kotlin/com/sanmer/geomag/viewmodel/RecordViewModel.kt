@@ -32,7 +32,7 @@ class RecordViewModel @Inject constructor(
         record = localRepository.getById(id)
     }
 
-    fun share(context: Context) = viewModelScope.launch {
+    fun share(context: Context) {
         JsonUtils.shareJsonFile(context, record)
     }
 

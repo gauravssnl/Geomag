@@ -5,7 +5,8 @@ import com.sanmer.geomag.App
 import com.sanmer.geomag.model.Record
 import com.sanmer.geomag.model.json.RecordJson
 import com.sanmer.geomag.model.json.toJson
-import com.sanmer.geomag.utils.expansion.jsonDir
+import com.sanmer.geomag.utils.expansion.createJson
+import com.sanmer.geomag.utils.expansion.deleteJson
 import com.sanmer.geomag.utils.expansion.now
 import com.sanmer.geomag.utils.expansion.shareFile
 import com.squareup.moshi.Moshi
@@ -13,24 +14,13 @@ import com.squareup.moshi.adapter
 import kotlinx.datetime.LocalDateTime
 
 object JsonUtils {
-    val context by lazy { App.context }
+    private val context by lazy { App.context }
     private val moshi = Moshi.Builder().build()
     private val record = moshi.adapter<RecordJson>()
     private val records = moshi.adapter<List<RecordJson>>()
 
     init {
-        context.jsonDir.apply {
-            if (!exists()) {
-                mkdirs()
-                return@apply
-            }
-
-            listFiles()?.forEach {
-                if (it.isFile) {
-                    it.delete()
-                }
-            }
-        }
+        context.deleteJson()
     }
 
     private fun Record.toJsonText(): String? {
@@ -43,8 +33,7 @@ object JsonUtils {
     }
 
     fun shareJsonFile(context: Context, value: Record) {
-        val file = context.jsonDir
-            .resolve("${value.time}.json")
+        val file = context.createJson(value.time.toString())
             .apply {
                 writeText(value.toJsonText()!!)
             }
@@ -53,8 +42,7 @@ object JsonUtils {
     }
 
     fun shareJsonFile(context: Context, values: List<Record>) {
-        val file = context.jsonDir
-            .resolve("${LocalDateTime.now()}.json")
+        val file = context.createJson(LocalDateTime.now().toString())
             .apply {
                 writeText(values.toJsonText()!!)
             }
