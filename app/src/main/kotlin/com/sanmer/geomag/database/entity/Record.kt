@@ -40,7 +40,11 @@ fun Record.toEntity() = RecordEntity(
 fun RecordEntity.toRecord() = Record(
     model = Geomag.Models.valueOf(model),
     time = time.toLocalDateTime(),
-    position = Position(altitude, latitude, longitude),
+    position = Position(
+        latitude = latitude,
+        longitude = longitude,
+        altitude = altitude
+    ),
     values = values.toMF()
 )
 
