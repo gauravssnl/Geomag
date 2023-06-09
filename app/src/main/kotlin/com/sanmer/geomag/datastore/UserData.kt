@@ -3,7 +3,7 @@ package com.sanmer.geomag.datastore
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import com.sanmer.geomag.Geomag
-import com.sanmer.geomag.app.Const
+import com.sanmer.geomag.app.utils.OsUtils
 import com.sanmer.geomag.ui.theme.Colors
 
 data class UserData(
@@ -16,7 +16,7 @@ data class UserData(
     companion object {
         fun default() = UserData(
             darkMode = DarkMode.FOLLOW_SYSTEM,
-            themeColor = if (Const.atLeastS) Colors.Dynamic.id else Colors.Sakura.id,
+            themeColor = if (OsUtils.atLeastS) Colors.Dynamic.id else Colors.Sakura.id,
             fieldModel = Geomag.Models.IGRF,
             enableRecords = true,
             enableNavigationAnimation = false
