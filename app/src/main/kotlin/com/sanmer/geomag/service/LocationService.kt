@@ -14,7 +14,6 @@ import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.sanmer.geomag.R
-import com.sanmer.geomag.app.Const
 import com.sanmer.geomag.app.utils.LocationManagerUtils
 import com.sanmer.geomag.app.utils.NotificationUtils
 import com.sanmer.geomag.ui.activity.main.MainActivity
@@ -62,7 +61,7 @@ class LocationService : LifecycleService() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
         val notification = NotificationUtils
-            .buildNotification(this, Const.CHANNEL_ID_LOCATION)
+            .buildNotification(this, NotificationUtils.CHANNEL_ID_LOCATION)
             .setSmallIcon(R.drawable.location_outline)
             .setContentTitle(getString(R.string.notification_name_location))
             .setContentText(getString(R.string.message_location_click))
@@ -71,7 +70,7 @@ class LocationService : LifecycleService() {
             .setOngoing(true)
             .build()
 
-        startForeground(Const.NOTIFICATION_ID_LOCATION, notification)
+        startForeground(NotificationUtils.NOTIFICATION_ID_LOCATION, notification)
     }
 
     companion object {

@@ -11,7 +11,6 @@ import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
 import com.sanmer.geomag.Geomag
 import com.sanmer.geomag.R
-import com.sanmer.geomag.app.Const
 import com.sanmer.geomag.app.utils.NotificationUtils
 import com.sanmer.geomag.model.Position
 import com.sanmer.geomag.model.Record
@@ -89,7 +88,7 @@ class CalculateService : LifecycleService() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
         val notification = NotificationUtils
-            .buildNotification(this, Const.CHANNEL_ID_CALCULATE)
+            .buildNotification(this, NotificationUtils.CHANNEL_ID_CALCULATE)
             .setSmallIcon(R.drawable.maze_oultine)
             .setContentTitle(getString(R.string.notification_name_calculate))
             .setContentText(getString(R.string.message_location_click))
@@ -98,7 +97,7 @@ class CalculateService : LifecycleService() {
             .setOngoing(true)
             .build()
 
-        startForeground(Const.NOTIFICATION_ID_CALCULATE, notification)
+        startForeground(NotificationUtils.NOTIFICATION_ID_CALCULATE, notification)
     }
 
     companion object {
