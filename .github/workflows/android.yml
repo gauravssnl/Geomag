@@ -46,8 +46,9 @@ jobs:
     - name: Set up Golang
       uses: actions/setup-go@v4
       with:
-        go-version: '>=1.20.0'
-        cache: false
+        go-version-file: ${{ github.workspace }}/app/src/main/golang/go.mod
+        cache-dependency-path: ${{ github.workspace }}/app/src/main/golang/go.sum
+        
     
     - name: Set up NDK
       uses: nttld/setup-ndk@v1.2.0
